@@ -20,16 +20,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        BottomNavigationView navView = findViewById(R.id.nav_view);
-//        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-//                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//        NavigationUI.setupWithNavController(navView, navController);
-    }
+/*        BottomNavigationView navView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+*/    }
 
     public void sendEmail(View v){
         Intent i = new Intent(this, Support.class);
@@ -40,5 +40,20 @@ public class MainActivity extends AppCompatActivity {
         //now go the support activity and get the message there
 
     }
-
+    public void sendSignIn(View v){
+        Intent i = new Intent(this, SignIn.class);
+        startActivity(i);
+    }
+    public void sendRegister(View v){
+        Intent i = new Intent(this, Register.class);
+        startActivity(i);
+    }
+    public void sendNews(View v){
+        Intent i = new Intent(this, NewsPage.class);
+        startActivity(i);
+    }
+    public void sendMuscles(View v){
+        Intent i = new Intent(this, WorkoutHelp.class);
+        startActivity(i);
+    }
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WorkoutHelp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/Boat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Boat Pose for core workout"
+                app:srcCompat="@drawable/boat" />
+
+            <ImageView
+                android:id="@+id/Cobra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Cobra Pose for core workout"
+                app:srcCompat="@drawable/cobra" />
+
+            <ImageView
+                android:id="@+id/Crow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Crow Pose for core workout"
+                app:srcCompat="@drawable/crow" />
+
+            <ImageView
+                android:id="@+id/Fish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Fish Pose for core workout"
+                app:srcCompat="@drawable/fishpose" />
+
+            <ImageView
+                android:id="@+id/Plank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Plank Pose for core workout"
+                app:srcCompat="@drawable/plank" />
+
+            <ImageView
+                android:id="@+id/RevPlank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Reverse Plank Pose for core workout"
+                app:srcCompat="@drawable/revplank" />
+
+            <ImageView
+                android:id="@+id/SidePlank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Side Plank for core workout"
+                app:srcCompat="@drawable/sideplank" />
+
+            <ImageView
+                android:id="@+id/Triangle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Triangle Pose for core workout"
+                app:srcCompat="@drawable/triangle" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
