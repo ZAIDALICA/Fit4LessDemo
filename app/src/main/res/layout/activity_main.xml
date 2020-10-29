@@ -14,10 +14,10 @@
         android:layout_marginStart="60dp"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="12dp"
-        android:onClick="sendEmail"
-        android:text="To George"
+        android:onClick="sendRegister"
+        android:text="Register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/matt" />
+        app:layout_constraintTop_toBottomOf="@+id/login" />
 
     <Button
         android:id="@+id/Public"
@@ -26,8 +26,8 @@
         android:layout_marginStart="60dp"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
-        android:onClick="sendEmail"
-        android:text="To Public"
+        android:onClick="sendNews"
+        android:text="News Page"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/george" />
 
@@ -44,14 +44,14 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <Button
-        android:id="@+id/matt"
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="16dp"
-        android:onClick="sendEmail"
-        android:text="To Matt"
+        android:onClick="sendSignIn"
+        android:text="Sign In"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,6 +62,7 @@
         android:layout_marginStart="93dp"
         android:layout_marginLeft="93dp"
         android:layout_marginTop="7dp"
+        android:onClick="sendMuscles"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 

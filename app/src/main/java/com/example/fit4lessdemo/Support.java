@@ -15,7 +15,7 @@ public class Support extends AppCompatActivity {
 
         Intent i = getIntent(); //getting the intent associated with this activity
         String message = i.getStringExtra("name").toString();  //getting the text
-        if (message  == null){
+        if (message.equals("")){
             message  = "whatever";
         }
         else {
