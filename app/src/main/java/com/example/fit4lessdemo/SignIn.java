@@ -67,6 +67,8 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void onLoginAttempt(View v){//runs when 'Login' button is clicked
+            //George: We can have a counter here to eliminate the user from trying many times
+            // and send him to support or block him for some amount of time
             setLoginTry();
             testLogin();
     }

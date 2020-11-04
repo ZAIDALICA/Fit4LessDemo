@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fit4LessDemo">
-        <activity android:name=".WorkoutHelp"></activity>
+        <activity android:name=".dbTest"></activity>
+        <activity android:name=".WorkoutHelp" />
         <activity android:name=".NewsPage" />
         <activity android:name=".Register" />
         <activity android:name=".SignIn" />
