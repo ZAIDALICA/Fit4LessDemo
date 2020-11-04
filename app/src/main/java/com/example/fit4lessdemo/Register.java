@@ -56,6 +56,7 @@ public class Register extends AppCompatActivity {
             pass = true;
         }
         if(isValidEmail(getRegEmail())){
+            //George: the isValid must be developed to prevent existing emails in the database
             email = true;
         }
         if(getName().equals("")){
