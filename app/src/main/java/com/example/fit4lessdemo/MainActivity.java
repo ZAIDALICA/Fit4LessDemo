@@ -27,27 +27,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        textView = (TextView) findViewById(R.id.textView);
-//
-//        DatabaseHelper db = new DatabaseHelper(this);
-//
-//        //inserting gym members
-//       db.addGymMember(new GymMember("George", "1234567"));
-//        db.addGymMember(new GymMember("Matt", "7654321"));
-//        db.addGymMember(new GymMember("Mujtabah", "43333333"));
-//        db.addGymMember(new GymMember("Julia", "33333334"));
-//        db.addGymMember(new GymMember("Suhail", "7777777"));
-//
-//        //reading and displaying all gymMembers
-//        List<GymMember> gymMembers = db.getAllGymMembers();
-//
-//        for(GymMember g : gymMembers){
-//            String log = "ID: " + g.getId() + ", NAME: " + g.getName() + ", NUMBER: " + g.getPhone_number() + "\n";
-//           text = text + log;
-//        }
-//
-//        textView.setText(text);
+/*        textView = (TextView) findViewById(R.id.textView);
 
+       DatabaseHelper db = new DatabaseHelper(this);
+
+        //inserting gym members
+       db.addGymMember(new GymMember("George", "1234567"));
+        db.addGymMember(new GymMember("Matt", "7654321"));
+        db.addGymMember(new GymMember("Mujtabah", "43333333"));
+        db.addGymMember(new GymMember("Julia", "33333334"));
+        db.addGymMember(new GymMember("Suhail", "7777777"));
+
+        //reading and displaying all gymMembers
+        List<GymMember> gymMembers = db.getAllGymMembers();
+
+        for(GymMember g : gymMembers){
+            String log = "ID: " + g.getId() + ", NAME: " + g.getName() + ", NUMBER: " + g.getPhone_number() + "\n";
+           text = text + log;
+        }
+
+        textView.setText(text);
+*/
 
 
     }

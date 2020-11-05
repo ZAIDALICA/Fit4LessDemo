@@ -62,7 +62,7 @@ public class dbTest extends AppCompatActivity {
                 CustomerModel customerModel;
 
                try {
-                   customerModel = new CustomerModel(-1, et_name.getText().toString(), Integer.parseInt(et_age.getText().toString()), sw_activeCustomer.isChecked());
+                   customerModel = new CustomerModel(-1, et_name.getText().toString(), et_age.getText().toString(), sw_activeCustomer.isChecked(),"","");
                    Toast.makeText(dbTest.this, customerModel.toString(), Toast.LENGTH_SHORT).show(); //put the name of the current class (dbTest) not the mai
 
                }
@@ -70,7 +70,7 @@ public class dbTest extends AppCompatActivity {
                    // if the age field is not filled then the app will crash for parsing Int to empty field
                    Toast.makeText(dbTest.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                    //we want to create a customer anyway to let the customer know that something went wrong
-                   customerModel = new CustomerModel(-1, "error", 0, false);
+                   customerModel = new CustomerModel(-1, "error", "0", false,"","");
                }
 
                //we will add the customer to the database here after clocking the add button
