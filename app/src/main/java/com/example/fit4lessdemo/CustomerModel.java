@@ -1,19 +1,25 @@
 package com.example.fit4lessdemo;
 
+import org.jetbrains.annotations.NotNull;
+
 public class CustomerModel {
     private int id;
     private String name;
-    private int age;
+    private String age;
     private boolean isActive;
+    private String email;
+    private String pass;
 
     //it is better to keep the id in the class not in the database
 
     //the class constructor
-    public CustomerModel(int id, String name, int age, boolean isActive) {
+    public CustomerModel(int id, String name, String age, boolean isActive, String email, String pass) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.isActive = isActive;
+        this.email = email;
+        this.pass = pass;
     }
 
     //overriding constructor in case the class called with empty arguments
@@ -21,6 +27,7 @@ public class CustomerModel {
     }
 
     // toString is for printing the contents of a clas object
+    @NotNull
     @Override
     public String toString() {
         return "CustomerModel{" +
@@ -48,11 +55,11 @@ public class CustomerModel {
         this.name = name;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -63,5 +70,15 @@ public class CustomerModel {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    public void setEmail(String email){this.email = email;}
+
+    public String getEmail(){return email;}
+
+    public void setPass(String email){this.pass = pass;}
+
+    public String getPass(){return pass;}
+
+
     //++++++++++++++++++++++++++++++++ end of setters and getters
 }
