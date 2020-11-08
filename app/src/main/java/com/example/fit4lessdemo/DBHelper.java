@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 //our class extend the SQlite to and use the openHelper  //onCreate //onUpgrade are an abstract functions that must be implemented
 public class DBHelper extends SQLiteOpenHelper {
@@ -85,6 +86,55 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
 
+    }
+    public String getName(String email){
+        List<CustomerModel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()){
+            if (cursor.moveToFirst()){
+                do {
+                    String emailCheck = cursor.getString(4);
+                    if (email.equals(emailCheck)){
+                        return cursor.getString(2);
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        return "";
+    }
+
+    public String passwordCheck(String email){
+        List<CustomerModel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()){
+            do {
+                String getEmail = cursor.getString(4);
+                if (email.equals(getEmail)){
+                    return cursor.getString(5);
+                }
+            } while (cursor.moveToNext());
+        }
+        return "Invalid";
+    }
+
+    public boolean uniqueEmail(String email){
+        List<CustomerModel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()){
+            do {
+                String emailCheck = cursor.getString(4);
+                if (email.equals(emailCheck)){
+                    return false;
+                }
+            } while (cursor.moveToNext());
+        }
+        return true;
     }
 
 

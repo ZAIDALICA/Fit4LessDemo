@@ -77,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, WorkoutHelp.class);
         startActivity(i);
     }
+    public void sendMap(View v){
+        Intent i = new Intent(this, Map.class);
+        startActivity(i);
+    }
 
     public void goToDb(View v){
         Intent i = new Intent(this, dbTest.class);

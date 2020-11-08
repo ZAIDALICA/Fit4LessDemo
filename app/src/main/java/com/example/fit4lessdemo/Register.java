@@ -28,6 +28,7 @@ public class Register extends AppCompatActivity {
     private boolean name;
     private boolean blank;
     private boolean age;
+    private boolean unique;
 
     public final void setRegistration(){
         n = (TextView) findViewById(R.id.Register_NameText);//it's important to ensure we name our buttons and other fields in detail
@@ -56,11 +57,15 @@ public class Register extends AppCompatActivity {
         //resetting the boolean variables here allows for multiple attempts and prevents one from being locked in true or false states
         pass = false;
         email = false;
+        unique = false;
         name = true;
         blank = false;
         age = true;
         if(getConfirm().equals(getRegPassword())){
             pass = true;
+        }
+        if (helper.uniqueEmail(getRegEmail())){
+            unique = true;
         }
         if(isValidEmail(getRegEmail())){
             //George: the isValid must be developed to prevent existing emails in the database
@@ -82,9 +87,9 @@ public class Register extends AppCompatActivity {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
     private void completeReg(){// in Registration we take all three pieces of info and will store them to the database, then in SignIn we can pull name from the email Key using a map
-        if(email && pass && name && age){
+        if(email && pass && name && age && unique){
             Toast.makeText(getApplicationContext(),"Welcome " + getName(),Toast.LENGTH_LONG).show();
-            CustomerModel cM = new CustomerModel(1, getName(), getAge(),true, getRegEmail(), getConfirm());
+            CustomerModel cM = new CustomerModel(1, getName(), getAge(),true, getRegEmail(), getRegPassword());
             helper.addOne(cM);
             toMain();
         }
@@ -103,6 +108,8 @@ public class Register extends AppCompatActivity {
         else if (!age){
             Toast.makeText(getApplicationContext(),"Please enter your age",Toast.LENGTH_LONG).show();
         }
+        else if (!unique)
+            Toast.makeText(getApplicationContext(),"Email is already Registered",Toast.LENGTH_LONG).show();
     }
     private void toMain(){//returns to Main page of app
         Intent i = new Intent(Register.this, MainActivity.class);

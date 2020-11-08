@@ -26,7 +26,7 @@ public class CustomerModel {
     public CustomerModel(){
     }
 
-    // toString is for printing the contents of a clas object
+    // toString is for printing the contents of a class object
     @NotNull
     @Override
     public String toString() {
