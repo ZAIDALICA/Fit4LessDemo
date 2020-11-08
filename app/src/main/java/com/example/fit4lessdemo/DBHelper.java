@@ -169,7 +169,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<CustomerModel> getEveryone(){
         List<CustomerModel> returnList = new ArrayList<>();
         //get data from the database
-
         String queryString = "SELECT * FROM " + CUSTOMER_TABLE; //this is a standard sql query string
 
         SQLiteDatabase db = this.getReadableDatabase(); //we need to read from the database
@@ -179,32 +178,34 @@ public class DBHelper extends SQLiteOpenHelper {
         //notice the raw query returns a cursor object
         //cursor is the result set //it is a complex arrays of data
         Cursor cursor = db.rawQuery(queryString, null);
+        cursor.moveToFirst();
+
+//        if (1==1) { return returnList;}
+
 
         //we will check if the cursor is not empty so we go the the first item in it
-        if(cursor.moveToFirst()){
-            // loop through the cursor (result set) and create new customer objects. put them into the return list
-            do {
+        while (!cursor.isAfterLast()) {
+            if (cursor.moveToFirst()) {
+                // loop through the cursor (result set) and create new customer objects. put them into the return list
                 //we will get the data from the cursor
                 //we know that the first column is the id so we will use the index 0 of the cursor
                 //int customerId = cursor.getInt(0);
                 String customerName = cursor.getString(cursor.getColumnIndex("CUSTOMER_NAME"));
                 String customerAge = cursor.getString(cursor.getColumnIndex("CUSTOMER_AGE"));
-                String customerEmail = cursor.getString(cursor.getColumnIndex("CUSTOMER_EMAIL"));
-                String customerPass = cursor.getString(cursor.getColumnIndex("CUSTOMER_PASSWORD"));
+                //String customerEmail = cursor.getString(cursor.getColumnIndex("CUSTOMER_EMAIL"));
+                //String customerPass = cursor.getString(cursor.getColumnIndex("CUSTOMER_PASSWORD"));
                 //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
                 //so we take that int and convert to boolean
                 boolean customerActive = cursor.getInt(cursor.getColumnIndex("ACTIVE_CUSTOMER")) == 1;
 
                 //now making the customer from the data that we got from the cursor
-                CustomerModel newCustomer = new CustomerModel(-1, customerName, customerAge, customerActive,customerEmail,customerPass);
+                CustomerModel newCustomer = new CustomerModel(-1, customerName, customerAge, customerActive, "customerEmail", "customerPass");
 
                 //now adding the customer to the list
                 returnList.add(newCustomer);
+            }
 
-            }while (cursor.moveToNext()); //while we have next
-        }
-        else {
-            // failure. do not add anything to the list
+            cursor.moveToNext();
         }
 
         cursor.close(); //we have to close the cursor just like we close a file after reading or writing
