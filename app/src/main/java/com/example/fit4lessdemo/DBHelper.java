@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
@@ -35,22 +36,39 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //the string value is a standard sql query request
         //there must be spaces around quotations
-        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_CUSTOMER_NAME + ", " + COLUMN_CUSTOMER_AGE + " INT, " + COLUMN_ACTIVE_CUSTOMER + " BOOL)";
+        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_CUSTOMER_NAME + ", " +
+                COLUMN_CUSTOMER_AGE + ", " +
+                COLUMN_ACTIVE_CUSTOMER + " BOOL, " +
+                COLUMN_LOGIN_PASSWORD + ", " +
+                COLUMN_CUSTOMER_EMAIL + " "  +
+                ");";
 
-        db.execSQL(createTableStatement);
+        try{
+            db.execSQL(createTableStatement);
+        }catch(SQLiteException e){
+            e.printStackTrace();
+        }
+;
     }
 
     //this is called if the database version number changes. It prevents previous users apps from breaking when you change the database design
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        //drop the current table and upgrade
+        db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_TABLE);
+
+        //call the create database
+        onCreate(db);
     }
 
     //this method is for adding a new customer to the DB
     public boolean addOne(CustomerModel customerModel){
         //the getWritable method comes from the SQlite property
         //this will get our database that we have
-        SQLiteDatabase db = this.getWritableDatabase();
+
 
         //Content values - similar to and associative array or Hashmap
         ContentValues cv = new ContentValues();
@@ -64,10 +82,20 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //now we want to insert to the DB by passing the cv to the insert method
         //don't worry about nullColumnHack it is there if you have no columns in your cv but we have 4 columns here
-        long insert = db.insert(CUSTOMER_TABLE, null, cv); //the return type from the insert will return long
+        //long insert = db.insert(CUSTOMER_TABLE, null, cv); //the return type from the insert will return long
         //this is just a success variables that indicates if the insertions is successful or not
         //if we get a positive number means it is successfully inserted
-        return insert != -1;
+        //return insert != -1;
+
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.insert(CUSTOMER_TABLE, null, cv);
+            db.close();
+            return true;
+        }catch(SQLiteException e){
+            e.printStackTrace();
+            return false;
+        }
 
     }
 
@@ -158,18 +186,17 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 //we will get the data from the cursor
                 //we know that the first column is the id so we will use the index 0 of the cursor
-                int customerId = cursor.getInt(0);
-                String customerName = cursor.getString(1);
-                String customerAge = cursor.getString(2);
-                String customerEmail = cursor.getString(4);
-                String customerPass = cursor.getString(5);
+                //int customerId = cursor.getInt(0);
+                String customerName = cursor.getString(cursor.getColumnIndex("CUSTOMER_NAME"));
+                String customerAge = cursor.getString(cursor.getColumnIndex("CUSTOMER_AGE"));
+                String customerEmail = cursor.getString(cursor.getColumnIndex("CUSTOMER_EMAIL"));
+                String customerPass = cursor.getString(cursor.getColumnIndex("CUSTOMER_PASSWORD"));
                 //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
                 //so we take that int and convert to boolean
-                //the following is called ternary operator in case you are confused google it
-                boolean customerActive = cursor.getInt(3) == 1;
+                boolean customerActive = cursor.getInt(cursor.getColumnIndex("ACTIVE_CUSTOMER")) == 1;
 
                 //now making the customer from the data that we got from the cursor
-                CustomerModel newCustomer = new CustomerModel(customerId, customerName, customerAge, customerActive,customerEmail,customerPass);
+                CustomerModel newCustomer = new CustomerModel(-1, customerName, customerAge, customerActive,customerEmail,customerPass);
 
                 //now adding the customer to the list
                 returnList.add(newCustomer);
