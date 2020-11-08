@@ -99,9 +99,11 @@
         android:layout_marginStart="21dp"
         android:layout_marginLeft="21dp"
         android:layout_marginTop="407dp"
-        android:text="Changgeess"
+        android:onClick="sendMap"
+        android:text="To Map"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="To Map" />
 
     <TextView
         android:id="@+id/textView"

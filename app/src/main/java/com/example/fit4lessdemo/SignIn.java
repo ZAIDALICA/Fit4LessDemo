@@ -17,6 +17,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
     }
+    DBHelper helper = new DBHelper(SignIn.this);
     protected TextView e;
     protected TextView p;
     protected void setLoginTry(){ // attempt at making information secure
@@ -32,30 +33,20 @@ public class SignIn extends AppCompatActivity {
     }//we will need to make this return in all lowercase, ensuring the user can enter it in either or. but we will also make the Database save in all lower case as well
 
     private void testLogin() { //Here will run a method for the database, probably making it a separate class all together, opposed to my custom Strings for testing purposes
-        String testE = "Matt@gmail.com"; //Temporary for testing
-        String testP = "Hello123";
-        boolean emailCheck = false;
-        boolean passwordCheck = false;
-        if (!isValidEmail(getEmail())){
-            Toast.makeText(getApplicationContext(),"Please enter a valid email",Toast.LENGTH_LONG).show();//this creates the pop-up message
+        if (isValidEmail(getEmail())) {
+            String testPass = helper.passwordCheck(getEmail());
+            if (testPass.equals("Invalid")) {
+                Toast.makeText(getApplicationContext(), "Email is incorrect",Toast.LENGTH_LONG).show();
+            }
+            else if (testPass.equals(getPass())){
+                Toast.makeText(getApplicationContext(),"Welcome " + helper.getName(getEmail()) + "!",Toast.LENGTH_LONG).show();
+                backToMain();
+            }else {
+                Toast.makeText(getApplicationContext(),"Password is Incorrect",Toast.LENGTH_LONG).show();
+            }
+        }else {
+            Toast.makeText(getApplicationContext(),"Invalid Email",Toast.LENGTH_LONG).show();
         }
-        if (testE.equals(getEmail())){
-            emailCheck = true;
-        }
-        if (testP.equals(getPass())){
-            passwordCheck = true;
-        }
-        if (emailCheck && !passwordCheck){
-            Toast.makeText(getApplicationContext(),"Password Incorrect", Toast.LENGTH_LONG).show();
-        }
-        if (!emailCheck){
-            Toast.makeText(getApplicationContext(),"Information Incorrect", Toast.LENGTH_LONG).show();
-        }
-        if (emailCheck && passwordCheck) {
-            Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();
-            backToMain();
-        }
-
     }
     private static boolean isValidEmail(CharSequence target) {//Simple line of code to ensure emails are correctly typed
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();

@@ -3,6 +3,9 @@
     package="com.example.fit4lessdemo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
@@ -11,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fit4LessDemo">
-        <activity android:name=".dbTest"></activity>
+        <activity android:name=".Map"></activity>
+        <activity android:name=".dbTest" />
         <activity android:name=".WorkoutHelp" />
         <activity android:name=".NewsPage" />
         <activity android:name=".Register" />
