@@ -26,11 +26,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //checking if the user has logged in before or not
-        if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_Email",MainActivity.this).length() == 0) {
+        if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MainActivity.this).length() == 0) {
             //send to main activity to log in
             //Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, SignIn.class);
-            startActivity(i);
+//            Intent i = new Intent(this, SignIn.class);
+//            startActivity(i);
+            setContentView(R.layout.ask_user);
+
+            Button btnLogin = (Button)findViewById(R.id.btn_yesLogin);
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, SignIn.class));
+                }
+            });
+
+            Button btnRegister = (Button)findViewById(R.id.btn_noRegisterMe);
+            btnRegister.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, Register.class));
+                }
+            });
+
+            Button btnDeveloperMode = (Button)findViewById(R.id.btn_developerMode);
+            btnDeveloperMode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, DeveloperPage.class));
+                }
+            });
+
         } else {
             //get the user name
             userName = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
@@ -39,42 +65,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //setContentView(R.layout.activity_main);
-
-
     }
 
-    public void sendEmail(View v){
-        Intent i = new Intent(this, Support.class);
-        String message = ((Button)v).getText().toString();
-        //now we need to transfer the message into the support activity via the intent i
-        i.putExtra("name", message);  //we loaded the message with the id name
-        startActivity(i);  //we start the activity
-        //now go the support activity and get the message there
-
-    }
-    public void sendSignIn(View v){
-        Intent i = new Intent(this, SignIn.class);
-        startActivity(i);
-    }
-    public void sendRegister(View v){
-        Intent i = new Intent(this, Register.class);
-        startActivity(i);
-    }
-    public void sendNews(View v){
-        Intent i = new Intent(this, NewsPage.class);
-        startActivity(i);
-    }
-    public void sendMuscles(View v){
-        Intent i = new Intent(this, WorkoutHelp.class);
-        startActivity(i);
-    }
-    public void sendMap(View v){
-        Intent i = new Intent(this, Map.class);
-        startActivity(i);
-    }
-
-    public void goToDb(View v){
-        Intent i = new Intent(this, dbTest.class);
-        startActivity(i);
-    }
 }
