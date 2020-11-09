@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fit4LessDemo">
-        <activity android:name=".Map"></activity>
+        <activity android:name=".DeveloperPage"></activity>
+        <activity android:name=".MyBookings" />
+        <activity android:name=".Map" />
         <activity android:name=".dbTest" />
         <activity android:name=".WorkoutHelp" />
         <activity android:name=".NewsPage" />

@@ -3,12 +3,17 @@ package com.example.fit4lessdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -19,71 +24,87 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-//    String text = "";
-//    TextView textView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String userName;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-/*        textView = (TextView) findViewById(R.id.textView);
+        //checking if the user has logged in before or not
+        if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MainActivity.this).length() == 0) {
+            //send to main activity to log in
+            //Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT).show();
+//            Intent i = new Intent(this, SignIn.class);
+//            startActivity(i);
+            setContentView(R.layout.ask_user);
 
-       DatabaseHelper db = new DatabaseHelper(this);
+            Button btnLogin = (Button)findViewById(R.id.btn_yesLogin);
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, SignIn.class));
+                }
+            });
 
-        //inserting gym members
-       db.addGymMember(new GymMember("George", "1234567"));
-        db.addGymMember(new GymMember("Matt", "7654321"));
-        db.addGymMember(new GymMember("Mujtabah", "43333333"));
-        db.addGymMember(new GymMember("Julia", "33333334"));
-        db.addGymMember(new GymMember("Suhail", "7777777"));
+            Button btnRegister = (Button)findViewById(R.id.btn_noRegisterMe);
+            btnRegister.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, Register.class));
+                }
+            });
 
-        //reading and displaying all gymMembers
-        List<GymMember> gymMembers = db.getAllGymMembers();
+            Button btnDeveloperMode = (Button)findViewById(R.id.btn_developerMode);
+            btnDeveloperMode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, DeveloperPage.class));
+                }
+            });
 
-        for(GymMember g : gymMembers){
-            String log = "ID: " + g.getId() + ", NAME: " + g.getName() + ", NUMBER: " + g.getPhone_number() + "\n";
-           text = text + log;
+        } else {
+            //get the user name
+            userName = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
+            Toast.makeText(getApplicationContext(), "Welcome Back "+userName, Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_main);
         }
 
-        textView.setText(text);
-*/
-
-
+        //setContentView(R.layout.activity_main);
     }
 
-    public void sendEmail(View v){
-        Intent i = new Intent(this, Support.class);
-        String message = ((Button)v).getText().toString();
-        //now we need to transfer the message into the support activity via the intent i
-        i.putExtra("name", message);  //we loaded the message with the id name
-        startActivity(i);  //we start the activity
-        //now go the support activity and get the message there
 
-    }
-    public void sendSignIn(View v){
-        Intent i = new Intent(this, SignIn.class);
-        startActivity(i);
-    }
-    public void sendRegister(View v){
-        Intent i = new Intent(this, Register.class);
-        startActivity(i);
-    }
-    public void sendNews(View v){
-        Intent i = new Intent(this, NewsPage.class);
-        startActivity(i);
-    }
-    public void sendMuscles(View v){
-        Intent i = new Intent(this, WorkoutHelp.class);
-        startActivity(i);
-    }
-    public void sendMap(View v){
-        Intent i = new Intent(this, Map.class);
+//    @Override
+//    public boolean onCreateOptionMenue(Menu menu){
+//        MenuInflater nMenueInflater = getMenuInflater();
+//        nMenueInflater.inflate(R.menu.bottom_nav_menu,menu);
+//        return true;
+//    }
+
+    //DODO this did not work for now but keep it for later
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        //if the user clicked on the item then perform this action
+//        if(item.getItemId() == R.id.navigation_logout){
+//            //go to the login page again
+//            Intent i = new Intent(MainActivity.this, SignIn.class);
+//            String byUsername = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
+//            Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+//            //clearing the user prefrences
+//            //SaveUserLoginPreferences.clearUserLoginSharedPreferences(MainActivity.this);
+//            startActivity(i);
+//        }
+//        return true;
+//        //return super.onOptionsItemSelected(item);
+//    }
+
+
+    public void logMeOut(View v) {
+        //go to the login page again
+        Intent i = new Intent(MainActivity.this, SignIn.class);
+        String byUsername = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
+        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        //clearing the user prefrences
+        SaveUserLoginPreferences.clearUserLoginSharedPreferences(MainActivity.this);
         startActivity(i);
     }
 
-    public void goToDb(View v){
-        Intent i = new Intent(this, dbTest.class);
-        startActivity(i);
-    }
 }
