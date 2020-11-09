@@ -38,11 +38,11 @@ public class DBHelper extends SQLiteOpenHelper {
         //there must be spaces around quotations
         String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_CUSTOMER_NAME + ", " +
-                COLUMN_CUSTOMER_AGE + ", " +
+                COLUMN_CUSTOMER_NAME + "TEXT, " +
+                COLUMN_CUSTOMER_AGE + "TEXT, " +
                 COLUMN_ACTIVE_CUSTOMER + " BOOL, " +
-                COLUMN_LOGIN_PASSWORD + ", " +
-                COLUMN_CUSTOMER_EMAIL + " "  +
+                COLUMN_LOGIN_PASSWORD + "TEXT, " +
+                COLUMN_CUSTOMER_EMAIL + "TEXT "  +
                 ");";
 
         try{
@@ -178,35 +178,35 @@ public class DBHelper extends SQLiteOpenHelper {
         //notice the raw query returns a cursor object
         //cursor is the result set //it is a complex arrays of data
         Cursor cursor = db.rawQuery(queryString, null);
-        cursor.moveToFirst();
 
-//        if (1==1) { return returnList;}
 
 
         //we will check if the cursor is not empty so we go the the first item in it
-        while (!cursor.isAfterLast()) {
+
             if (cursor.moveToFirst()) {
-                // loop through the cursor (result set) and create new customer objects. put them into the return list
-                //we will get the data from the cursor
-                //we know that the first column is the id so we will use the index 0 of the cursor
-                //int customerId = cursor.getInt(0);
-                String customerName = cursor.getString(cursor.getColumnIndex("CUSTOMER_NAME"));
-                String customerAge = cursor.getString(cursor.getColumnIndex("CUSTOMER_AGE"));
-                //String customerEmail = cursor.getString(cursor.getColumnIndex("CUSTOMER_EMAIL"));
-                //String customerPass = cursor.getString(cursor.getColumnIndex("CUSTOMER_PASSWORD"));
-                //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
-                //so we take that int and convert to boolean
-                boolean customerActive = cursor.getInt(cursor.getColumnIndex("ACTIVE_CUSTOMER")) == 1;
+                do {
+                    // loop through the cursor (result set) and create new customer objects. put them into the return list
+                    //we will get the data from the cursor
+                    //we know that the first column is the id so we will use the index 0 of the cursor
+                    int customerId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));  //column can be also called like that
+                    String customerName = cursor.getString(cursor.getColumnIndex("CUSTOMER_NAME"));
+                    String customerAge = cursor.getString(cursor.getColumnIndex("CUSTOMER_AGE"));
+                    String customerEmail = cursor.getString(cursor.getColumnIndex("CUSTOMER_EMAIL"));
+                    String customerPass = cursor.getString(cursor.getColumnIndex("LOGIN_PASSWORD"));
+                    //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
+                    //so we take that int and convert to boolean
+                    boolean customerActive = cursor.getInt(cursor.getColumnIndex("ACTIVE_CUSTOMER")) == 1;
 
-                //now making the customer from the data that we got from the cursor
-                CustomerModel newCustomer = new CustomerModel(-1, customerName, customerAge, customerActive, "customerEmail", "customerPass");
+                    //now making the customer from the data that we got from the cursor
+                    CustomerModel newCustomer = new CustomerModel(customerId, customerName, customerAge, customerActive, customerEmail, customerPass);
 
-                //now adding the customer to the list
-                returnList.add(newCustomer);
+                    //now adding the customer to the list
+                    returnList.add(newCustomer);
+                } while(cursor.moveToNext());
             }
 
-            cursor.moveToNext();
-        }
+
+
 
         cursor.close(); //we have to close the cursor just like we close a file after reading or writing
         db.close(); //also the db
