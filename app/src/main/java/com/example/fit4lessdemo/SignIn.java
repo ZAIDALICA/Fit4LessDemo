@@ -2,6 +2,7 @@ package com.example.fit4lessdemo;
 
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -29,7 +30,7 @@ public class SignIn extends AppCompatActivity {
         return p.getText().toString();
     }
     private String getEmail(){
-        return e.getText().toString();
+        return e.getText().toString().toLowerCase();  //george: done ^_^
     }//we will need to make this return in all lowercase, ensuring the user can enter it in either or. but we will also make the Database save in all lower case as well
 
     private void testLogin() { //Here will run a method for the database, probably making it a separate class all together, opposed to my custom Strings for testing purposes
@@ -40,6 +41,10 @@ public class SignIn extends AppCompatActivity {
             }
             else if (testPass.equals(getPass())){
                 Toast.makeText(getApplicationContext(),"Welcome " + helper.getName(getEmail()) + "!",Toast.LENGTH_LONG).show();
+                SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_EMAIL", getEmail(), this);  //saving the data so the app will use it to log in automatically later
+                SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_PASS", testPass, this);  //saving the data so the app will use it to log in automatically later
+                //TODO we also need to get the username from the database to save it as a preference so that we can use the username when greeting or for the name that will appear on top of the home screen
+                //We also have to sent with the intent the user information to the main so that the main can act knowing which user logged in and act accordingly
                 backToMain();
             }else {
                 Toast.makeText(getApplicationContext(),"Password is Incorrect",Toast.LENGTH_LONG).show();

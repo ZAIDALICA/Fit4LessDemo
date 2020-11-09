@@ -133,6 +133,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return "";
     }
 
+    //TODO   use this query to find the email
+    //        String query = "SELECT * FROM " + CUSTOMER_TABLE; + " WHERE " + COLUMN_CUSTOMER_EMAIL + " =\"" + email+ "\"";
     public String passwordCheck(String email){
         List<CustomerModel> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
@@ -140,9 +142,9 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
         if (cursor.moveToFirst()){
             do {
-                String getEmail = cursor.getString(4);
+                String getEmail = cursor.getString(cursor.getColumnIndex(COLUMN_CUSTOMER_EMAIL));
                 if (email.equals(getEmail)){
-                    return cursor.getString(5);
+                    return cursor.getString(cursor.getColumnIndex(COLUMN_LOGIN_PASSWORD));
                 }
             } while (cursor.moveToNext());
         }

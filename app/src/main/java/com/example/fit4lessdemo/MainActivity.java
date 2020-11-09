@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,35 +20,25 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-//    String text = "";
-//    TextView textView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String userName;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-/*        textView = (TextView) findViewById(R.id.textView);
-
-       DatabaseHelper db = new DatabaseHelper(this);
-
-        //inserting gym members
-       db.addGymMember(new GymMember("George", "1234567"));
-        db.addGymMember(new GymMember("Matt", "7654321"));
-        db.addGymMember(new GymMember("Mujtabah", "43333333"));
-        db.addGymMember(new GymMember("Julia", "33333334"));
-        db.addGymMember(new GymMember("Suhail", "7777777"));
-
-        //reading and displaying all gymMembers
-        List<GymMember> gymMembers = db.getAllGymMembers();
-
-        for(GymMember g : gymMembers){
-            String log = "ID: " + g.getId() + ", NAME: " + g.getName() + ", NUMBER: " + g.getPhone_number() + "\n";
-           text = text + log;
+        //checking if the user has logged in before or not
+        if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_Email",MainActivity.this).length() == 0) {
+            //send to main activity to log in
+            //Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, SignIn.class);
+            startActivity(i);
+        } else {
+            //get the user name
+            userName = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
+            Toast.makeText(getApplicationContext(), "Welcome Back "+userName, Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_main);
         }
 
-        textView.setText(text);
-*/
+        //setContentView(R.layout.activity_main);
 
 
     }

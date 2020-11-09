@@ -88,7 +88,13 @@ public class Register extends AppCompatActivity {
     }
     private void completeReg(){// in Registration we take all three pieces of info and will store them to the database, then in SignIn we can pull name from the email Key using a map
         if(email && pass && name && age && unique){
+
+            SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_EMAIL", getRegEmail(), this);  //saving the data so the app will use it to log in automatically later
+            SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_PASS", getRegPassword(), this);  //saving the data so the app will use it to log in automatically later
+            SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_USER", getName(), this);
+
             Toast.makeText(getApplicationContext(),"Welcome " + getName(),Toast.LENGTH_LONG).show();
+            //TODO the active user is not used here so it either can be fixed or removed later
             CustomerModel cM = new CustomerModel(1, getName(), getAge(),true, getRegEmail(), getRegPassword());
             helper.addOne(cM);
             toMain();
