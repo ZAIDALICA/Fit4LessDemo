@@ -31,10 +31,15 @@ public class SaveUserLoginPreferences {
     }
 
     //Log the user out
-    public static void logOut(Context ctx){
+    public static void clearUserLoginSharedPreferences(Context ctx){
         SharedPreferences.Editor editor = getUserSharedPreferences(ctx).edit();
         editor.clear();
         editor.commit();
+//        SharedPreferences.Editor editor = getUserSharedPreferences(ctx).edit();
+//        editor.putString(PREF_EMAIL, "");
+//        editor.putString(PREF_NAEM, "");
+//        editor.putString(PREF_PASS, "");
+//        editor.commit();
     }
 
 

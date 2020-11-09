@@ -3,6 +3,9 @@ package com.example.fit4lessdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -65,6 +69,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //setContentView(R.layout.activity_main);
+    }
+
+
+//    @Override
+//    public boolean onCreateOptionMenue(Menu menu){
+//        MenuInflater nMenueInflater = getMenuInflater();
+//        nMenueInflater.inflate(R.menu.bottom_nav_menu,menu);
+//        return true;
+//    }
+
+    //DODO this did not work for now but keep it for later
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        //if the user clicked on the item then perform this action
+//        if(item.getItemId() == R.id.navigation_logout){
+//            //go to the login page again
+//            Intent i = new Intent(MainActivity.this, SignIn.class);
+//            String byUsername = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
+//            Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+//            //clearing the user prefrences
+//            //SaveUserLoginPreferences.clearUserLoginSharedPreferences(MainActivity.this);
+//            startActivity(i);
+//        }
+//        return true;
+//        //return super.onOptionsItemSelected(item);
+//    }
+
+
+    public void logMeOut(View v) {
+        //go to the login page again
+        Intent i = new Intent(MainActivity.this, SignIn.class);
+        String byUsername = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
+        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        //clearing the user prefrences
+        SaveUserLoginPreferences.clearUserLoginSharedPreferences(MainActivity.this);
+        startActivity(i);
     }
 
 }

@@ -122,4 +122,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="lbl_my_bookings_display">My Bookings by date</string>
+    <string name="title_logout">Logout</string>
 </resources>
