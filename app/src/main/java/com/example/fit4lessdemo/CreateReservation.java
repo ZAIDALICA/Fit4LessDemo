@@ -26,7 +26,6 @@ public class CreateReservation extends AppCompatActivity {
         setContentView(R.layout.activity_create_reservation);
         onDisplayDate = (TextView) findViewById(R.id.makeReservation);
 
-
         onDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
