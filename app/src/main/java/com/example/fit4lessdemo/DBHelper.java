@@ -122,6 +122,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+
     public String dbGet(String selectField, String whereField, String item){
         String result = "";
         String queryString = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE " + whereField + " =\"" + item+ "\"";
@@ -177,8 +178,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return false;
-
-
     }
 
 
