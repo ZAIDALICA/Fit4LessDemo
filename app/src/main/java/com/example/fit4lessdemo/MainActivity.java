@@ -23,11 +23,18 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
+    public static final String COLUMN_CUSTOMER_NAME = "CUSTOMER_NAME";
+    public static final String COLUMN_CUSTOMER_AGE = "CUSTOMER_AGE";
+    public static final String COLUMN_ACTIVE_CUSTOMER = "ACTIVE_CUSTOMER";
+    public static final String COLUMN_LOGIN_PASSWORD = "LOGIN_PASSWORD";
+    public static final String COLUMN_CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String userName;
         super.onCreate(savedInstanceState);
+
+        DBHelper helper = new DBHelper(this);
 
         //checking if the user has logged in before or not
         if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MainActivity.this).length() == 0) {
@@ -63,9 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             //get the user name
-            userName = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
-            Toast.makeText(getApplicationContext(), "Welcome Back "+userName, Toast.LENGTH_SHORT).show();
+          
+            String email = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MainActivity.this);  //getting email from the sharedPreference
+            String userName = helper.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, email);  //getting username from the database
+            Toast.makeText(getApplicationContext(), "Welcome "+userName, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, NewsPage.class));
+
         }
 
         //setContentView(R.layout.activity_main);

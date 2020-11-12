@@ -12,6 +12,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SignIn extends AppCompatActivity {
+    public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
+    public static final String COLUMN_CUSTOMER_NAME = "CUSTOMER_NAME";
+    public static final String COLUMN_CUSTOMER_AGE = "CUSTOMER_AGE";
+    public static final String COLUMN_ACTIVE_CUSTOMER = "ACTIVE_CUSTOMER";
+    public static final String COLUMN_LOGIN_PASSWORD = "LOGIN_PASSWORD";
+    public static final String COLUMN_CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +41,23 @@ public class SignIn extends AppCompatActivity {
 
     private void testLogin() { //Here will run a method for the database, probably making it a separate class all together, opposed to my custom Strings for testing purposes
         if (isValidEmail(getEmail())) {
-            String testPass = helper.passwordCheck(getEmail());
-            if (testPass.equals("Invalid")) {
-                Toast.makeText(getApplicationContext(), "Email is incorrect",Toast.LENGTH_LONG).show();
+            //String testPass = helper.passwordCheck(getEmail());
+            if (helper.dbCheck(COLUMN_CUSTOMER_EMAIL,getEmail())){ //this function now takes one field and the entered data
+                String bdPass = helper.dbGet(COLUMN_LOGIN_PASSWORD, COLUMN_CUSTOMER_EMAIL ,getEmail());
+                if (bdPass.equals(getPass())){
+                    Toast.makeText(getApplicationContext(),"Welcome " + helper.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, getEmail()) + "!",Toast.LENGTH_LONG).show();
+                    SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_EMAIL", getEmail(), this);  //saving the data so the app will use it to log in automatically later
+                    SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_PASS", bdPass, this);  //saving the data so the app will use it to log in automatically later
+                    //TODO we also need to get the username from the database to save it as a preference so that we can use the username when greeting or for the name that will appear on top of the home screen
+                    //We also have to sent with the intent the user information to the main so that the main can act knowing which user logged in and act accordingly
+                    backToMain();
+                }else {
+                    Toast.makeText(getApplicationContext(),"Password is Incorrect",Toast.LENGTH_LONG).show();
+                }
+
             }
-            else if (testPass.equals(getPass())){
-                Toast.makeText(getApplicationContext(),"Welcome " + helper.getName(getEmail()) + "!",Toast.LENGTH_LONG).show();
-                SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_EMAIL", getEmail(), this);  //saving the data so the app will use it to log in automatically later
-                SaveUserLoginPreferences.setUserLoginSharedPreferences("PREF_PASS", testPass, this);  //saving the data so the app will use it to log in automatically later
-                //TODO we also need to get the username from the database to save it as a preference so that we can use the username when greeting or for the name that will appear on top of the home screen
-                //We also have to sent with the intent the user information to the main so that the main can act knowing which user logged in and act accordingly
-                backToMain();
-            }else {
-                Toast.makeText(getApplicationContext(),"Password is Incorrect",Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(getApplicationContext(), "Email is incorrect",Toast.LENGTH_LONG).show();
             }
         }else {
             Toast.makeText(getApplicationContext(),"Invalid Email",Toast.LENGTH_LONG).show();
