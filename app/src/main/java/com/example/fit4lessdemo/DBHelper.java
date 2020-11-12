@@ -3,9 +3,11 @@ package com.example.fit4lessdemo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -36,21 +38,20 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //the string value is a standard sql query request
         //there must be spaces around quotations
-        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" +
+        String createTableStatement =
+                "CREATE TABLE " + CUSTOMER_TABLE + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_CUSTOMER_NAME + "TEXT, " +
                 COLUMN_CUSTOMER_AGE + "TEXT, " +
                 COLUMN_ACTIVE_CUSTOMER + " BOOL, " +
                 COLUMN_LOGIN_PASSWORD + "TEXT, " +
-                COLUMN_CUSTOMER_EMAIL + "TEXT "  +
-                ");";
+                COLUMN_CUSTOMER_EMAIL + "TEXT)";
 
         try{
             db.execSQL(createTableStatement);
         }catch(SQLiteException e){
             e.printStackTrace();
         }
-;
     }
 
     //this is called if the database version number changes. It prevents previous users apps from breaking when you change the database design
@@ -108,63 +109,76 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
 
         if(cursor.moveToFirst()){
+            cursor.close();
+            db.close();
             return true;
         }
         else {
+            cursor.close();
+            db.close();
             return false;
         }
 
     }
-    public String getName(String email){
-        List<CustomerModel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-        if (cursor.moveToFirst()){
-            if (cursor.moveToFirst()){
-                do {
-                    String emailCheck = cursor.getString(4);
-                    if (email.equals(emailCheck)){
-                        return cursor.getString(2);
-                    }
-                } while (cursor.moveToNext());
-            }
+
+
+    public String dbGet(String selectField, String whereField, String item){
+        String result = "";
+        String queryString = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE " + whereField + " =\"" + item+ "\"";
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
+            cursor.moveToFirst();
+            result = cursor.getString(cursor.getColumnIndex(selectField));
+            //Log.d("result", result);
+            cursor.close();
+            db.close();
+            return result;
+        }catch(CursorIndexOutOfBoundsException e){
+            e.printStackTrace();
         }
-        return "";
+
+        return result;
     }
 
-    //TODO   use this query to find the email
-    //        String query = "SELECT * FROM " + CUSTOMER_TABLE; + " WHERE " + COLUMN_CUSTOMER_EMAIL + " =\"" + email+ "\"";
-    public String passwordCheck(String email){
+
+
+    public boolean dbCheck(String field,String email){
         List<CustomerModel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
+        String queryString = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE " + COLUMN_CUSTOMER_EMAIL + " =\"" + email+ "\"";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
-        if (cursor.moveToFirst()){
-            do {
-                String getEmail = cursor.getString(cursor.getColumnIndex(COLUMN_CUSTOMER_EMAIL));
-                if (email.equals(getEmail)){
-                    return cursor.getString(cursor.getColumnIndex(COLUMN_LOGIN_PASSWORD));
-                }
-            } while (cursor.moveToNext());
+        //i had to do that because the cursor has to be closed and the database as well
+        //closing the cursor and the db prevents any memory leak
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            db.close();
+            return false;
         }
-        return "Invalid";
+
+        //return "Invalid";
+        cursor.close();
+        db.close();
+        return true;
     }
 
     public boolean uniqueEmail(String email){
         List<CustomerModel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
+        String queryString = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE " + COLUMN_CUSTOMER_EMAIL + " =\"" + email+ "\"";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
-        if (cursor.moveToFirst()){
-            do {
-                String emailCheck = cursor.getString(4);
-                if (email.equals(emailCheck)){
-                    return false;
-                }
-            } while (cursor.moveToNext());
+
+        if (cursor.getCount() <= 0) { //if the count is zero or less that means the cursor has not fount any matches
+            cursor.close();
+            db.close();
+            return true;
         }
-        return true;
+
+        cursor.close();
+        db.close();
+        return false;
+
+
     }
 
 
