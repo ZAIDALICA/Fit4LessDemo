@@ -108,9 +108,11 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
 
         if(cursor.moveToFirst()){
+            cursor.close();
             return true;
         }
         else {
+            cursor.close();
             return false;
         }
 
@@ -125,11 +127,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 do {
                     String emailCheck = cursor.getString(4);
                     if (email.equals(emailCheck)){
-                        return cursor.getString(2);
+                        String n =  cursor.getString(2);
+                        cursor.close();
+                        return n;
                     }
                 } while (cursor.moveToNext());
             }
         }
+        cursor.close();
         return "";
     }
 
@@ -144,10 +149,13 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 String getEmail = cursor.getString(cursor.getColumnIndex(COLUMN_CUSTOMER_EMAIL));
                 if (email.equals(getEmail)){
-                    return cursor.getString(cursor.getColumnIndex(COLUMN_LOGIN_PASSWORD));
+                    String p = cursor.getString(cursor.getColumnIndex(COLUMN_LOGIN_PASSWORD));
+                    cursor.close();
+                    return p;
                 }
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return "Invalid";
     }
 
@@ -160,10 +168,12 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 String emailCheck = cursor.getString(4);
                 if (email.equals(emailCheck)){
+                    cursor.close();
                     return false;
                 }
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return true;
     }
 

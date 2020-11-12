@@ -6,10 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".NewsPage">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view_news"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu" >
+
+        <Button
+            android:id="@+id/devButton"
+            android:layout_width="93dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="101dp"
+            android:layout_marginRight="101dp"
+            android:layout_marginBottom="1dp"
+            android:text="Map"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="logMeOut"
+            android:text="Logout" />
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
     <WebView
         android:id="@+id/news"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="226dp"
-        tools:layout_editor_absoluteY="287dp" />
+        android:layout_width="411dp"
+        android:layout_height="811dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </WebView>
 </androidx.constraintlayout.widget.ConstraintLayout>

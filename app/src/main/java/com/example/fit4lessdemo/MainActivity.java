@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             //get the user name
             userName = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_USER",MainActivity.this);
             Toast.makeText(getApplicationContext(), "Welcome Back "+userName, Toast.LENGTH_SHORT).show();
-            setContentView(R.layout.activity_main);
+            startActivity(new Intent(MainActivity.this, NewsPage.class));
         }
 
         //setContentView(R.layout.activity_main);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 //        return true;
 //    }
 
-    //DODO this did not work for now but keep it for later
+    //TODO this did not work for now but keep it for later
 //    @Override
 //    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 //        //if the user clicked on the item then perform this action
