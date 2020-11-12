@@ -35,6 +35,8 @@ public class CustomerModel {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", isActive=" + isActive +
+                ", email= " + email +
+                ", password= " + pass +
                 '}';
     }
 
