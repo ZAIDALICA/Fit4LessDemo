@@ -134,7 +134,7 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
             db.close();
             return result;
-        }catch(CursorIndexOutOfBoundsException e){
+        }catch(Exception e){
             e.printStackTrace();
         }
 
@@ -146,39 +146,40 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean dbCheck(String field,String email){
         List<CustomerModel> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE " + COLUMN_CUSTOMER_EMAIL + " =\"" + email+ "\"";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-        //i had to do that because the cursor has to be closed and the database as well
-        //closing the cursor and the db prevents any memory leak
-        if (cursor.getCount() <= 0) {
-            cursor.close();
-            db.close();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
+            //i had to do that because the cursor has to be closed and the database as well
+            //closing the cursor and the db prevents any memory leak
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                db.close();
+                return false;
+            }
+        } catch (Exception e){
             return false;
         }
-
-        //return "Invalid";
-        cursor.close();
-        db.close();
         return true;
     }
 
     public boolean uniqueEmail(String email){
-        List<CustomerModel> returnList = new ArrayList<>();
+        //boolean result;
         String queryString = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE " + COLUMN_CUSTOMER_EMAIL + " =\"" + email+ "\"";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.getCount() <= 0) { //if the count is zero or less that means the cursor has not fount any matches
-            cursor.close();
-            db.close();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.getCount() <= 0) { //if the count is zero or less that means the cursor has not fount any matches
+                cursor.close();
+                db.close();
+                return true;
+            }
+        }
+        catch (Exception e) {
+            //also if there are no email then it's a unique email
             return true;
         }
 
-        cursor.close();
-        db.close();
         return false;
-
-
     }
 
 
