@@ -70,10 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             //get the user name
+          
             String email = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MainActivity.this);  //getting email from the sharedPreference
             String userName = helper.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, email);  //getting username from the database
             Toast.makeText(getApplicationContext(), "Welcome "+userName, Toast.LENGTH_SHORT).show();
-            setContentView(R.layout.activity_main);
+            startActivity(new Intent(MainActivity.this, NewsPage.class));
+
         }
 
         //setContentView(R.layout.activity_main);
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 //        return true;
 //    }
 
-    //DODO this did not work for now but keep it for later
+    //TODO this did not work for now but keep it for later
 //    @Override
 //    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 //        //if the user clicked on the item then perform this action

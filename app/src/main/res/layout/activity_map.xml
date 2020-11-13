@@ -6,13 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".Map">
 
-    <WebView
-        android:id="@+id/map"
-        android:layout_width="407dp"
-        android:layout_height="808dp"
-        android:layout_marginBottom="80dp"
+    <Button
+        android:id="@+id/confirm_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.example.fit4lessdemo.MapsFragment"
+        android:layout_width="411dp"
+        android:layout_height="730dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.114" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,28 +2,38 @@ package com.example.fit4lessdemo;
 
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Map extends AppCompatActivity {
-    private String title = "";
-
-
-
+    private String loc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        WebView myWebV = (WebView) findViewById(R.id.map);
-        myWebV.loadUrl("https://www.google.com/maps/search/fit4less/@43.7229945,-79.6024431,11z/data=!3m1!4b1");
-        WebSettings webSettings = myWebV.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        if (myWebV.performClick()){
-            title = myWebV.getTitle();
-            Toast.makeText(getApplicationContext(),title,Toast.LENGTH_LONG).show();
+        Button confirm = findViewById(R.id.confirm_btn);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loc = MapsFragment.getLocation();
+                confirmLocation();
+            }
+        });
+    }
+
+    private void confirmLocation(){
+        if (loc.equals("")){
+            Toast.makeText(getApplicationContext(),"Please Select a Gym",Toast.LENGTH_LONG).show();
+        }else {
+            //TODO Store loc in the database here
+            //TODO Send the user to booking
+            //For now we will say:
+            Toast.makeText(getApplicationContext(), "You have succesfully chosen: " + loc, Toast.LENGTH_LONG).show();
         }
     }
 }
