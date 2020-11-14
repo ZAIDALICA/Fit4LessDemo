@@ -38,20 +38,28 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //the string value is a standard sql query request
         //there must be spaces around quotations
-        String createTableStatement =
-                "CREATE TABLE " + CUSTOMER_TABLE + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_CUSTOMER_NAME + "TEXT, " +
-                COLUMN_CUSTOMER_AGE + "TEXT, " +
-                COLUMN_ACTIVE_CUSTOMER + " BOOL, " +
-                COLUMN_LOGIN_PASSWORD + "TEXT, " +
-                COLUMN_CUSTOMER_EMAIL + "TEXT)";
+//        String createTableStatement =
+//                "CREATE TABLE " + CUSTOMER_TABLE + "(" +
+//                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                COLUMN_CUSTOMER_NAME + " TEXT, " +
+//                COLUMN_CUSTOMER_AGE + " TEXT, " +
+//                COLUMN_ACTIVE_CUSTOMER + " BOOL, " +
+//                COLUMN_LOGIN_PASSWORD + " TEXT, " +
+//                COLUMN_CUSTOMER_EMAIL + " TEXT" +
+//                ")";
 
-        try{
-            db.execSQL(createTableStatement);
-        }catch(SQLiteException e){
-            e.printStackTrace();
-        }
+        //try{
+            db.execSQL("CREATE TABLE " + CUSTOMER_TABLE + " ("
+                    + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_CUSTOMER_NAME + " TEXT NOT NULL,"
+                    + COLUMN_CUSTOMER_AGE + " TEXT NOT NULL,"
+                    + COLUMN_ACTIVE_CUSTOMER + " BOOL,"
+                    + COLUMN_LOGIN_PASSWORD + " TEXT NOT NULL,"
+                    + COLUMN_CUSTOMER_EMAIL + " TEXT NOT NULL"
+                    + ");");
+        //}catch(SQLiteException e){
+         //   e.printStackTrace();
+       // }
     }
 
     //this is called if the database version number changes. It prevents previous users apps from breaking when you change the database design
