@@ -68,7 +68,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void backToMain(){ //Returns to main page upon successful login
-        Intent i = new Intent(SignIn.this, MainActivity.class);
+        Intent i = new Intent(SignIn.this, NewsPage.class);
         startActivity(i);
     }
 

@@ -42,7 +42,8 @@
     <WebView
         android:id="@+id/news"
         android:layout_width="411dp"
-        android:layout_height="811dp"
+        android:layout_height="790dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

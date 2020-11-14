@@ -118,7 +118,7 @@ public class Register extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Email is already Registered",Toast.LENGTH_LONG).show();
     }
     private void toMain(){//returns to Main page of app
-        Intent i = new Intent(Register.this, MainActivity.class);
+        Intent i = new Intent(Register.this, NewsPage.class);
         startActivity(i);
 
     }
