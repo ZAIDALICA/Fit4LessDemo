@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String COLUMN_LOGIN_PASSWORD = "LOGIN_PASSWORD";
     public static final String COLUMN_CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
 
+    public static String name = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             String email = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MainActivity.this);  //getting email from the sharedPreference
             String userName = helper.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, email);  //getting username from the database
             Toast.makeText(getApplicationContext(), "Welcome "+userName, Toast.LENGTH_SHORT).show();
+            name = userName;
             startActivity(new Intent(MainActivity.this, NewsPage.class));
 
         }
@@ -105,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
 //        return true;
 //        //return super.onOptionsItemSelected(item);
 //    }
-
+    public static String getSavedName(){
+        return name;
+    }
 
     public void logMeOut(View v) {
         //go to the login page again
