@@ -169,7 +169,7 @@ public class Appointment extends AppCompatActivity {
     public void btnCancelAppointmentsClicked(View view) {
 
         //take the user to booking activity
-        Intent bookingsIntent = new Intent(Appointment.this, BookingsActivity.class);
+        Intent bookingsIntent = new Intent(Appointment.this, Bookings.class);
         startActivity(bookingsIntent);
 
     }

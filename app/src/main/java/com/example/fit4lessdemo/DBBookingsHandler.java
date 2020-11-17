@@ -1,6 +1,7 @@
 package com.example.fit4lessdemo;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -29,7 +30,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PRICE = "price";
 
     //Constructor
-    public DBBookingsHandler(@Nullable BookingsActivity context) {
+    public DBBookingsHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -93,6 +94,48 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_USERNAME + " =\"" + email + "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
+
+        //cursor point to a location in your results Eg, first or last result
+        //try {
+        Cursor cursor = db.rawQuery(query, null);
+        //Move to first row in results
+        cursor.moveToFirst();
+        //create integer to loop through
+        int i = 0;
+
+        //create an empty string to hold the values
+        String dbString[] = new String[cursor.getCount()];
+
+        //loop through the results starting from first row
+
+        //TODO I might have to change the loop here to my original way
+        while (!cursor.isAfterLast()) {
+            if (cursor.getString(cursor.getColumnIndex("userName")) != null) {
+
+                //Add the product name to the String and create a new line
+                dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+                dbString[i] += " email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
+                dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
+                dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
+                dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
+                dbString[i] += " TimeOut: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEOUT));
+                //bString += "\n";
+                i++;
+            }//ends if
+
+            cursor.moveToNext();
+        }//ends while loop
+
+        db.close();
+
+        return dbString;
+    }
+
+
+    public String[] getBookingsFromDB(String date){
+
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_USERNAME + " =\"" + date + "\"";
 
         //cursor point to a location in your results Eg, first or last result
         //try {
