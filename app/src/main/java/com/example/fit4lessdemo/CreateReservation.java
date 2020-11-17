@@ -16,14 +16,20 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 public class CreateReservation extends AppCompatActivity {
+    /*
     private static final String TAG = "CreateReservation";
-
     private TextView onDisplayDate;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_reservation);
+
+
+
+
+        /*
         onDisplayDate = (TextView) findViewById(R.id.makeReservation);
 
         onDisplayDate.setOnClickListener(new View.OnClickListener() {
@@ -51,10 +57,13 @@ public class CreateReservation extends AppCompatActivity {
             }
         };
 
-
-
-
-
-
+        */
     }
+    public void selectLocation(View v){
+        Intent i = new Intent(this, Map.class);
+        startActivity(i);
+    }
+
+
+
 }

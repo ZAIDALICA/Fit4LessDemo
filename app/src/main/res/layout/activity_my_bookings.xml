@@ -13,6 +13,7 @@
         android:layout_height="59dp"
         android:layout_marginTop="599dp"
         android:layout_marginBottom="73dp"
+        android:onClick="makeReservation"
         android:text="Make Reservation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

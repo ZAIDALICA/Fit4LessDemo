@@ -13,6 +13,7 @@ public class DeveloperPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_page);
+
     }
 
     public void sendEmail(View v){
@@ -51,9 +52,8 @@ public class DeveloperPage extends AppCompatActivity {
     }
 
     public void booking(View v){
-        Intent i = new Intent(this, CreateReservation.class);
+        Intent i = new Intent(this, MyBookings.class);
         startActivity(i);
     }
-
 
 }
