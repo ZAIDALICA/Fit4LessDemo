@@ -1,9 +1,12 @@
 package com.example.fit4lessdemo;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+//import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +25,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 
-public class BookingsActivity {
-
+public class Bookings extends AppCompatActivity {
     //globals
     String userName = "";
     //SimpleDateFormat sdf = new SimpleDateFormat("cc/MM//yy");
@@ -35,27 +37,40 @@ public class BookingsActivity {
     //DB handler
     DBBookingsHandler dbBookingsHandler;
 
+
+    public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
+    public static final String COLUMN_CUSTOMER_NAME = "CUSTOMER_NAME";
+    public static final String COLUMN_CUSTOMER_AGE = "CUSTOMER_AGE";
+    public static final String COLUMN_ACTIVE_CUSTOMER = "ACTIVE_CUSTOMER";
+    public static final String COLUMN_LOGIN_PASSWORD = "LOGIN_PASSWORD";
+    public static final String COLUMN_CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
 
+        String userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",Bookings.this);
+        DBHelper dbCustomer = new DBHelper(Bookings.this);
+
         lblUserNameBookings = (TextView) findViewById(R.id.lblUserNameBookings);
 
         //Database to read day's select bookings
-        dbBookingsHandler = new DBBookingsHandler(BookingsActivity.this);
+        dbBookingsHandler = new DBBookingsHandler(Bookings.this);
         //String[] todayBookings = dbBookingsHandler.getBookingsFromDB("01/02/2015");
 
 
+
         //******************** check if the user is logged on **************
-        if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL", BookingsActivity.this).length() == 0) {
+        if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL", this).length() == 0) {
             //send to main activity to log in
             Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT).show();
             Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(mainIntent);
         } else {
             //get the user name
-            userName = SaveUserLoggedInSharedPreference.getPrefUserName(com.wiltech.novamaxapp.BookingsActivity.this);
+            userName = dbCustomer.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, userEmail);
 
             //Assign the label to the the username
             lblUserNameBookings.setText(userName);
@@ -68,14 +83,14 @@ public class BookingsActivity {
         int year = c.get(Calendar.YEAR);
         date = String.valueOf(day) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year);
 
-        //Call hte methgod to poppulate the List view with bookings on htat day
+        //Call the method to poppulate the List view with bookings on htat day
         fillListView();
 
         //style the CalendarView
         cViewBookings = (CalendarView) findViewById(R.id.cViewBookings);
         cViewBookings.setShowWeekNumber(false);
-        cViewBookings.setSelectedDateVerticalBar(R.color.green);
-        cViewBookings.setSelectedWeekBackgroundColor(getResources().getColor(R.color.greenOpacity));
+        cViewBookings.setSelectedDateVerticalBar(R.color.common_google_signin_btn_text_light_focused);  //TODO change color
+        cViewBookings.setSelectedWeekBackgroundColor(getResources().getColor(R.color.purple_700)); //TODO you can change that
         cViewBookings.isClickable();
         cViewBookings.isLongClickable();
 
@@ -93,8 +108,7 @@ public class BookingsActivity {
         });//ends on date change listener
 
 
-    }//ends on Create
-
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,7 +129,7 @@ public class BookingsActivity {
             }
             case R.id.action_add_appointment: {
                 //call the appointment activity
-                Intent appointmentIntent = new Intent(this, AppointmentsActivity.class);
+                Intent appointmentIntent = new Intent(this, Appointment.class);
                 appointmentIntent.putExtra("date", date);
                 startActivity(appointmentIntent);
 
@@ -169,7 +183,7 @@ public class BookingsActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String booking = String.valueOf(parent.getItemAtPosition(position));
-                Toast.makeText(com.wiltech.novamaxapp.BookingsActivity.this, booking, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Bookings.this, booking, Toast.LENGTH_SHORT).show();
             }
         });//ends on click on list view
     }

@@ -3,6 +3,7 @@ package com.example.fit4lessdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -29,6 +30,9 @@ public class NewsPage extends AppCompatActivity {
                         return true;
                     case R.id.navigation_logout:
                         logMeOutVoid();
+                    case R.id.navigation_bookings:
+                        bookings();
+
                 }
                 return false;
             }
@@ -48,6 +52,12 @@ public class NewsPage extends AppCompatActivity {
         //clearing the user preferences
         SaveUserLoginPreferences.clearUserLoginSharedPreferences(NewsPage.this);
         startActivity(i);
+    }
+
+    public void bookings(){
+        //Intent aboutIntent = new Intent(this, ProductListActivity.class);
+        Intent bookings = new Intent(this, DeveloperPage.class);  //TODO for now it will go to the developer mode later it will show the bookings system
+        startActivity(bookings);
     }
 
 }

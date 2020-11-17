@@ -14,12 +14,14 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
         android:orientation="horizontal"
-        android:paddingTop="sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="228dp">
+        android:paddingTop="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
             android:id="@+id/lblDateAppointment"
@@ -44,18 +46,21 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/txtUserNameAppointment">
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:paddingTop="20sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="452dp">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:id="@+id/lblClient"
@@ -72,8 +77,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="20sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="151dp">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:id="@+id/lblServiceAppointment"
@@ -90,7 +95,6 @@
 
     </LinearLayout>
 
-
     <EditText
         android:id="@+id/txtUserNameAppointment"
         android:layout_width="match_parent"
@@ -99,16 +103,17 @@
         android:focusable="true"
         android:paddingLeft="15sp"
         android:text="@string/txt_user_name_appointment"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="25dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-16dp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="101dp">
+        android:paddingTop="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserNameAppointment"
+        tools:layout_editor_absoluteX="0dp">
 
 
         <TextView
@@ -130,17 +135,18 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="531dp">
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
         <Button
             android:id="@+id/btnChangeDate"
             style="@style/smallButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/button_shape_small"
@@ -160,8 +166,9 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="636dp">
+        android:layout_marginTop="52dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
 
         <Button
             android:id="@+id/btnCancelAppointments"
