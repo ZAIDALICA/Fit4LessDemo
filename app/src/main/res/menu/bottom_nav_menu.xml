@@ -8,7 +8,7 @@
         android:actionLayout="@layout/fragment_home"/>
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_bookings"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/booking"
         android:actionLayout="@layout/fragment_dashboard"/>

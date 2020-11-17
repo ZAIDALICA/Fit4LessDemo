@@ -1,50 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MyBookings">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.fit4lessdemo.MyBookings">
 
-
-    <Button
-        android:id="@+id/makeReservation"
-        android:layout_width="184dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="599dp"
-        android:layout_marginBottom="73dp"
-        android:text="Make Reservation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/lblMyBookingsDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/lbl_my_bookings_display"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/lViewMyBookings"
-        android:layout_width="377dp"
-        android:layout_height="136dp"
+        android:layout_width="409dp"
+        android:layout_height="686dp"
         android:layout_below="@+id/lblMyBookingsDisplay"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="495dp"
+        android:layout_marginTop="16dp"
         android:paddingTop="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/lblMyBookingsDisplay"
-        android:layout_width="334dp"
-        android:layout_height="44dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
-        android:layout_marginBottom="653dp"
-        android:text="@string/lbl_my_bookings_display"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/lblMyBookingsDisplay"
+        tools:layout_editor_absoluteX="-14dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

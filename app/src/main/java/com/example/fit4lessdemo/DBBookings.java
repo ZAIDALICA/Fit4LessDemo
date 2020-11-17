@@ -1,26 +1,54 @@
 package com.example.fit4lessdemo;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DBBookings {
 
     private int _id;
     private String _userName;
-    private String _staffName;
+
+
+    private String _email;
     private String _service;
+    private String _staff;
     private String _date;
     private String _timeIn;
-    private String _timeOut;
-    private int _price;
+ //   private String _timeOut;
+//    private int _price;
 
     //Constructors
     public DBBookings() {
     }
-    public DBBookings(String _userName, String _staffName, String _service, String _date, String _timeIn) {
+
+
+
+    public DBBookings(int _id,String _userName, String _email, String _service, String _staff , String _date, String _timeIn) {
+        this._id = _id;
         this._userName = _userName;
-        this._staffName = _staffName;
+        this._email = _email;
         this._service = _service;
+        this._staff = _staff;
         this._date = _date;
         this._timeIn = _timeIn;
     }
+
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + _id +
+                ", name='" + _userName + '\'' +
+                ", email=" + _email +
+                ", service=" + _service +
+                ", staff=" + _staff +
+                ", date= " + _date +
+                ", timeIn= " + _timeIn +
+                '}';
+    }
+
+
+
 
     //getters and Setters
     public int get_id() {
@@ -39,12 +67,12 @@ public class DBBookings {
         this._userName = _userName;
     }
 
-    public String get_staffName() {
-        return _staffName;
+    public String get_email() {
+        return _email;
     }
 
-    public void set_staffName(String _staffName) {
-        this._staffName = _staffName;
+    public void set_email(String _email) {
+        this._email = _email;
     }
 
     public String get_service() {
@@ -54,6 +82,16 @@ public class DBBookings {
     public void set_service(String _service) {
         this._service = _service;
     }
+
+
+    public String get_staff() {
+        return _staff;
+    }
+
+    public void set_staff(String _staff) {
+        this._staff = _staff;
+    }
+
 
     public String get_date() {
         return _date;
@@ -71,19 +109,19 @@ public class DBBookings {
         this._timeIn = _timeIn;
     }
 
-    public String get_timeOut() {
-        return _timeOut;
-    }
+//    public String get_timeOut() {
+//        return _timeOut;
+//    }
+//
+//    public void set_timeOut(String _timeOut) {
+//        this._timeOut = _timeOut;
+//    }
 
-    public void set_timeOut(String _timeOut) {
-        this._timeOut = _timeOut;
-    }
-
-    public int get_price() {
-        return _price;
-    }
-
-    public void set_price(int _price) {
-        this._price = _price;
-    }
+//    public int get_price() {
+//        return _price;
+//    }
+//
+//    public void set_price(int _price) {
+//        this._price = _price;
+//    }
 }

@@ -55,5 +55,17 @@ public class DeveloperPage extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void btnBookingClicked(View view) {
+        Intent bookingsIntent = new Intent(this, Bookings.class);
+        startActivity(bookingsIntent);
+
+    }//ends btnBooking
+
+    public void btnMyAppointmentsClicked(View view){
+        //Intent aboutIntent = new Intent(this, ProductListActivity.class);
+        Intent myBookings = new Intent(this, MyBookings.class);
+        startActivity(myBookings);
+    }
+
 
 }
