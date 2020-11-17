@@ -23,6 +23,7 @@ public class MyBookings extends AppCompatActivity {
         Intent i = new Intent(this, CreateReservation.class);
         startActivity(i);
     }
+
     /*
     //Displays the database of reservations
     public void listReservations(AdapterView<?> parent, View view, int position, long id) {
