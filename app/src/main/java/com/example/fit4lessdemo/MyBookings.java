@@ -23,6 +23,7 @@ public class MyBookings extends AppCompatActivity {
     //DB handler
     DBBookingsHandler dbBookingsHandler;
     String userName = "George";
+    String userEmail="";
 
 
 
@@ -38,15 +39,18 @@ public class MyBookings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings);
 
-        String userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MyBookings.this);
-        DBHelper dbCustomer = new DBHelper(MyBookings.this);
+
+    try {
+        dbBookingsHandler = new DBBookingsHandler(MyBookings.this);
+        userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MyBookings.this);
+        //DBHelper dbCustomer = new DBHelper(MyBookings.this);
 
         //check the number of reservations already made, so make an if statement
 
         //userName = dbCustomer.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, userEmail);
+
         Log.d("George",userEmail);
         String myBookings[];
-
         myBookings = dbBookingsHandler.getMyBookingsFromDB(userEmail);
 
         //create an array of strings of the size of how many rows have returned
@@ -78,6 +82,16 @@ public class MyBookings extends AppCompatActivity {
                     }
                 }
         );//ends setOnItemClickListener
+
+    }catch (Exception e){
+        e.printStackTrace();
+        e.getMessage();
+    }
+
+
+
+
+
 
 
     }

@@ -25,6 +25,7 @@ public class Appointment extends AppCompatActivity{
     //Globals
     Context context = this;
 
+    int id = 0;
     String date = "";
     String userName = "";
     String userEmail = "";
@@ -204,7 +205,8 @@ public class Appointment extends AppCompatActivity{
     public void btnSubmitAppointmentClicked(View view) {
         try {
             //Declare an object of the DB class
-            DBBookings appointment = new DBBookings(userName,
+            DBBookings appointment = new DBBookings(id,
+                    userName,
                     userEmail,
                     spnService.getSelectedItem().toString(),
                     spnStaff.getSelectedItem().toString(),

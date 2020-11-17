@@ -20,15 +20,10 @@ public class DBBookings {
     public DBBookings() {
     }
 
-    public String get_staff() {
-        return _staff;
-    }
 
-    public void set_staff(String _staff) {
-        this._staff = _staff;
-    }
 
-    public DBBookings(String _userName, String _email, String _service, String _staff , String _date, String _timeIn) {
+    public DBBookings(int _id,String _userName, String _email, String _service, String _staff , String _date, String _timeIn) {
+        this._id = _id;
         this._userName = _userName;
         this._email = _email;
         this._service = _service;
@@ -41,7 +36,7 @@ public class DBBookings {
     @NotNull
     @Override
     public String toString() {
-        return "CustomerModel{" +
+        return "Reservation{" +
                 "id=" + _id +
                 ", name='" + _userName + '\'' +
                 ", email=" + _email +
@@ -87,6 +82,16 @@ public class DBBookings {
     public void set_service(String _service) {
         this._service = _service;
     }
+
+
+    public String get_staff() {
+        return _staff;
+    }
+
+    public void set_staff(String _staff) {
+        this._staff = _staff;
+    }
+
 
     public String get_date() {
         return _date;

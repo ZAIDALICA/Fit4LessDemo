@@ -24,11 +24,12 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_USERNAME = "userName";
     public static final String COLUMN_EMAIL = "email";
+    public static final String COLUMN_STAFF = "staff";
     public static final String COLUMN_SERVICE = "service";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TIMEIN = "timeIn";
     //public static final String COLUMN_TIMEOUT = "timeOut";
-    public static final String COLUMN_PRICE = "price";
+    //public static final String COLUMN_PRICE = "price";
 
     //Constructor
     public DBBookingsHandler(@Nullable Context context) {
@@ -61,6 +62,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_USERNAME + " TEXT," +
                         COLUMN_EMAIL + " TEXT," +
+                        COLUMN_STAFF + " TEXT," +
                         COLUMN_SERVICE + " TEXT," +
                         COLUMN_DATE + " TEXT," +
                         COLUMN_TIMEIN + " TEXT" +
@@ -82,6 +84,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USERNAME, bookings.get_userName());
         values.put(COLUMN_EMAIL, bookings.get_email());
+        values.put(COLUMN_STAFF, bookings.get_staff());
         values.put(COLUMN_SERVICE, bookings.get_service());
         values.put(COLUMN_DATE, bookings.get_date());
         values.put(COLUMN_TIMEIN, bookings.get_timeIn());
@@ -124,9 +127,11 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
             do {
 
                 //Add the product name to the String and create a new line
+                dbString[i] = "ID: " + cursor.getString(cursor.getColumnIndex(COLUMN_ID));
                 dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
                 dbString[i] += " email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
                 dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
+                dbString[i] += " Saff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
                 //bString += "\n";
@@ -171,9 +176,11 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
             if (cursor.getString(cursor.getColumnIndex("userName")) != null) {
 
                 //Add the product name to the String and create a new line
+                dbString[i] = "ID: " + cursor.getString(cursor.getColumnIndex(COLUMN_ID));
                 dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
                 dbString[i] += " email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
                 dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
+                dbString[i] += " Saff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
                 //bString += "\n";
@@ -189,11 +196,11 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     }
 
 
-    public boolean deleteOne(CustomerModel customerModel){
+    public boolean deleteOne(DBBookings dbBookings){
         //find customerModer in the database, if found then delete it and return true else return false
 
         SQLiteDatabase db = this.getWritableDatabase(); //we want to write to the database because we are deleting
-        String queryString = "DELETE FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_ID + " = " + customerModel.getId();
+        String queryString = "DELETE FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_EMAIL + " = " + dbBookings.get_email();
         Cursor cursor = db.rawQuery(queryString, null);
 
         if(cursor.moveToFirst()){
