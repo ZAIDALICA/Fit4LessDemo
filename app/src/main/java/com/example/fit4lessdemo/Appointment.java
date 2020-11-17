@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,15 +20,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //import android.support.v4.app.FragmentActivity;
 
-public class Appointment extends AppCompatActivity {
+public class Appointment extends AppCompatActivity{
 
     //Globals
     Context context = this;
 
     String date = "";
     String userName = "";
-    String staffName = "";
+    String userEmail = "";
     String service = "";
+    String staffName = "";
     String timeIn = "";
     String timeOut = "";
     int price = 10;
@@ -37,6 +39,11 @@ public class Appointment extends AppCompatActivity {
     Spinner spnTime;
     Spinner spnService;
     Spinner spnStaff;
+
+    EditText editTxt_time;
+    EditText edTxt_service;
+    EditText edTxt_staff;
+    EditText edTxt_client;
 
     //Database handler
     DBBookingsHandler dbBookingsHandler;
@@ -51,13 +58,16 @@ public class Appointment extends AppCompatActivity {
     public static final String COLUMN_CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
 
 
+    DBHelper dbCustomer = new DBHelper(Appointment.this);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
 
-        String userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",Appointment.this);
-        DBHelper dbCustomer = new DBHelper(Appointment.this);
+
+
 
         //******************** check if the user is logged on **************
         if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",Appointment.this).length() == 0) {
@@ -69,7 +79,7 @@ public class Appointment extends AppCompatActivity {
             //get the user name
             //userName = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_NAME",Appointment.this);
 
-
+            userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",Appointment.this);
             userName = dbCustomer.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, userEmail);
         }
 
@@ -82,14 +92,19 @@ public class Appointment extends AppCompatActivity {
         //Create the database handler
         dbBookingsHandler = new DBBookingsHandler(Appointment.this);
 
-        //Set the interface
-        txtDateAppoint = (EditText) findViewById(R.id.txtDateAppointment);
         //set the date
+        txtDateAppoint = (EditText) findViewById(R.id.txtDateAppointment);
         txtDateAppoint.setText(date);
+
+
         //set the username
         userName = dbCustomer.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, userEmail);
         txtUserNameAppointment = (EditText) findViewById(R.id.txtUserNameAppointment);
         txtUserNameAppointment.setText(userName);
+
+        //same filed for the client
+        edTxt_client = (EditText) findViewById(R.id.edTxt_client);
+        edTxt_client.setText(userName);
 
         //Add items to the spinner
         fiilSpinners();
@@ -101,17 +116,62 @@ public class Appointment extends AppCompatActivity {
 
     public void fiilSpinners() {
         spnTime = (Spinner) findViewById(R.id.spnTime);
-        String[] times = new String[]{"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"};
+        String[] times = new String[]{"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00","GoToAppoinmentToAdd"};
         ArrayAdapter<String> adapterTimes = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, times);
         spnTime.setAdapter(adapterTimes);
-//        spnStaff = (Spinner) findViewById(R.id.spnStaff);
-//        String[] staff = new String[]{"Staff 1", "Staff 2", "Staff 3", "Staff 4", "Staff 5"};
-//        ArrayAdapter<String> adapterStaff = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, staff);
-//        spnStaff.setAdapter(adapterStaff);
+
+        spnTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editTxt_time = (EditText) findViewById(R.id.editTxt_time);
+                editTxt_time.setText(spnTime.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                editTxt_time = (EditText) findViewById(R.id.editTxt_time);
+                editTxt_time.setText("");
+            }
+        });
+
+        spnStaff = (Spinner) findViewById(R.id.spnStaff);
+        String[] staff = new String[]{"George", "Matt", "Mujtaba", "Julia", "Suhail"};
+        ArrayAdapter<String> adapterStaff = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, staff);
+        spnStaff.setAdapter(adapterStaff);
+
+
+        spnStaff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                edTxt_staff = (EditText) findViewById(R.id.edTxt_staff);
+                edTxt_staff.setText(spnStaff.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                edTxt_staff = (EditText) findViewById(R.id.edTxt_staff);
+                edTxt_staff.setText("");
+            }
+        });
+
         spnService = (Spinner) findViewById(R.id.spnService);
-        String[] services = new String[]{"Cut and Finish", "Colour", "Men's Hairdressing", "Treatments", "Hair Up and Bridal Hair", "Extensions", "Beauty", "Semi Permanent Hair Straightening", "Wash & Dry"};
+        String[] services = new String[]{"Training day", "Tanning bed", "Massage", "GoToAppoinmentToAdd"};
         ArrayAdapter<String> adapterServices = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, services);
         spnService.setAdapter(adapterServices);
+
+        spnService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                edTxt_service = (EditText) findViewById(R.id.edTxt_service);
+                edTxt_service.setText(spnService.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                edTxt_service = (EditText) findViewById(R.id.edTxt_service);
+                edTxt_service.setText("");
+            }
+        });
     }
 
     @Override
@@ -120,6 +180,8 @@ public class Appointment extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_appointments, menu);
         return true;
     }
+
+
 
 
     @Override
@@ -143,8 +205,9 @@ public class Appointment extends AppCompatActivity {
         try {
             //Declare an object of the DB class
             DBBookings appointment = new DBBookings(userName,
-                    spnStaff.getSelectedItem().toString(),
+                    userEmail,
                     spnService.getSelectedItem().toString(),
+                    spnStaff.getSelectedItem().toString(),
                     txtDateAppoint.getText().toString(),
                     spnTime.getSelectedItem().toString());
 
@@ -208,5 +271,13 @@ public class Appointment extends AppCompatActivity {
 
 
 
-
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//    }
 }

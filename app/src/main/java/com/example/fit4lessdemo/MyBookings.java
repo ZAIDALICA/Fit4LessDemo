@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class MyBookings extends AppCompatActivity {
         //check the number of reservations already made, so make an if statement
 
         //userName = dbCustomer.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, userEmail);
-
+        Log.d("George",userEmail);
         String myBookings[];
 
         myBookings = dbBookingsHandler.getMyBookingsFromDB(userEmail);

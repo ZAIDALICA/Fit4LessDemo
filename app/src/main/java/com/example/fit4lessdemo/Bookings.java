@@ -46,18 +46,21 @@ public class Bookings extends AppCompatActivity {
     public static final String COLUMN_CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
 
 
+    String userEmail;
+    DBHelper dbCustomer = new DBHelper(Bookings.this);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
 
-        String userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",Bookings.this);
-        DBHelper dbCustomer = new DBHelper(Bookings.this);
+
 
         lblUserNameBookings = (TextView) findViewById(R.id.lblUserNameBookings);
 
         //Database to read day's select bookings
-        dbBookingsHandler = new DBBookingsHandler(Bookings.this);
+        dbBookingsHandler = new DBBookingsHandler(this);
         //String[] todayBookings = dbBookingsHandler.getBookingsFromDB("01/02/2015");
 
 
@@ -70,6 +73,7 @@ public class Bookings extends AppCompatActivity {
             startActivity(mainIntent);
         } else {
             //get the user name
+            userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",Bookings.this);  //you cant have this before the on create method of the class
             userName = dbCustomer.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, userEmail);
 
             //Assign the label to the the username
@@ -83,7 +87,7 @@ public class Bookings extends AppCompatActivity {
         int year = c.get(Calendar.YEAR);
         date = String.valueOf(day) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year);
 
-        //Call the method to poppulate the List view with bookings on htat day
+        //Call the method to poppulate the List view with bookings on that day
         fillListView();
 
         //style the CalendarView
@@ -101,7 +105,7 @@ public class Bookings extends AppCompatActivity {
                 date = String.valueOf(day) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year);
                 Toast.makeText(getApplicationContext(), day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
 
-                //Call hte methgod to poppulate the List view with bookings on htat day
+                //Call that method to poppulate the List view with bookings on htat day
                 fillListView();
 
             }//ends on select date changed
@@ -130,7 +134,7 @@ public class Bookings extends AppCompatActivity {
             case R.id.action_add_appointment: {
                 //call the appointment activity
                 Intent appointmentIntent = new Intent(this, Appointment.class);
-                appointmentIntent.putExtra("date", date);
+                appointmentIntent.putExtra("date", date); //sending the date to the oppointment activity
                 startActivity(appointmentIntent);
 
                 return true;

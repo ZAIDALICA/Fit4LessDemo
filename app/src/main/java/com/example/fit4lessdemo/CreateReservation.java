@@ -24,7 +24,7 @@ public class CreateReservation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_reservation);
-        onDisplayDate = (TextView) findViewById(R.id.makeReservation);
+        //TODO I stopped it for now George onDisplayDate = (TextView) findViewById(R.id.makeReservation);
 
         onDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override

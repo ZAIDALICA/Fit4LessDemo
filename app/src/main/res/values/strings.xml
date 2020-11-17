@@ -143,4 +143,8 @@
     <string name="refresh_bookings">refresh_bookings</string>
     <string name="txt_user_name_my">User Name</string>
     <string name="lbl_bookings_today">booking</string>
+    <string name="edTxt_timeView">Time</string>
+    <string name="edtTxt_staffView">Staff</string>
+    <string name="edtTxt_serviceView">Service</string>
+    <string name="edtTxt_clientView">Client</string>
 </resources>

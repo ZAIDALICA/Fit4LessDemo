@@ -10,18 +10,29 @@ public class DBBookings {
 
     private String _email;
     private String _service;
+    private String _staff;
     private String _date;
     private String _timeIn;
-    private String _timeOut;
+ //   private String _timeOut;
 //    private int _price;
 
     //Constructors
     public DBBookings() {
     }
-    public DBBookings(String _userName, String _email, String _service, String _date, String _timeIn) {
+
+    public String get_staff() {
+        return _staff;
+    }
+
+    public void set_staff(String _staff) {
+        this._staff = _staff;
+    }
+
+    public DBBookings(String _userName, String _email, String _service, String _staff , String _date, String _timeIn) {
         this._userName = _userName;
         this._email = _email;
         this._service = _service;
+        this._staff = _staff;
         this._date = _date;
         this._timeIn = _timeIn;
     }
@@ -35,9 +46,9 @@ public class DBBookings {
                 ", name='" + _userName + '\'' +
                 ", email=" + _email +
                 ", service=" + _service +
+                ", staff=" + _staff +
                 ", date= " + _date +
                 ", timeIn= " + _timeIn +
-                ", timeOut= " + _timeOut +
                 '}';
     }
 
@@ -93,13 +104,13 @@ public class DBBookings {
         this._timeIn = _timeIn;
     }
 
-    public String get_timeOut() {
-        return _timeOut;
-    }
-
-    public void set_timeOut(String _timeOut) {
-        this._timeOut = _timeOut;
-    }
+//    public String get_timeOut() {
+//        return _timeOut;
+//    }
+//
+//    public void set_timeOut(String _timeOut) {
+//        this._timeOut = _timeOut;
+//    }
 
 //    public int get_price() {
 //        return _price;

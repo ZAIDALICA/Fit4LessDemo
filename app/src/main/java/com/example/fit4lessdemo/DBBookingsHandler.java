@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -26,7 +27,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     public static final String COLUMN_SERVICE = "service";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TIMEIN = "timeIn";
-    public static final String COLUMN_TIMEOUT = "timeOut";
+    //public static final String COLUMN_TIMEOUT = "timeOut";
     public static final String COLUMN_PRICE = "price";
 
     //Constructor
@@ -39,21 +40,31 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String query = "CREATE TABLE " + TABLE_BOOKINGS + "(" +
+//        String query = "CREATE TABLE " + TABLE_BOOKINGS + "(" +
+//                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                COLUMN_USERNAME + " TEXT," +
+//                COLUMN_EMAIL + " TEXT," +
+//                COLUMN_SERVICE + " TEXT," +
+//                COLUMN_DATE + " TEXT," +
+//                COLUMN_TIMEIN + " TEXT," +
+//                COLUMN_TIMEOUT + " TEXT" +
+//                ");";
+//        //execute the query
+//        try{
+//            db.execSQL(query);
+//        }catch(SQLiteException e){
+//            e.printStackTrace();
+//        }
+
+
+        db.execSQL("CREATE TABLE " + TABLE_BOOKINGS+ " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_USERNAME + " TEXT," +
-                COLUMN_EMAIL + " TEXT," +
-                COLUMN_SERVICE + " TEXT," +
-                COLUMN_DATE + " TEXT," +
-                COLUMN_TIMEIN + " TEXT," +
-                COLUMN_TIMEOUT + " TEXT" +
-                ");";
-        //execute the query
-        try{
-            db.execSQL(query);
-        }catch(SQLiteException e){
-            e.printStackTrace();
-        }
+                        COLUMN_USERNAME + " TEXT," +
+                        COLUMN_EMAIL + " TEXT," +
+                        COLUMN_SERVICE + " TEXT," +
+                        COLUMN_DATE + " TEXT," +
+                        COLUMN_TIMEIN + " TEXT" +
+                 ");");
     }
 
     @Override
@@ -91,15 +102,15 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
 
     //****************Print all the data from the database *************************
     public String[] getMyBookingsFromDB(String email){
-
+        String dbString1[]= new String[2];
+        Log.d("George111",email);
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_USERNAME + " =\"" + email + "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
+        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_EMAIL + " =\"" + email + "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
 
         //cursor point to a location in your results Eg, first or last result
-        //try {
+        try {
         Cursor cursor = db.rawQuery(query, null);
         //Move to first row in results
-        cursor.moveToFirst();
         //create integer to loop through
         int i = 0;
 
@@ -109,8 +120,8 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         //loop through the results starting from first row
 
         //TODO I might have to change the loop here to my original way
-        while (!cursor.isAfterLast()) {
-            if (cursor.getString(cursor.getColumnIndex("userName")) != null) {
+        if (cursor.moveToFirst()) {
+            do {
 
                 //Add the product name to the String and create a new line
                 dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
@@ -118,24 +129,29 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
-                dbString[i] += " TimeOut: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEOUT));
                 //bString += "\n";
                 i++;
-            }//ends if
-
-            cursor.moveToNext();
+            }while (cursor.moveToNext());
         }//ends while loop
 
-        db.close();
+            cursor.close();
+            db.close();
+            return dbString;
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getMessage();
+        }
 
-        return dbString;
+
+
+        return dbString1;
     }
 
 
     public String[] getBookingsFromDB(String date){
 
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_USERNAME + " =\"" + date + "\"";
+        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"";
 
         //cursor point to a location in your results Eg, first or last result
         //try {
@@ -160,7 +176,6 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
-                dbString[i] += " TimeOut: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEOUT));
                 //bString += "\n";
                 i++;
             }//ends if
