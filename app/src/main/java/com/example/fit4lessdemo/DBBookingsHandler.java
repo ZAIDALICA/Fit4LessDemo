@@ -1,13 +1,15 @@
 package com.example.fit4lessdemo;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBBookingsHandler extends SQLiteOpenHelper {
 
@@ -19,7 +21,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     public static final String TABLE_BOOKINGS = "bookings";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_USERNAME = "userName";
-    public static final String COLUMN_STAFFNAME = "staffName";
+    public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_SERVICE = "service";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TIMEIN = "timeIn";
@@ -27,7 +29,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PRICE = "price";
 
     //Constructor
-    public DBBookingsHandler(@Nullable Context context) {
+    public DBBookingsHandler(@Nullable BookingsActivity context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -39,12 +41,11 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_BOOKINGS + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT," +
-                COLUMN_STAFFNAME + " TEXT," +
+                COLUMN_EMAIL + " TEXT," +
                 COLUMN_SERVICE + " TEXT," +
                 COLUMN_DATE + " TEXT," +
                 COLUMN_TIMEIN + " TEXT," +
-                COLUMN_TIMEOUT + " TEXT," +
-                COLUMN_PRICE + " INTEGER" +
+                COLUMN_TIMEOUT + " TEXT" +
                 ");";
         //execute the query
         try{
@@ -68,7 +69,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     public void addAppointment(DBBookings bookings){
         ContentValues values = new ContentValues();
         values.put(COLUMN_USERNAME, bookings.get_userName());
-        values.put(COLUMN_STAFFNAME, bookings.get_staffName());
+        values.put(COLUMN_EMAIL, bookings.get_email());
         values.put(COLUMN_SERVICE, bookings.get_service());
         values.put(COLUMN_DATE, bookings.get_date());
         values.put(COLUMN_TIMEIN, bookings.get_timeIn());
@@ -88,10 +89,10 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
 
 
     //****************Print all the data from the database *************************
-    public String[] getMyBookingsFromDB(String userName){
+    public String[] getMyBookingsFromDB(String email){
 
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_USERNAME + " =\"" + userName + "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
+        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_USERNAME + " =\"" + email + "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
 
         //cursor point to a location in your results Eg, first or last result
         //try {
@@ -105,15 +106,18 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         String dbString[] = new String[cursor.getCount()];
 
         //loop through the results starting from first row
+
+        //TODO I might have to change the loop here to my original way
         while (!cursor.isAfterLast()) {
             if (cursor.getString(cursor.getColumnIndex("userName")) != null) {
 
                 //Add the product name to the String and create a new line
-                dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex("userName"));
-                dbString[i] += " Staff: " + cursor.getString(cursor.getColumnIndex("staffName"));
-                dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex("service"));
-                dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex("date"));
-                dbString[i] += " At: " + cursor.getString(cursor.getColumnIndex("timeIn"));
+                dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+                dbString[i] += " email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
+                dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
+                dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
+                dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
+                dbString[i] += " TimeOut: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEOUT));
                 //bString += "\n";
                 i++;
             }//ends if
@@ -127,53 +131,65 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     }
 
 
-    //****************Print all the data from the database *************************
-    public String[] getBookingsFromDB(String date){
+    public boolean deleteOne(CustomerModel customerModel){
+        //find customerModer in the database, if found then delete it and return true else return false
 
-        //List<String> dbString = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase(); //we want to write to the database because we are deleting
+        String queryString = "DELETE FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_ID + " = " + customerModel.getId();
+        Cursor cursor = db.rawQuery(queryString, null);
 
-        SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"";
+        if(cursor.moveToFirst()){
+            cursor.close();
+            db.close();
+            return true;
+        }
+        else {
+            cursor.close();
+            db.close();
+            return false;
+        }
 
-        //cursor point to a location in your results Eg, first or last result
-        //try {
-        Cursor cursor = db.rawQuery(query, null);
-        //Move to first row in results
-        cursor.moveToFirst();
-        //create integer to loop through
-        int i = 0;
+    }
 
-        //create an empty string to hold the values
-        String dbString[] = new String[cursor.getCount()];
 
-        //loop through the results starting from first row
-        while (!cursor.isAfterLast()) {
-            if (cursor.getString(cursor.getColumnIndex("userName")) != null) {
 
-                //Add the product name to the String and create a new line
-                dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex("userName"));
-                dbString[i] += " Staff: " + cursor.getString(cursor.getColumnIndex("staffName"));
-                dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex("service"));
-                dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex("date"));
-                dbString[i] += " At: " + cursor.getString(cursor.getColumnIndex("timeIn"));
-                //bString += "\n";
-                i++;
-            }//ends if
+    public String dbGet(String selectField, String whereField, String item){
+        String result = "";
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + whereField + " =\"" + item+ "\"";
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
+            cursor.moveToFirst();
+            result = cursor.getString(cursor.getColumnIndex(selectField));
+            //Log.d("result", result);
+            cursor.close();
+            db.close();
+            return result;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-            cursor.moveToNext();
-        }//ends while loop
+        return result;
+    }
 
-        db.close();
-        // } catch (SQLiteException e) {
-        // Toast.makeText(this, "Could not add appointment", Toast.LENGTH_LONG).show();
-        //    e.printStackTrace();
-        //    e.getMessage();
-        //}
-        // if(dbString[0].isEmpty()){
-        // dbString[0] = "There is no appointments on the DB";
-        //}
-        return dbString;
-    }//ends print bookings
+
+    //if the date contains more than 40 client then the day is not available
+    public boolean dbAvailableDay(String date){
+        List<CustomerModel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date+ "\"";
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.getCount() > 40 ) {
+                cursor.close();
+                db.close();
+                return false;
+            }
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
 
 
 }//ends class

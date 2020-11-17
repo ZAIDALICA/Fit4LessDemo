@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="com.wiltech.novamaxapp.BookingsActivity">
+
+    <TextView
+        android:id="@+id/lblUserNameBookings"
+        android:layout_width="402dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right"
+        android:text="@string/lbl_user_name_bookings"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignParentRight="true" />
+
+    <CalendarView
+        android:id="@+id/cViewBookings"
+        android:layout_width="match_parent"
+        android:layout_height="370dp" />
+
+    <ListView
+        android:id="@+id/lViewBookings"
+        android:layout_width="match_parent"
+        android:layout_height="356dp" />
+
+</LinearLayout>
