@@ -50,8 +50,8 @@ public class DeveloperPage extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void booking(View v){
-        Intent i = new Intent(this, CreateReservation.class);
+    public void toCreate(View v){
+        Intent i = new Intent(this, NavigationTester.class);
         startActivity(i);
     }
 
