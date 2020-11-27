@@ -6,7 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".WorkoutHelp">
 
+    <Button
+        android:id="@+id/randomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Random"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.181" />
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,63 +29,58 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/Boat"
+                android:id="@+id/triceps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Boat Pose for core workout"
-                app:srcCompat="@drawable/boat" />
+                android:clickable="true"
+                android:contentDescription="Tricep Workout Link"
+                app:srcCompat="@drawable/tristitle" />
 
             <ImageView
-                android:id="@+id/Cobra"
+                android:id="@+id/quads"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Cobra Pose for core workout"
-                app:srcCompat="@drawable/cobra" />
+                android:contentDescription="Quads Workout Link"
+                app:srcCompat="@drawable/quadstitle" />
 
             <ImageView
-                android:id="@+id/Crow"
+                android:id="@+id/abs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Crow Pose for core workout"
-                app:srcCompat="@drawable/crow" />
+                android:contentDescription="Abs Workout Link"
+                app:srcCompat="@drawable/abstitle" />
 
             <ImageView
-                android:id="@+id/Fish"
+                android:id="@+id/biceps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Fish Pose for core workout"
-                app:srcCompat="@drawable/fishpose" />
+                android:contentDescription="Biceps Workout Link"
+                app:srcCompat="@drawable/biceptitle" />
 
             <ImageView
-                android:id="@+id/Plank"
+                android:id="@+id/back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Plank Pose for core workout"
-                app:srcCompat="@drawable/plank" />
+                android:contentDescription="Back Workout Link"
+                app:srcCompat="@drawable/backtitle" />
 
             <ImageView
-                android:id="@+id/RevPlank"
+                android:id="@+id/chest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Reverse Plank Pose for core workout"
-                app:srcCompat="@drawable/revplank" />
+                android:contentDescription="Chest Workout Link"
+                app:srcCompat="@drawable/chesttitle" />
 
             <ImageView
-                android:id="@+id/SidePlank"
+                android:id="@+id/glutes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Side Plank for core workout"
-                app:srcCompat="@drawable/sideplank" />
+                android:contentDescription="Glutes Workout Link"
+                app:srcCompat="@drawable/glutestitle" />
 
-            <ImageView
-                android:id="@+id/Triangle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="Triangle Pose for core workout"
-                app:srcCompat="@drawable/triangle" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
