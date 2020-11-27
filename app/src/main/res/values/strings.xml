@@ -152,4 +152,11 @@
     <string name="edtTxt_clientView">Client</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Abs">Core Workouts</string>
+    <string name="Chest">Chest Workouts</string>
+    <string name="Triceps">Triceps Workouts</string>
+    <string name="Back">Back Workouts</string>
+    <string name="Quads">Quads Workouts</string>
+    <string name="Biceps">Biceps Workouts</string>
+    <string name="Glutes">Glutes Workouts</string>
 </resources>
