@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fit4LessDemo">
-        <activity android:name=".Bookings"></activity>
+        <activity android:name=".Workouts_Activity"></activity>
+        <activity android:name=".Bookings" />
         <activity android:name=".Appointment" />
         <activity
             android:name=".ui.BNav"
@@ -51,7 +52,8 @@
         <activity android:name=".SignIn" />
         <activity android:name=".Support" />
         <activity android:name=".CreateReservation" />
-        <activity android:name=".NavigationTester"
+        <activity
+            android:name=".NavigationTester"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
