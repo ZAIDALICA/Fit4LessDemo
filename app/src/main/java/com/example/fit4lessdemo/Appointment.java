@@ -90,6 +90,9 @@ public class Appointment extends AppCompatActivity{
         //get the extras variable put to it
         date = dataIntent.getExtras().getString("date");
 
+
+
+
         //Create the database handler
         dbBookingsHandler = new DBBookingsHandler(Appointment.this);
 
@@ -257,7 +260,7 @@ public class Appointment extends AppCompatActivity{
                 .setCancelable(true)
                 .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String date = String.valueOf(datePicker.getDayOfMonth()) + "/" + String.valueOf(datePicker.getMonth() + 1) + "/" + String.valueOf(datePicker.getYear());
+                        String date = String.valueOf(datePicker.getMonth() + 1) + "/" +  String.valueOf(datePicker.getDayOfMonth())  + "/" + String.valueOf(datePicker.getYear());
                         txtDateAppoint.setText(date);
                     }
                 })

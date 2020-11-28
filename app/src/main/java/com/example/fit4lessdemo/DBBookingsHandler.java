@@ -106,7 +106,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     //****************Print all the data from the database *************************
     public String[] getMyBookingsFromDB(String email){
         String dbString1[]= new String[2];
-        Log.d("George111",email);
+        //Log.d("George111",email);
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_EMAIL + " =\"" + email + "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
 
@@ -129,9 +129,9 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 //Add the product name to the String and create a new line
                 dbString[i] = "ID: " + cursor.getString(cursor.getColumnIndex(COLUMN_ID));
                 dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
-                dbString[i] += " email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
+                dbString[i] += " Email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
                 dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
-                dbString[i] += " Saff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                dbString[i] += " Staff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
                 //bString += "\n";
@@ -171,23 +171,20 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
 
         //loop through the results starting from first row
 
-        //TODO I might have to change the loop here to my original way
-        while (!cursor.isAfterLast()) {
-            if (cursor.getString(cursor.getColumnIndex("userName")) != null) {
+        if (cursor.moveToFirst()) {
+            do {
 
                 //Add the product name to the String and create a new line
                 dbString[i] = "ID: " + cursor.getString(cursor.getColumnIndex(COLUMN_ID));
                 dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
-                dbString[i] += " email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
+                dbString[i] += " Email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
                 dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
-                dbString[i] += " Saff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                dbString[i] += " Staff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
                 //bString += "\n";
                 i++;
-            }//ends if
-
-            cursor.moveToNext();
+            }while(cursor.moveToNext());
         }//ends while loop
 
         db.close();
@@ -200,7 +197,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         //find customerModer in the database, if found then delete it and return true else return false
 
         SQLiteDatabase db = this.getWritableDatabase(); //we want to write to the database because we are deleting
-        String queryString = "DELETE FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_EMAIL + " = " + dbBookings.get_email();
+        String queryString = "DELETE FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_ID + " = " + dbBookings.get_id();  //It's better to delete by Id not by email because one email can have many bookings
         Cursor cursor = db.rawQuery(queryString, null);
 
         if(cursor.moveToFirst()){
@@ -255,6 +252,54 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         }
         return true;
     }
+
+
+
+
+    public List<DBBookings> getEveryone(String Field,String Item) {
+        List<DBBookings> returnList = new ArrayList<>();
+        //get data from the database
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + Field + " =\"" + Item+ "\""; //this is a standard sql query string
+
+        SQLiteDatabase db = this.getReadableDatabase(); //we need to read from the database
+        //getReadable would work here as well but it will lock the database so other processes may not access it
+
+        //we can either choose db.execSql or db.rawQuery we will choose raw here
+        //notice the raw query returns a cursor object
+        //cursor is the result set //it is a complex arrays of data
+        Cursor cursor = db.rawQuery(queryString, null);
+
+
+        //we will check if the cursor is not empty so we go the the first item in it
+
+        if (cursor.moveToFirst()) {
+            do {
+                // loop through the cursor (result set) and create new customer objects. put them into the return list
+                //we will get the data from the cursor
+                //we know that the first column is the id so we will use the index 0 of the cursor
+                int customerId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));  //column can be also called like that
+                String Client = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+                String Email = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
+                String Service = cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
+                String Staff = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                String Date = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                String TimeIn = cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
+                //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
+                //so we take that int and convert to boolean
+
+                //now making the customer from the data that we got from the cursor
+                DBBookings dbBookings = new DBBookings(customerId, Client, Email, Service, Staff, Date, TimeIn);
+
+                //now adding the customer to the list
+                returnList.add(dbBookings);
+            } while (cursor.moveToNext());
+        }
+        cursor.close(); //we have to close the cursor just like we close a file after reading or writing
+        db.close(); //also the db
+
+        return returnList;
+    }
+
 
 
 }//ends class

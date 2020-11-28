@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 //import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
@@ -85,7 +88,7 @@ public class Bookings extends AppCompatActivity {
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
-        date = String.valueOf(day) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year);
+        date = String.valueOf(month + 1) + "/" + String.valueOf(day)  + "/" + String.valueOf(year);
 
         //Call the method to poppulate the List view with bookings on that day
         fillListView();
@@ -102,8 +105,8 @@ public class Bookings extends AppCompatActivity {
         cViewBookings.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-                date = String.valueOf(day) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year);
-                Toast.makeText(getApplicationContext(), day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
+                date = String.valueOf(month + 1)  + "/" + String.valueOf(day) + "/" + String.valueOf(year);
+                Toast.makeText(getApplicationContext(), (month + 1)  + "/" +  day + "/" + year, Toast.LENGTH_SHORT).show();
 
                 //Call that method to poppulate the List view with bookings on htat day
                 fillListView();
@@ -161,6 +164,7 @@ public class Bookings extends AppCompatActivity {
         //Query the database for the day selected
         todayBookings = dbBookingsHandler.getBookingsFromDB(date);
 
+        Log.d("todayBookings", Arrays.toString(todayBookings));
         //create an array of strings of the size of how many row have returned
         String tBookings[] = new String[todayBookings.length];
 

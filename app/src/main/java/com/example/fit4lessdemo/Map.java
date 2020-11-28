@@ -2,6 +2,7 @@ package com.example.fit4lessdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -49,8 +50,12 @@ public class Map extends AppCompatActivity {
         }else {
             //TODO Store loc in the database here
             //TODO Send the user to booking
+            Intent i = new Intent(Map.this, Bookings.class);
+            i.putExtra("location", loc);
+            //Log.d("GGGGGeorge", loc);
             //For now we will say:
-            Toast.makeText(getApplicationContext(), "You have succesfully chosen: " + loc, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "You have succesfully chosen: " + loc, Toast.LENGTH_LONG).show();
+            startActivity(i);
         }
     }
     public void logMeOutVoid() {
