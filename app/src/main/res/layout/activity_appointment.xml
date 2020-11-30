@@ -45,6 +45,8 @@
 
         <Button
             android:id="@+id/btnChangeDate"
+            android:theme="@style/buttonStyle"
+            android:textColor="@android:color/holo_orange_light"
             style="@style/smallButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -197,7 +199,8 @@
 
         <Button
             android:id="@+id/btnCancelAppointments"
-            style="@style/buttonStyle"
+            android:theme="@style/buttonStyle"
+            android:textColor="@android:color/holo_orange_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -209,7 +212,8 @@
 
         <Button
             android:id="@+id/btnSubmitAppointment"
-            style="@style/buttonStyle"
+            android:theme="@style/buttonStyle"
+            android:textColor="@android:color/holo_orange_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
