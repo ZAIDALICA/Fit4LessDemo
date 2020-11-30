@@ -5,10 +5,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+//for bottom navigation
+import android.content.Intent;
+import android.view.MenuItem;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Workouts_Activity extends AppCompatActivity {
-
+public class Workouts_Activity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+    BottomNavigationView bNav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +30,9 @@ public class Workouts_Activity extends AppCompatActivity {
         ImageView glutes = findViewById(R.id.glutes_wo);
         TextView which = findViewById(R.id.which_wo);
 
-        String workout = WorkoutHelp.getWorkout();
+        BottomNavigationView bNav = findViewById(R.id.nav_view);
 
+        String workout = WorkoutHelp.getWorkout();
         switch (workout) {
             case "abs":
                 chest.setVisibility(View.INVISIBLE);
@@ -88,6 +97,38 @@ public class Workouts_Activity extends AppCompatActivity {
                 biceps.setVisibility(View.INVISIBLE);
                 which.setText(R.string.Glutes);
                 break;
+            case "bNav" :
+                bNav.setOnNavigationItemSelectedListener(this);
+                break;
         }
     }
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.navigation_home:
+                Intent home = new Intent( Workouts_Activity.this, NewsPage.class);
+                startActivity(home);
+                break;
+            case R.id.navigation_dashboard:
+                Intent map = new Intent( Workouts_Activity.this, Map.class);
+                startActivity(map);
+                break;
+            /*case R.id.navigation_logout:
+                logMeOutVoid();
+                break;*/
+        }
+        return true;
+    }
+    /*
+    public void logMeOutVoid() {
+        //go to the login page again
+        Intent i = new Intent(Workouts_Activity.this, SignIn.class);
+        String byUsername = MainActivity.getSavedName();
+        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        //clearing the user preferences
+        SaveUserLoginPreferences.clearUserLoginSharedPreferences(Workouts_Activity.this);
+        startActivity(i);
+    }
+    */
+
+
 }

@@ -46,7 +46,7 @@ public class NavigationTester extends AppCompatActivity implements NavigationVie
                     Intent workout = new Intent( NavigationTester.this, WorkoutHelp.class);
                     startActivity(workout);
                     break;
-                case R.id.reservation:
+                case R.id.listReservation:
                     //bookings();
                     Intent reservation = new Intent( NavigationTester.this, MyBookings.class);
                     startActivity(reservation);
