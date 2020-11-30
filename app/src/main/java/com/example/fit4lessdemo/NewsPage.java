@@ -69,11 +69,11 @@ public class NewsPage extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.listReservation:
                 //bookings();
-                Intent reservation = new Intent( NewsPage.this, Bookings.class);
+                Intent reservation = new Intent( NewsPage.this, MyBookings.class);
                 startActivity(reservation);
                 break;
             case R.id.makeReservation:
-                Intent makeReservation = new Intent( NewsPage.this, MyBookings.class);
+                Intent makeReservation = new Intent( NewsPage.this, Bookings.class);
                 startActivity(makeReservation);
                 break;
             case R.id.workout:
@@ -81,7 +81,10 @@ public class NewsPage extends AppCompatActivity implements NavigationView.OnNavi
                 startActivity(workout);
                 break;
             case R.id.map:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapsFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapsFragment()).commit();
+                // if we start the map as a fragment we will not be able to see the confirm button
+                Intent map = new Intent( NewsPage.this, Map.class);
+                startActivity(map);
                 break;
             case R.id.nav_logout:
                 logMeOutVoid();

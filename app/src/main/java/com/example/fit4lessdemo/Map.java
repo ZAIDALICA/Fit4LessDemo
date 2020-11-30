@@ -25,7 +25,7 @@ public class Map extends AppCompatActivity {
     }
 
     private String loc;
-    BottomNavigationView bNav;
+    BottomNavigationView bNav; //todo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

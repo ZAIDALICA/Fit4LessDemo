@@ -126,7 +126,7 @@ public class Appointment extends AppCompatActivity{
 
     public void fiilSpinners() {
         spnTime = (Spinner) findViewById(R.id.spnTime);
-        String[] times = new String[]{"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00","GoToAppoinmentToAdd"};
+        String[] times = new String[]{"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
         ArrayAdapter<String> adapterTimes = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, times);
         spnTime.setAdapter(adapterTimes);
 
@@ -165,7 +165,7 @@ public class Appointment extends AppCompatActivity{
         });
 
         spnService = (Spinner) findViewById(R.id.spnService);
-        String[] services = new String[]{"Training day", "Tanning bed", "Massage", "GoToAppoinmentToAdd"};
+        String[] services = new String[]{"Training day", "Tanning bed", "Massage"};
         ArrayAdapter<String> adapterServices = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, services);
         spnService.setAdapter(adapterServices);
 
@@ -229,8 +229,8 @@ public class Appointment extends AppCompatActivity{
             Toast.makeText(Appointment.this, "Appointment Added", Toast.LENGTH_LONG).show();
 
             //send the user to the main screen
-            Intent mainIntent = new Intent(this, MainActivity.class);
-            startActivity(mainIntent);
+            Intent bookings = new Intent(this, Bookings.class);
+            startActivity(bookings);
         } catch (Exception e) {
             Toast.makeText(Appointment.this, "Could not add appointment", Toast.LENGTH_LONG).show();
             e.printStackTrace();

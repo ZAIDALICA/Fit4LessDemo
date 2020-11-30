@@ -1,5 +1,6 @@
 package com.example.fit4lessdemo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -52,6 +55,8 @@ public class MyBookings extends AppCompatActivity {
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TIMEIN = "timeIn";
 
+    BottomNavigationView bNav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,20 @@ public class MyBookings extends AppCompatActivity {
         userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MyBookings.this);
         showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
 
+        bNav = findViewById(R.id.nav_view);
+        bNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.navigation_home:
+                        startActivity(new Intent(MyBookings.this, NewsPage.class));
+                        return true;
+                    case R.id.navigation_logout:
+                        logMeOutVoid();
+                }
+                return false;
+            }
+        });
 
 
    // try {
@@ -168,6 +187,15 @@ public class MyBookings extends AppCompatActivity {
             Toast.makeText(MyBookings.this, "Select a Booking", Toast.LENGTH_LONG).show();
         }
 
+    }
+    public void logMeOutVoid() {
+        //go to the login page again
+        Intent i = new Intent(MyBookings.this, SignIn.class);
+        String byUsername = MainActivity.getSavedName();
+        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        //clearing the user preferences
+        SaveUserLoginPreferences.clearUserLoginSharedPreferences(MyBookings.this);
+        startActivity(i);
     }
 
 }

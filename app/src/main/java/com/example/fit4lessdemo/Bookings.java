@@ -1,5 +1,6 @@
 package com.example.fit4lessdemo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -52,14 +55,14 @@ public class Bookings extends AppCompatActivity {
 
     String userEmail;
     DBHelper dbCustomer = new DBHelper(Bookings.this);
-
+    BottomNavigationView bNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
 
-        disablePastDate = findViewById(R.id.disablePastDate);
+        //disablePastDate = findViewById(R.id.disablePastDate);
 
 
         lblUserNameBookings = (TextView) findViewById(R.id.lblUserNameBookings);
@@ -69,6 +72,23 @@ public class Bookings extends AppCompatActivity {
         dbBookingsHandler = new DBBookingsHandler(this);
         //String[] todayBookings = dbBookingsHandler.getBookingsFromDB("01/02/2015");
 
+
+
+        bNav = findViewById(R.id.nav_view);
+        bNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.navigation_home:
+                        Log.d("Cliiiiicked", "home");
+                        startActivity(new Intent(Bookings.this, NewsPage.class));
+                        return true;
+                    case R.id.navigation_logout:
+                        logMeOutVoid();
+                }
+                return false;
+            }
+        });
 
 
         //******************** check if the user is logged on **************
@@ -99,8 +119,8 @@ public class Bookings extends AppCompatActivity {
         //style the CalendarView
         cViewBookings = (CalendarView) findViewById(R.id.cViewBookings);
         cViewBookings.setShowWeekNumber(false);
-        cViewBookings.setSelectedDateVerticalBar(R.color.common_google_signin_btn_text_light_focused);  //TODO change color
-        cViewBookings.setSelectedWeekBackgroundColor(getResources().getColor(R.color.purple_700)); //TODO you can change that
+        cViewBookings.setSelectedDateVerticalBar(R.color.common_google_signin_btn_text_light_focused);
+        cViewBookings.setSelectedWeekBackgroundColor(getResources().getColor(R.color.purple_700));
         cViewBookings.isClickable();
         cViewBookings.isLongClickable();
 
@@ -199,5 +219,14 @@ public class Bookings extends AppCompatActivity {
         });//ends on click on list view
     }
 
+    public void logMeOutVoid() {
+        //go to the login page again
+        Intent i = new Intent(Bookings.this, SignIn.class);
+        String byUsername = MainActivity.getSavedName();
+        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        //clearing the user preferences
+        SaveUserLoginPreferences.clearUserLoginSharedPreferences(Bookings.this);
+        startActivity(i);
+    }
 
 }

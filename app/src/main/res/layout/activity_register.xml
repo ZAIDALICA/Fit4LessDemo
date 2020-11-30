@@ -80,7 +80,6 @@
         android:layout_height="wrap_content"
         android:onClick="checkPass"
         android:text="Sign Up"
-        android:textColor="#CDDC39"
         android:background="@drawable/button_shape"
         app:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
