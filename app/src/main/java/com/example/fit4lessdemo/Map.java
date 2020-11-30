@@ -13,7 +13,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
+
 public class Map extends AppCompatActivity {
+    public String getLoc() {
+        return loc;
+    }
+
+    public void setLoc(String loc) {
+        this.loc = loc;
+    }
+
     private String loc;
     BottomNavigationView bNav;
     @Override
@@ -38,20 +48,20 @@ public class Map extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loc = MapsFragment.getLocation();
+                setLoc(MapsFragment.getLocation());
                 confirmLocation();
             }
         });
     }
 
     private void confirmLocation(){
-        if (loc.equals("")){
+        if (getLoc().equals("")){
             Toast.makeText(getApplicationContext(),"Please Select a Gym",Toast.LENGTH_LONG).show();
         }else {
             //TODO Store loc in the database here
             //TODO Send the user to booking
-            Intent i = new Intent(Map.this, Bookings.class);
-            i.putExtra("location", loc);
+            Intent i = new Intent(Map.this, Appointment.class);
+            i.putExtra("location", getLoc());
             //Log.d("GGGGGeorge", loc);
             //For now we will say:
             //Toast.makeText(getApplicationContext(), "You have succesfully chosen: " + loc, Toast.LENGTH_LONG).show();

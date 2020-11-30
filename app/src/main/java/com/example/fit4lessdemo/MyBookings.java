@@ -120,9 +120,10 @@ public class MyBookings extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 oneBooking = (DBBookings)parent.getItemAtPosition(position); //we have to cast to a customer model
-                dbBookingsHandler.deleteOne( oneBooking);
+                Toast.makeText(MyBookings.this, "Selected: "+oneBooking.toString(), Toast.LENGTH_LONG).show();
+                //dbBookingsHandler.deleteOne( oneBooking);
                 showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
-                Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -158,9 +159,11 @@ public class MyBookings extends AppCompatActivity {
         lViewMyBookings.setAdapter(customerArrayAdapter);
     }
 
-    public void cancelBooking(){
+    public void cancelBooking(View v){
         try {
             dbBookingsHandler.deleteOne(oneBooking);
+            showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
+            Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(MyBookings.this, "Select a Booking", Toast.LENGTH_LONG).show();
         }

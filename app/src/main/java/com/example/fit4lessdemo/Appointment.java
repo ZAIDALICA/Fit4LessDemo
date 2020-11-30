@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ public class Appointment extends AppCompatActivity{
     //Globals
     Context context = this;
 
+    String location;
     int id = 0;
     String date = "";
     String userName = "";
@@ -44,7 +46,7 @@ public class Appointment extends AppCompatActivity{
     EditText editTxt_time;
     EditText edTxt_service;
     EditText edTxt_staff;
-    EditText edTxt_client;
+    EditText edTxt_location;
 
     //Database handler
     DBBookingsHandler dbBookingsHandler;
@@ -91,8 +93,12 @@ public class Appointment extends AppCompatActivity{
         date = dataIntent.getExtras().getString("date");
 
 
-
-
+        try {
+            location = dataIntent.getExtras().getString("location");
+//            Log.d("Location", location);
+        }catch (Exception e){
+            Toast.makeText(Appointment.this, "No Location is selected", Toast.LENGTH_LONG).show();
+        }
         //Create the database handler
         dbBookingsHandler = new DBBookingsHandler(Appointment.this);
 
@@ -107,8 +113,8 @@ public class Appointment extends AppCompatActivity{
         txtUserNameAppointment.setText(userName);
 
         //same filed for the client
-        edTxt_client = (EditText) findViewById(R.id.edTxt_client);
-        edTxt_client.setText(userName);
+        edTxt_location = (EditText) findViewById(R.id.editTxt_location);
+        edTxt_location.setText(location);
 
         //Add items to the spinner
         fiilSpinners();
@@ -274,8 +280,10 @@ public class Appointment extends AppCompatActivity{
         alertDialogShow.show();
     }
 
-
-
+    public void btnChangeLocationClicked(View view) {
+        Intent i = new Intent(Appointment.this, Map.class);
+        startActivity(i);
+    }
 //    @Override
 //    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //

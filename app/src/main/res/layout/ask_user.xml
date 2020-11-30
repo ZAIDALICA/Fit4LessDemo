@@ -13,6 +13,7 @@
         android:layout_marginTop="36dp"
         android:onClick="developerPage"
         android:text="Developer Mode"
+        android:background="@drawable/button_shape"
         android:textColor="@android:color/holo_orange_light"
         android:textColorHighlight="@color/black"
         app:backgroundTint="@color/black"
@@ -28,6 +29,7 @@
         android:layout_marginTop="16dp"
         android:onClick="registerMe"
         android:text="NOT YET"
+        android:background="@drawable/button_shape"
         android:textColor="@android:color/holo_orange_light"
         android:textColorHighlight="@color/black"
         app:backgroundTint="@color/black"
@@ -60,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="logMe"
+        android:background="@drawable/button_shape"
         android:text="Yes"
         android:textColor="@android:color/holo_orange_light"
         android:textColorHighlight="@color/black"
@@ -67,4 +70,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qstn_newMember" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="246dp"
+        android:layout_height="241dp"
+        app:layout_constraintBottom_toTopOf="@+id/qstn_newMember"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/f4l" />
 </androidx.constraintlayout.widget.ConstraintLayout>

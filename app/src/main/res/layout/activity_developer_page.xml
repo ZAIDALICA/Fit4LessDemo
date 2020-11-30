@@ -79,13 +79,15 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="64dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginRight="72dp"
         android:background="@drawable/button_shape"
         android:onClick="btnBookingClicked"
         android:text="Bookings"
-        android:textColor="#33EC67"
+        android:textColor="#CDDC39"
         android:textSize="14sp"
+        app:backgroundTint="#000000"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,10 +100,11 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
-        android:background="@drawable/button_shape"
         android:onClick="btnMyAppointmentsClicked"
         android:text="My-Bookings"
-        android:textColor="#33EC67"
+        android:textColor="#CDDC39"
+        android:background="@drawable/button_shape"
+        app:backgroundTint="#000000"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBooking" />
