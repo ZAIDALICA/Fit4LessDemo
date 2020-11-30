@@ -21,6 +21,12 @@
 
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
+
+    julia's debugging key AIzaSyCUA55j12adakz22X9f8UKhz9N4TKNFqpc
+
+    george's debugging key: AIzaSyAE6g5y66GHheJ16LeWl6RwbapbvURe6bI
+
+    release key: AIzaSyBJmOn4er3GXQWNrrrIlVdmAGGWQyLv_jQ
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAE6g5y66GHheJ16LeWl6RwbapbvURe6bI</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBJmOn4er3GXQWNrrrIlVdmAGGWQyLv_jQ</string>
 </resources>
