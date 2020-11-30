@@ -4,9 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/reservation"
-            android:icon="@drawable/ic_bookings"
+        <item android:id="@+id/home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home page" />
+        <item android:id="@+id/listReservation"
+            android:icon="@drawable/ic_list_bookings"
             android:title="My Bookings" />
+        <item android:id="@+id/makeReservation"
+            android:icon="@drawable/ic_bookings"
+            android:title="Create Reservation" />
         <item android:id="@+id/workout"
             android:icon="@drawable/ic_workout"
             android:title="Work Out Routine" />
