@@ -47,7 +47,9 @@
         <activity android:name=".Map" />
         <activity android:name=".dbTest" />
         <activity android:name=".WorkoutHelp" />
-        <activity android:name=".NewsPage" />
+        <activity
+            android:name=".NewsPage"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Register" />
         <activity android:name=".SignIn" />
         <activity android:name=".Support" />

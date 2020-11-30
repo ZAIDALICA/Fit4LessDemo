@@ -16,6 +16,14 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_alignParentRight="true" />
 
+    <TextView
+        android:id="@+id/disablePastDate"
+        android:layout_width="402dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textSize="40sp"
+        android:hint="Disable Past date" />
+
     <CalendarView
         android:id="@+id/cViewBookings"
         android:layout_width="match_parent"

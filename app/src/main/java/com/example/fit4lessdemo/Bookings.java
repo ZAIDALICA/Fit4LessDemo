@@ -32,6 +32,7 @@ public class Bookings extends AppCompatActivity {
     //String date = sdf.format(new Date());
     String date = "";
     TextView lblUserNameBookings;
+    TextView disablePastDate, disableFutureDate;
     CalendarView cViewBookings;
 
     //DB handler
@@ -55,9 +56,11 @@ public class Bookings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
 
+        disablePastDate = findViewById(R.id.disablePastDate);
 
 
         lblUserNameBookings = (TextView) findViewById(R.id.lblUserNameBookings);
+
 
         //Database to read day's select bookings
         dbBookingsHandler = new DBBookingsHandler(this);
