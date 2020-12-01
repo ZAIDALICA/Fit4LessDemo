@@ -56,6 +56,23 @@ public class Map extends AppCompatActivity {
     }
 
     private void confirmLocation(){
+        Intent appointmentIntent = getIntent();
+
+        String service = "";
+        String staff = "";
+        String date = "";
+        String time = "";
+        try {
+            service = appointmentIntent.getExtras().getString("service");
+            staff = appointmentIntent.getExtras().getString("staff");
+            date = appointmentIntent.getExtras().getString("date");
+            time = appointmentIntent.getExtras().getString("time");
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getMessage();
+        }
+
+
         if (getLoc().equals("")){
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(getApplicationContext(),"Please Select a Gym",Toast.LENGTH_LONG);
@@ -66,6 +83,13 @@ public class Map extends AppCompatActivity {
             //TODO Send the user to booking
             Intent i = new Intent(Map.this, Appointment.class);
             i.putExtra("location", getLoc());
+
+            if (!service.equals("")){
+                i.putExtra("service", service);
+                i.putExtra("staff", staff);
+                i.putExtra("date",  date);
+                i.putExtra("time", time);
+            }
             //Log.d("GGGGGeorge", loc);
             //For now we will say:
             //Toast.makeText(getApplicationContext(), "You have succesfully chosen: " + loc, Toast.LENGTH_LONG).show();

@@ -29,7 +29,7 @@ public class Appointment extends AppCompatActivity{
 
     String location;
     int id = 0;
-    String date = "";
+
     String userName = "";
     String userEmail = "";
     String service = "";
@@ -52,7 +52,9 @@ public class Appointment extends AppCompatActivity{
     //Database handler
     DBBookingsHandler dbBookingsHandler;
 
-
+    String staff = "";
+    String time = "";
+    String date = "";
 
 
     public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
@@ -65,15 +67,6 @@ public class Appointment extends AppCompatActivity{
 
     DBHelper dbCustomer = new DBHelper(Appointment.this);
 
-    public String getDateSet() {
-        return dateSet;
-    }
-
-    public void setDateSet(String dateSet) {
-        this.dateSet = dateSet;
-    }
-
-    private String dateSet= "Date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,30 +98,43 @@ public class Appointment extends AppCompatActivity{
         Intent dataIntent = getIntent();
         //get the extras variable put to it
 
-        date = dataIntent.getExtras().getString("date");
+        //getting the date from the date calender activity
+        date = dataIntent.getExtras().getString("dateCal");
 
-        setDateSet(date);
 
 
         try {
             location = dataIntent.getExtras().getString("location");
+
 //            Log.d("Location", location);
         }catch (Exception e){
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(Appointment.this, "No Location is selected", Toast.LENGTH_LONG);
             mToast.show();
-
         }
+
+        try {
+            service = dataIntent.getExtras().getString("service");
+            staff = dataIntent.getExtras().getString("staff");
+            date = dataIntent.getExtras().getString("date");
+            time = dataIntent.getExtras().getString("time");
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getMessage();
+        }
+
+
         //Create the database handler
         dbBookingsHandler = new DBBookingsHandler(Appointment.this);
 
-        //set the date
-        txtDateAppoint = (EditText) findViewById(R.id.txtDateAppointment);
+
+
 
         try {
             txtDateAppoint.setText(date);
+
         }catch (Exception e){
-            txtDateAppoint.setText(getDateSet());
+            txtDateAppoint.setText("Date");
         }
 
 
@@ -141,6 +147,17 @@ public class Appointment extends AppCompatActivity{
         //same filed for the client
         edTxt_location = (EditText) findViewById(R.id.editTxt_location);
         edTxt_location.setText(location);
+
+        txtDateAppoint = (EditText) findViewById(R.id.txtDateAppointment);
+        editTxt_time = (EditText) findViewById(R.id.editTxt_time);
+        edTxt_staff = (EditText) findViewById(R.id.edTxt_staff);
+
+        if (!time.equals("")){
+            txtDateAppoint.setText(date);
+            editTxt_time.setText(time);
+            edTxt_staff.setText(staff);
+        }
+
 
         //Add items to the spinner
         fiilSpinners();
@@ -166,7 +183,7 @@ public class Appointment extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 editTxt_time = (EditText) findViewById(R.id.editTxt_time);
-                editTxt_time.setText("");
+                editTxt_time.setText("");  //TODO may need to be removed
             }
         });
 
@@ -186,7 +203,7 @@ public class Appointment extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 edTxt_staff = (EditText) findViewById(R.id.edTxt_staff);
-                edTxt_staff.setText("");
+                edTxt_staff.setText("");  //TODO may need to be removed
             }
         });
 
@@ -314,6 +331,10 @@ public class Appointment extends AppCompatActivity{
 
     public void btnChangeLocationClicked(View view) {
         Intent i = new Intent(Appointment.this, Map.class);
+        i.putExtra("service", edTxt_service.getText().toString());
+        i.putExtra("staff", edTxt_staff.getText().toString());
+        i.putExtra("date",  txtDateAppoint.getText().toString());
+        i.putExtra("time", editTxt_time.getText().toString());
         startActivity(i);
     }
 //    @Override

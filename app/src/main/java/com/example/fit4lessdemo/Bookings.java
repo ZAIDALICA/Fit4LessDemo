@@ -167,7 +167,7 @@ public class Bookings extends AppCompatActivity {
             case R.id.action_add_appointment: {
                 //call the appointment activity
                 Intent appointmentIntent = new Intent(this, Appointment.class);
-                appointmentIntent.putExtra("date", date); //sending the date to the oppointment activity
+                appointmentIntent.putExtra("dateCal", date); //sending the date to the oppointment activity
                 startActivity(appointmentIntent);
 
                 return true;
@@ -235,7 +235,9 @@ public class Bookings extends AppCompatActivity {
         //go to the login page again
         Intent i = new Intent(Bookings.this, SignIn.class);
         String byUsername = MainActivity.getSavedName();
-        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        if (mToast != null) mToast.cancel();
+        mToast = Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT);
+        mToast.show();
         //clearing the user preferences
         SaveUserLoginPreferences.clearUserLoginSharedPreferences(Bookings.this);
         startActivity(i);
