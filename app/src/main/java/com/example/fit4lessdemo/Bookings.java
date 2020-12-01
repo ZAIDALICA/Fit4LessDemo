@@ -161,7 +161,7 @@ public class Bookings extends AppCompatActivity {
 
         //manage action bar icons
         switch (id) {
-            case R.id.action_settings: {
+            case R.id.action_settings: { //TODO the notification system
                 return true;
             }
             case R.id.action_add_appointment: {

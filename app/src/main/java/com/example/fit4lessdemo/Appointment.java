@@ -55,6 +55,7 @@ public class Appointment extends AppCompatActivity{
     String staff = "";
     String time = "";
     String date = "";
+    String dateMap = "";
 
 
     public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
@@ -113,15 +114,16 @@ public class Appointment extends AppCompatActivity{
             mToast.show();
         }
 
-        try {
-            service = dataIntent.getExtras().getString("service");
-            staff = dataIntent.getExtras().getString("staff");
-            date = dataIntent.getExtras().getString("date");
-            time = dataIntent.getExtras().getString("time");
-        }catch (Exception e){
-            e.printStackTrace();
-            e.getMessage();
-        }
+//        try {
+//            service = dataIntent.getExtras().getString("service");
+//            staff = dataIntent.getExtras().getString("staff");
+//            dateMap = dataIntent.getExtras().getString("date");
+//            time = dataIntent.getExtras().getString("time");
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            e.getMessage();
+//        }
+        //Log.d("Extrasaaaaaas22222222", dateMap);
 
 
         //Create the database handler
@@ -129,8 +131,23 @@ public class Appointment extends AppCompatActivity{
 
 
 
+        txtDateAppoint = (EditText) findViewById(R.id.txtDateAppointment);
+//        editTxt_time = (EditText) findViewById(R.id.editTxt_time);
+//        edTxt_staff = (EditText) findViewById(R.id.edTxt_staff);
+//
+//
+//        txtDateAppoint.setText(date);
+//        editTxt_time.setText(time);
+//        edTxt_staff.setText(staff);
+
 
         try {
+//            if (!dateMap.equals("")){
+//                txtDateAppoint.setText(dateMap);
+//            }
+//            else{
+//                txtDateAppoint.setText(date);
+//            }
             txtDateAppoint.setText(date);
 
         }catch (Exception e){
@@ -148,15 +165,9 @@ public class Appointment extends AppCompatActivity{
         edTxt_location = (EditText) findViewById(R.id.editTxt_location);
         edTxt_location.setText(location);
 
-        txtDateAppoint = (EditText) findViewById(R.id.txtDateAppointment);
-        editTxt_time = (EditText) findViewById(R.id.editTxt_time);
-        edTxt_staff = (EditText) findViewById(R.id.edTxt_staff);
 
-        if (!time.equals("")){
-            txtDateAppoint.setText(date);
-            editTxt_time.setText(time);
-            edTxt_staff.setText(staff);
-        }
+
+
 
 
         //Add items to the spinner
@@ -222,7 +233,7 @@ public class Appointment extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 edTxt_service = (EditText) findViewById(R.id.edTxt_service);
-                edTxt_service.setText("");
+                edTxt_service.setText(""); //TODO
             }
         });
     }
@@ -254,7 +265,7 @@ public class Appointment extends AppCompatActivity{
 
 
     //******************* method submit appointment *****************
-    public void btnSubmitAppointmentClicked(View view) {
+    public void btnSubmitAppointmentClicked(View view) { //Todo prevent submitting if one of the fields is missing
         try {
             //Declare an object of the DB class
             DBBookings appointment = new DBBookings(id,

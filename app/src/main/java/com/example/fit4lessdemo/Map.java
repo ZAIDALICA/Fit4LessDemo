@@ -71,8 +71,7 @@ public class Map extends AppCompatActivity {
             e.printStackTrace();
             e.getMessage();
         }
-
-
+        //Log.d("Extrasaaaaaas", service + " "+ staff);
         if (getLoc().equals("")){
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(getApplicationContext(),"Please Select a Gym",Toast.LENGTH_LONG);
@@ -84,6 +83,7 @@ public class Map extends AppCompatActivity {
             Intent i = new Intent(Map.this, Appointment.class);
             i.putExtra("location", getLoc());
 
+            //Log.d("Extrasaaaaaas22222222", service + " "+ staff);
             if (!service.equals("")){
                 i.putExtra("service", service);
                 i.putExtra("staff", staff);
