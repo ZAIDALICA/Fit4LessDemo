@@ -44,7 +44,6 @@
         android:id="@+id/btn_cancelBooking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:onClick="cancelBooking"
         android:text="Cancel Booking"
         android:textColor="#CDDC39"

@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 //import android.support.v4.app.FragmentActivity;
 //Todo Test
 public class Appointment extends AppCompatActivity{
+    private Toast mToast = null;
 
     //Globals
     Context context = this;
@@ -53,6 +54,7 @@ public class Appointment extends AppCompatActivity{
 
 
 
+
     public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
     public static final String COLUMN_CUSTOMER_NAME = "CUSTOMER_NAME";
     public static final String COLUMN_CUSTOMER_AGE = "CUSTOMER_AGE";
@@ -63,6 +65,15 @@ public class Appointment extends AppCompatActivity{
 
     DBHelper dbCustomer = new DBHelper(Appointment.this);
 
+    public String getDateSet() {
+        return dateSet;
+    }
+
+    public void setDateSet(String dateSet) {
+        this.dateSet = dateSet;
+    }
+
+    private String dateSet= "Date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +86,10 @@ public class Appointment extends AppCompatActivity{
         //******************** check if the user is logged on **************
         if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",Appointment.this).length() == 0) {
             //send to main activity to log in
-            Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT);
+            mToast.show();
+
             Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(mainIntent);
         } else {
@@ -90,21 +104,33 @@ public class Appointment extends AppCompatActivity{
         //get the date chosen from the intent
         Intent dataIntent = getIntent();
         //get the extras variable put to it
+
         date = dataIntent.getExtras().getString("date");
+
+        setDateSet(date);
 
 
         try {
             location = dataIntent.getExtras().getString("location");
 //            Log.d("Location", location);
         }catch (Exception e){
-            Toast.makeText(Appointment.this, "No Location is selected", Toast.LENGTH_LONG).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(Appointment.this, "No Location is selected", Toast.LENGTH_LONG);
+            mToast.show();
+
         }
         //Create the database handler
         dbBookingsHandler = new DBBookingsHandler(Appointment.this);
 
         //set the date
         txtDateAppoint = (EditText) findViewById(R.id.txtDateAppointment);
-        txtDateAppoint.setText(date);
+
+        try {
+            txtDateAppoint.setText(date);
+        }catch (Exception e){
+            txtDateAppoint.setText(getDateSet());
+        }
+
 
 
         //set the username
@@ -226,13 +252,19 @@ public class Appointment extends AppCompatActivity{
             dbBookingsHandler.addAppointment(appointment);
 
             //display confirmation message
-            Toast.makeText(Appointment.this, "Appointment Added", Toast.LENGTH_LONG).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(Appointment.this, "Appointment Added", Toast.LENGTH_LONG);
+            mToast.show();
+
 
             //send the user to the main screen
             Intent bookings = new Intent(this, Bookings.class);
             startActivity(bookings);
         } catch (Exception e) {
-            Toast.makeText(Appointment.this, "Could not add appointment", Toast.LENGTH_LONG).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(Appointment.this, "Could not add appointment", Toast.LENGTH_LONG);
+            mToast.show();
+
             e.printStackTrace();
             e.getMessage();
         }

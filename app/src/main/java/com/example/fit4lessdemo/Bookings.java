@@ -31,7 +31,10 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 
+
+
 public class Bookings extends AppCompatActivity {
+    private Toast mToast = null;
     //globals
     String userName = "";
     //SimpleDateFormat sdf = new SimpleDateFormat("cc/MM//yy");
@@ -80,7 +83,7 @@ public class Bookings extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.navigation_home:
-                        Log.d("Cliiiiicked", "home");
+                        //Log.d("Cliiiiicked", "home");
                         startActivity(new Intent(Bookings.this, NewsPage.class));
                         return true;
                     case R.id.navigation_logout:
@@ -94,7 +97,10 @@ public class Bookings extends AppCompatActivity {
         //******************** check if the user is logged on **************
         if (SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL", this).length() == 0) {
             //send to main activity to log in
-            Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(getApplicationContext(), "Please Log In", Toast.LENGTH_SHORT);
+            mToast.show();
+
             Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(mainIntent);
         } else {
@@ -129,8 +135,9 @@ public class Bookings extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
                 date = String.valueOf(month + 1)  + "/" + String.valueOf(day) + "/" + String.valueOf(year);
-                Toast.makeText(getApplicationContext(), (month + 1)  + "/" +  day + "/" + year, Toast.LENGTH_SHORT).show();
-
+                if (mToast != null) mToast.cancel();
+                mToast = Toast.makeText(getApplicationContext(), (month + 1)  + "/" +  day + "/" + year, Toast.LENGTH_SHORT);
+                mToast.show();
                 //Call that method to poppulate the List view with bookings on htat day
                 fillListView();
 
@@ -168,7 +175,9 @@ public class Bookings extends AppCompatActivity {
             case R.id.action_refresh_bookings: {
                 //refresh the bookings
                 fillListView();
-                Toast.makeText(this, "Bookings updated", Toast.LENGTH_LONG).show();
+                if (mToast != null) mToast.cancel();
+                mToast = Toast.makeText(this, "Bookings updated", Toast.LENGTH_LONG);
+                mToast.show();;
                 return true;
             }
             default: {
@@ -187,7 +196,7 @@ public class Bookings extends AppCompatActivity {
         //Query the database for the day selected
         todayBookings = dbBookingsHandler.getBookingsFromDB(date);
 
-        Log.d("todayBookings", Arrays.toString(todayBookings));
+       // Log.d("todayBookings", Arrays.toString(todayBookings));
         //create an array of strings of the size of how many row have returned
         String tBookings[] = new String[todayBookings.length];
 
@@ -214,7 +223,10 @@ public class Bookings extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String booking = String.valueOf(parent.getItemAtPosition(position));
-                Toast.makeText(Bookings.this, booking, Toast.LENGTH_SHORT).show();
+                if (mToast != null) mToast.cancel();
+                mToast = Toast.makeText(Bookings.this, booking, Toast.LENGTH_SHORT);
+                mToast.show();
+
             }
         });//ends on click on list view
     }

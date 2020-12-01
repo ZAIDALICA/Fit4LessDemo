@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsFragment extends Fragment {
+    private Toast mToast = null;
     public static String location = "";
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -59,7 +60,10 @@ public class MapsFragment extends Fragment {
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    Toast.makeText(getContext(), "You have selected: " + marker.getTitle(),Toast.LENGTH_LONG).show();
+                    if (mToast != null) mToast.cancel();
+                    mToast = Toast.makeText(getContext(), "You have selected: " + marker.getTitle(),Toast.LENGTH_LONG);
+                    mToast.show();
+
                     location = marker.getTitle();
                     return false;
                 }

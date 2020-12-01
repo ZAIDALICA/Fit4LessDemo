@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class Map extends AppCompatActivity {
+    private Toast mToast = null;
     public String getLoc() {
         return loc;
     }
@@ -56,7 +57,10 @@ public class Map extends AppCompatActivity {
 
     private void confirmLocation(){
         if (getLoc().equals("")){
-            Toast.makeText(getApplicationContext(),"Please Select a Gym",Toast.LENGTH_LONG).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(getApplicationContext(),"Please Select a Gym",Toast.LENGTH_LONG);
+            mToast.show();
+
         }else {
             //TODO Store loc in the database here
             //TODO Send the user to booking
@@ -72,7 +76,10 @@ public class Map extends AppCompatActivity {
         //go to the login page again
         Intent i = new Intent(Map.this, SignIn.class);
         String byUsername = MainActivity.getSavedName();
-        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        if (mToast != null) mToast.cancel();
+        mToast = Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT);
+        mToast.show();
+
         //clearing the user preferences
         SaveUserLoginPreferences.clearUserLoginSharedPreferences(Map.this);
         startActivity(i);

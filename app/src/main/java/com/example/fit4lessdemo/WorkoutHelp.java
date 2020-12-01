@@ -19,6 +19,7 @@ import java.util.Random;
 
 
 public class WorkoutHelp extends AppCompatActivity {
+    private Toast mToast = null;
 
     private static String workout = "";
     private static final String[] exercises = {"abs", "quads","triceps","biceps","chest","back","glutes"};
@@ -101,7 +102,6 @@ public class WorkoutHelp extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.navigation_home:
-                        Log.d("Cliiiiicked", "home");
                         startActivity(new Intent(WorkoutHelp.this, NewsPage.class));
                         return true;
                     case R.id.navigation_logout:
@@ -123,7 +123,10 @@ public class WorkoutHelp extends AppCompatActivity {
         //go to the login page again
         Intent i = new Intent(WorkoutHelp.this, SignIn.class);
         String byUsername = MainActivity.getSavedName();
-        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        if (mToast != null) mToast.cancel();
+        mToast = Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT);
+        mToast.show();
+
         //clearing the user preferences
         SaveUserLoginPreferences.clearUserLoginSharedPreferences(WorkoutHelp.this);
         startActivity(i);

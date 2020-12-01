@@ -24,6 +24,7 @@ import java.util.List;
 
 
 public class MyBookings extends AppCompatActivity {
+    private Toast mToast = null;
 
 
     //DB handler
@@ -139,7 +140,10 @@ public class MyBookings extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 oneBooking = (DBBookings)parent.getItemAtPosition(position); //we have to cast to a customer model
-                Toast.makeText(MyBookings.this, "Selected: "+oneBooking.toString(), Toast.LENGTH_LONG).show();
+                if (mToast != null) mToast.cancel();
+                mToast =  Toast.makeText(MyBookings.this, "Selected: "+oneBooking.toString(), Toast.LENGTH_LONG);
+                mToast.show();
+
                 //dbBookingsHandler.deleteOne( oneBooking);
                 showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
                 //Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
@@ -182,9 +186,15 @@ public class MyBookings extends AppCompatActivity {
         try {
             dbBookingsHandler.deleteOne(oneBooking);
             showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
-            Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT);
+            mToast.show();
+
         }catch (Exception e){
-            Toast.makeText(MyBookings.this, "Select a Booking", Toast.LENGTH_LONG).show();
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(MyBookings.this, "Select a Booking", Toast.LENGTH_LONG);
+            mToast.show();
+
         }
 
     }
@@ -192,7 +202,10 @@ public class MyBookings extends AppCompatActivity {
         //go to the login page again
         Intent i = new Intent(MyBookings.this, SignIn.class);
         String byUsername = MainActivity.getSavedName();
-        Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT).show();
+        if (mToast != null) mToast.cancel();
+        mToast = Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT);
+        mToast.show();
+
         //clearing the user preferences
         SaveUserLoginPreferences.clearUserLoginSharedPreferences(MyBookings.this);
         startActivity(i);
