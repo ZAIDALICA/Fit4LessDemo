@@ -33,7 +33,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
-            android:id="@+id/editTxt_location"
+            android:id="@+id/edTxt_location"
             android:layout_width="239dp"
             android:layout_height="44dp"
             android:enabled="false"

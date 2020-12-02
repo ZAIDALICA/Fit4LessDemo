@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -117,13 +118,13 @@ public class Appointment extends AppCompatActivity{
             date = dateMap;
 //            service = serviceMap;
 //            staff = staffMap;
-            time = timeMap;
+  //          time = timeMap;
         }
 
         try {
             location = dataIntent.getExtras().getString("location");
 
-//            Log.d("Location", location);
+            Log.d("Location", location);
         }catch (Exception e){
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(Appointment.this, "No Location is selected", Toast.LENGTH_LONG);
@@ -297,11 +298,6 @@ public class Appointment extends AppCompatActivity{
             mToast = Toast.makeText(Appointment.this, "Please Select Date", Toast.LENGTH_LONG);
             mToast.show();
         }
-        else if (time == null || time.equals("")){
-            if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(Appointment.this, "Please Select Time", Toast.LENGTH_LONG);
-            mToast.show();
-        }
         else if (!dbBookingsHandler.dbAvailableDay(date,location)) {
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(Appointment.this, "This location is full for "+date, Toast.LENGTH_LONG);
@@ -317,7 +313,7 @@ public class Appointment extends AppCompatActivity{
                         spnStaff.getSelectedItem().toString(),
                         txtDateAppoint.getText().toString(),
                         spnTime.getSelectedItem().toString(),
-                        location);
+                        edTxt_location.getText().toString());
 
                 //Add the user
                 dbBookingsHandler.addAppointment(appointment);
@@ -387,10 +383,10 @@ public class Appointment extends AppCompatActivity{
 
     public void btnChangeLocationClicked(View view) {
         Intent i = new Intent(Appointment.this, Map.class);
-        i.putExtra("service", edTxt_service.getText().toString());
-        i.putExtra("staff", edTxt_staff.getText().toString());
+       // i.putExtra("service", edTxt_service.getText().toString());
+        //i.putExtra("staff", edTxt_staff.getText().toString());
         i.putExtra("date",  txtDateAppoint.getText().toString());
-        i.putExtra("time", editTxt_time.getText().toString());
+        //i.putExtra("time", editTxt_time.getText().toString());
         startActivity(i);
     }
 //    @Override

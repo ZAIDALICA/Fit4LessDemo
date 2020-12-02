@@ -40,6 +40,7 @@ public class Bookings extends AppCompatActivity {
     //SimpleDateFormat sdf = new SimpleDateFormat("cc/MM//yy");
     //String date = sdf.format(new Date());
     String date = "";
+
     TextView lblUserNameBookings;
     TextView disablePastDate, disableFutureDate;
     CalendarView cViewBookings;
@@ -112,12 +113,12 @@ public class Bookings extends AppCompatActivity {
             lblUserNameBookings.setText(userName);
         }
 
-        //Get today's date
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
         date = String.valueOf(month + 1) + "/" + String.valueOf(day)  + "/" + String.valueOf(year);
+
 
         //Call the method to poppulate the List view with bookings on that day
         fillListView();
@@ -194,7 +195,7 @@ public class Bookings extends AppCompatActivity {
         String todayBookings[];
 
         //Query the database for the day selected
-        todayBookings = dbBookingsHandler.getBookingsFromDB(date,userEmail);
+        todayBookings = dbBookingsHandler.getBookingsFromDB(date,userEmail,false);
 
        // Log.d("todayBookings", Arrays.toString(todayBookings));
         //create an array of strings of the size of how many row have returned
@@ -242,5 +243,6 @@ public class Bookings extends AppCompatActivity {
         SaveUserLoginPreferences.clearUserLoginSharedPreferences(Bookings.this);
         startActivity(i);
     }
+
 
 }

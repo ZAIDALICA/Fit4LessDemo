@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
 
 
 public class Map extends AppCompatActivity {
@@ -26,6 +27,8 @@ public class Map extends AppCompatActivity {
     }
 
     private String loc;
+
+    DBBookingsHandler dbBookingsHandler;
     BottomNavigationView bNav; //todo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +61,15 @@ public class Map extends AppCompatActivity {
     private void confirmLocation(){
         Intent appointmentIntent = getIntent();
 
-        String service = "";
-        String staff = "";
+        //String service = "";
+        //String staff = "";
         String date = "";
-        String time = "";
+        //String time = "";
         try {
-            service = appointmentIntent.getExtras().getString("service");
-            staff = appointmentIntent.getExtras().getString("staff");
+            //service = appointmentIntent.getExtras().getString("service");
+            //staff = appointmentIntent.getExtras().getString("staff");
             date = appointmentIntent.getExtras().getString("date");
-            time = appointmentIntent.getExtras().getString("time");
+            //time = appointmentIntent.getExtras().getString("time");
         }catch (Exception e){
             e.printStackTrace();
             e.getMessage();
@@ -84,15 +87,28 @@ public class Map extends AppCompatActivity {
             i.putExtra("location", getLoc());
 
             //Log.d("Extrasaaaaaas22222222", service + " "+ staff);
-            if (service != null && !service.equals("")){
-                i.putExtra("serviceM", service);
-                i.putExtra("staffM", staff);
+            if (date != null && !date.equals("")){
+                //i.putExtra("serviceM", service);
+               // i.putExtra("staffM", staff);
                 i.putExtra("dateM",  date);
-                i.putExtra("timeM", time);
+                //i.putExtra("timeM", time);
             }
             //Log.d("GGGGGeorge", loc);
             //For now we will say:
             //Toast.makeText(getApplicationContext(), "You have succesfully chosen: " + loc, Toast.LENGTH_LONG).show();
+            dbBookingsHandler = new DBBookingsHandler(Map.this);
+            Calendar x = Calendar.getInstance();
+            int day = x.get(Calendar.DAY_OF_MONTH);
+            int month = x.get(Calendar.MONTH);
+            int year = x.get(Calendar.YEAR);
+            String date1 = String.valueOf(month + 1) + "/" + String.valueOf(day)  + "/" + String.valueOf(year);
+            Log.d("date", date1 + " location"+getLoc());
+            String reservationToday = dbBookingsHandler.dbCount(getLoc(),date1,false);
+
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(getApplicationContext(), "You have selected: " + getLoc()+ "  | Availability today "+reservationToday+"/10" ,Toast.LENGTH_LONG);
+            mToast.show();
+
             startActivity(i);
         }
     }

@@ -68,7 +68,7 @@ public class MyBookings extends AppCompatActivity {
         dbBookingsHandler = new DBBookingsHandler(MyBookings.this);
         userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MyBookings.this);
 
-        showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
+        showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail,false));
 
         bNav = findViewById(R.id.nav_view);
         bNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -147,7 +147,7 @@ public class MyBookings extends AppCompatActivity {
                 mToast.show();
 
                 //dbBookingsHandler.deleteOne( oneBooking);
-                showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
+                showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail,false));
                 //Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
             }
         });
@@ -187,7 +187,7 @@ public class MyBookings extends AppCompatActivity {
     public void cancelBooking(View v){
         try {
             dbBookingsHandler.deleteOne(oneBooking);
-            showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
+            showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail,false));
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT);
             mToast.show();

@@ -34,7 +34,7 @@ public class DBBookings {
         this._staff = _staff;
         this._date = _date;
         this._timeIn = _timeIn;
-        this._timeIn = _location;
+        this._location = _location;
     }
 
 

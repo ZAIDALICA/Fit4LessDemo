@@ -42,23 +42,6 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-//        String query = "CREATE TABLE " + TABLE_BOOKINGS + "(" +
-//                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                COLUMN_USERNAME + " TEXT," +
-//                COLUMN_EMAIL + " TEXT," +
-//                COLUMN_SERVICE + " TEXT," +
-//                COLUMN_DATE + " TEXT," +
-//                COLUMN_TIMEIN + " TEXT," +
-//                COLUMN_TIMEOUT + " TEXT" +
-//                ");";
-//        //execute the query
-//        try{
-//            db.execSQL(query);
-//        }catch(SQLiteException e){
-//            e.printStackTrace();
-//        }
-
-
         db.execSQL("CREATE TABLE " + TABLE_BOOKINGS+ " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_USERNAME + " TEXT," +
@@ -67,7 +50,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                         COLUMN_SERVICE + " TEXT," +
                         COLUMN_DATE + " TEXT," +
                         COLUMN_TIMEIN + " TEXT," +
-                        COLUMN_LOCATION + " TEXT" +
+                        COLUMN_LOCATION + " TEXT " +
                  ");");
     }
 
@@ -157,10 +140,15 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     }
 
 
-    public String[] getBookingsFromDB(String date, String email){
-
+    public String[] getBookingsFromDB(String date, String email, boolean dbGetAll){
+        String query;
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " AND " + COLUMN_EMAIL+ " =\"" + email+ "\"";
+        if (dbGetAll){
+            query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
+        }else {
+            query= "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " AND " + COLUMN_EMAIL+ " =\"" + email+ "\"" + " ORDER BY " + COLUMN_DATE + " DESC";
+        }
+
 
         //cursor point to a location in your results Eg, first or last result
         //try {
@@ -279,9 +267,14 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
 
 
 
-    public String dbAllBookingCount(){
+    public String dbCount(String location,String date, boolean dbGetAllBookings){
         List<CustomerModel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + TABLE_BOOKINGS;
+        String queryString;
+        if (dbGetAllBookings) {
+            queryString = "SELECT * FROM " + TABLE_BOOKINGS;
+        }else {
+            queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_LOCATION + "=\"" + location + "=\"" + " AND "+ COLUMN_DATE + "=\"" + date + "=\"";
+        }
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(queryString, null);
@@ -293,58 +286,15 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     }
 
 
-    public List<DBBookings>  getEveryoneAllBookings() {
+    public List<DBBookings> getEveryone(String Field,String Item, boolean dbGetAll) {
         List<DBBookings> returnList = new ArrayList<>();
         //get data from the database
-        String queryString = "SELECT * FROM " + TABLE_BOOKINGS; //this is a standard sql query string
-
-        SQLiteDatabase db = this.getReadableDatabase(); //we need to read from the database
-        //getReadable would work here as well but it will lock the database so other processes may not access it
-
-        //we can either choose db.execSql or db.rawQuery we will choose raw here
-        //notice the raw query returns a cursor object
-        //cursor is the result set //it is a complex arrays of data
-        Cursor cursor = db.rawQuery(queryString, null);
-
-
-        //we will check if the cursor is not empty so we go the the first item in it
-
-        if (cursor.moveToFirst()) {
-            do {
-                // loop through the cursor (result set) and create new customer objects. put them into the return list
-                //we will get the data from the cursor
-                //we know that the first column is the id so we will use the index 0 of the cursor
-                int customerId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));  //column can be also called like that
-                String Client = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
-                String Email = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
-                String Service = cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
-                String Staff = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
-                String Date = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
-                String TimeIn = cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
-                String Location = cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION));
-                //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
-                //so we take that int and convert to boolean
-
-                //now making the customer from the data that we got from the cursor
-                DBBookings dbBookings = new DBBookings(customerId, Client, Email, Service, Staff, Date, TimeIn, Location);
-
-                //now adding the customer to the list
-                returnList.add(dbBookings);
-            } while (cursor.moveToNext());
+        String queryString;
+        if (dbGetAll) {
+            queryString = "SELECT * FROM " + TABLE_BOOKINGS;
+        } else {
+            queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + Field + " =\"" + Item + "\""; //this is a standard sql query string
         }
-        cursor.close(); //we have to close the cursor just like we close a file after reading or writing
-        db.close(); //also the db
-
-        return returnList;
-    }
-
-
-
-
-    public List<DBBookings> getEveryone(String Field,String Item) {
-        List<DBBookings> returnList = new ArrayList<>();
-        //get data from the database
-        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + Field + " =\"" + Item+ "\""; //this is a standard sql query string
 
         SQLiteDatabase db = this.getReadableDatabase(); //we need to read from the database
         //getReadable would work here as well but it will lock the database so other processes may not access it

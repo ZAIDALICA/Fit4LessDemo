@@ -65,7 +65,7 @@ public class DBAllBookings extends AppCompatActivity {
         dbBookingsHandler = new DBBookingsHandler(DBAllBookings.this);
         //userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",DBAllBookings.this);
 
-        showCustomersOnListView(dbBookingsHandler.getEveryoneAllBookings());
+        showCustomersOnListView(dbBookingsHandler.getEveryone("","",true));
 
         bNav = findViewById(R.id.nav_view);
         bNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -84,7 +84,7 @@ public class DBAllBookings extends AppCompatActivity {
 
         //setting up the count for all bookings
         bookingCount1 = (EditText) findViewById(R.id.bookingCount);
-        String countALLBookings = dbBookingsHandler.dbAllBookingCount();
+        String countALLBookings = dbBookingsHandler.dbCount("","",true);
         Log.d("COUNTBOOKINGS", countALLBookings);
         try {
             bookingCount1.setText(countALLBookings);
@@ -154,7 +154,7 @@ public class DBAllBookings extends AppCompatActivity {
                 mToast.show();
 
                 //dbBookingsHandler.deleteOne( oneBooking);
-                showCustomersOnListView(dbBookingsHandler.getEveryoneAllBookings()); //todo
+                showCustomersOnListView(dbBookingsHandler.getEveryone("","",true)); //todo
                 //Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
             }
         });
@@ -194,7 +194,17 @@ public class DBAllBookings extends AppCompatActivity {
     public void cancelBooking(View v){
         try {
             dbBookingsHandler.deleteOne(oneBooking);
-            showCustomersOnListView(dbBookingsHandler.getEveryoneAllBookings()); //todo
+            showCustomersOnListView(dbBookingsHandler.getEveryone("","",true)); //todo
+
+            //setting up the count for all bookings
+            bookingCount1 = (EditText) findViewById(R.id.bookingCount);
+            String countALLBookings = dbBookingsHandler.dbCount("","",true);
+            Log.d("COUNTBOOKINGS", countALLBookings);
+            try {
+                bookingCount1.setText(countALLBookings);
+            }catch(Exception e){
+                bookingCount1.setText("0");
+            }
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(DBAllBookings.this, "Deleted", Toast.LENGTH_SHORT);
             mToast.show();
