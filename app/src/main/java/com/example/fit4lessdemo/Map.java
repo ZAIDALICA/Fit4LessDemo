@@ -84,11 +84,11 @@ public class Map extends AppCompatActivity {
             i.putExtra("location", getLoc());
 
             //Log.d("Extrasaaaaaas22222222", service + " "+ staff);
-            if (!service.equals("")){
-                i.putExtra("service", service);
-                i.putExtra("staff", staff);
-                i.putExtra("date",  date);
-                i.putExtra("time", time);
+            if (service != null && !service.equals("")){
+                i.putExtra("serviceM", service);
+                i.putExtra("staffM", staff);
+                i.putExtra("dateM",  date);
+                i.putExtra("timeM", time);
             }
             //Log.d("GGGGGeorge", loc);
             //For now we will say:

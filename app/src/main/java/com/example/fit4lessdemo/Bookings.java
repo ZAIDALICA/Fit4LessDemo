@@ -194,7 +194,7 @@ public class Bookings extends AppCompatActivity {
         String todayBookings[];
 
         //Query the database for the day selected
-        todayBookings = dbBookingsHandler.getBookingsFromDB(date);
+        todayBookings = dbBookingsHandler.getBookingsFromDB(date,userEmail);
 
        // Log.d("todayBookings", Arrays.toString(todayBookings));
         //create an array of strings of the size of how many row have returned

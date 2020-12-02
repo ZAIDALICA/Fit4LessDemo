@@ -13,6 +13,10 @@ public class DBBookings {
     private String _staff;
     private String _date;
     private String _timeIn;
+
+
+
+    private String _location;
  //   private String _timeOut;
 //    private int _price;
 
@@ -22,7 +26,7 @@ public class DBBookings {
 
 
 
-    public DBBookings(int _id,String _userName, String _email, String _service, String _staff , String _date, String _timeIn) {
+    public DBBookings(int _id,String _userName, String _email, String _service, String _staff , String _date, String _timeIn, String _location) {
         this._id = _id;
         this._userName = _userName;
         this._email = _email;
@@ -30,6 +34,7 @@ public class DBBookings {
         this._staff = _staff;
         this._date = _date;
         this._timeIn = _timeIn;
+        this._timeIn = _location;
     }
 
 
@@ -44,6 +49,7 @@ public class DBBookings {
                 ", staff=" + _staff +
                 ", date= " + _date +
                 ", timeIn= " + _timeIn +
+                ", location= " + _location +
                 '}';
     }
 
@@ -107,6 +113,14 @@ public class DBBookings {
 
     public void set_timeIn(String _timeIn) {
         this._timeIn = _timeIn;
+    }
+
+    public String get_location() {
+        return _location;
+    }
+
+    public void set_location(String _location) {
+        this._location = _location;
     }
 
 //    public String get_timeOut() {
