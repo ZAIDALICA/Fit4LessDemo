@@ -28,6 +28,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     public static final String COLUMN_SERVICE = "service";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TIMEIN = "timeIn";
+    public static final String COLUMN_LOCATION = "location";
     //public static final String COLUMN_TIMEOUT = "timeOut";
     //public static final String COLUMN_PRICE = "price";
 
@@ -65,7 +66,8 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                         COLUMN_STAFF + " TEXT," +
                         COLUMN_SERVICE + " TEXT," +
                         COLUMN_DATE + " TEXT," +
-                        COLUMN_TIMEIN + " TEXT" +
+                        COLUMN_TIMEIN + " TEXT," +
+                        COLUMN_LOCATION + " TEXT" +
                  ");");
     }
 
@@ -88,6 +90,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         values.put(COLUMN_SERVICE, bookings.get_service());
         values.put(COLUMN_DATE, bookings.get_date());
         values.put(COLUMN_TIMEIN, bookings.get_timeIn());
+        values.put(COLUMN_LOCATION, bookings.get_timeIn()); //TODO
 
         //add the rest here
 
@@ -134,6 +137,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 dbString[i] += " Staff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
+                dbString[i] += " Location: " + cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION));
                 //bString += "\n";
                 i++;
             }while (cursor.moveToNext());
@@ -153,10 +157,10 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     }
 
 
-    public String[] getBookingsFromDB(String date){
+    public String[] getBookingsFromDB(String date, String email){
 
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"";
+        String query = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " AND " + COLUMN_EMAIL+ " =\"" + email+ "\"";
 
         //cursor point to a location in your results Eg, first or last result
         //try {
@@ -182,6 +186,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 dbString[i] += " Staff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
+                dbString[i] += " Location: " + cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION));
                 //bString += "\n";
                 i++;
             }while(cursor.moveToNext());
@@ -235,14 +240,14 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     }
 
 
-    //if the date contains more than 40 client then the day is not available
-    public boolean dbAvailableDay(String date){
+    //if the date contains more than 10 client then the day is not available
+    public boolean dbAvailableDay(String date ,String location){
         List<CustomerModel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date+ "\"";
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date+ "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\"" ;
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(queryString, null);
-            if (cursor.getCount() > 40 ) {
+            if (cursor.getCount() > 10 ) { //if the db has more than 10 bookings for this day then you can not book a reservation
                 cursor.close();
                 db.close();
                 return false;
@@ -251,6 +256,86 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
             return false;
         }
         return true;
+
+    }    //if the date contains more than 5 client then the day is not available
+
+
+    public boolean dbAvailableTime(String time, String date, String location){ //searching for the number of bookings in one hour of one day in a certain location
+        List<CustomerModel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_TIMEIN+ " =\"" + time+ "\"" + " AND " + COLUMN_DATE + " =\"" + date+ "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\""  ;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.getCount() > 5 ) {
+                cursor.close();
+                db.close();
+                return false;
+            }
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+
+
+    public String dbAllBookingCount(){
+        List<CustomerModel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
+            Log.d("CCCCCCCOUBT", String.valueOf(cursor.getCount()));
+            return String.valueOf(cursor.getCount());
+        } catch (Exception e){
+            return "0";
+        }
+    }
+
+
+    public List<DBBookings>  getEveryoneAllBookings() {
+        List<DBBookings> returnList = new ArrayList<>();
+        //get data from the database
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS; //this is a standard sql query string
+
+        SQLiteDatabase db = this.getReadableDatabase(); //we need to read from the database
+        //getReadable would work here as well but it will lock the database so other processes may not access it
+
+        //we can either choose db.execSql or db.rawQuery we will choose raw here
+        //notice the raw query returns a cursor object
+        //cursor is the result set //it is a complex arrays of data
+        Cursor cursor = db.rawQuery(queryString, null);
+
+
+        //we will check if the cursor is not empty so we go the the first item in it
+
+        if (cursor.moveToFirst()) {
+            do {
+                // loop through the cursor (result set) and create new customer objects. put them into the return list
+                //we will get the data from the cursor
+                //we know that the first column is the id so we will use the index 0 of the cursor
+                int customerId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));  //column can be also called like that
+                String Client = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+                String Email = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
+                String Service = cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
+                String Staff = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                String Date = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                String TimeIn = cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
+                String Location = cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION));
+                //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
+                //so we take that int and convert to boolean
+
+                //now making the customer from the data that we got from the cursor
+                DBBookings dbBookings = new DBBookings(customerId, Client, Email, Service, Staff, Date, TimeIn, Location);
+
+                //now adding the customer to the list
+                returnList.add(dbBookings);
+            } while (cursor.moveToNext());
+        }
+        cursor.close(); //we have to close the cursor just like we close a file after reading or writing
+        db.close(); //also the db
+
+        return returnList;
     }
 
 
@@ -284,11 +369,12 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 String Staff = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 String Date = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
                 String TimeIn = cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
+                String Location = cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION));
                 //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
                 //so we take that int and convert to boolean
 
                 //now making the customer from the data that we got from the cursor
-                DBBookings dbBookings = new DBBookings(customerId, Client, Email, Service, Staff, Date, TimeIn);
+                DBBookings dbBookings = new DBBookings(customerId, Client, Email, Service, Staff, Date, TimeIn, Location);
 
                 //now adding the customer to the list
                 returnList.add(dbBookings);

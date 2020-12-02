@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +26,7 @@ public class Appointment extends AppCompatActivity{
     //Globals
     Context context = this;
 
-    String location;
+    String location="";
     int id = 0;
 
     String userName = "";
@@ -55,7 +54,11 @@ public class Appointment extends AppCompatActivity{
     String staff = "";
     String time = "";
     String date = "";
+
     String dateMap = "";
+    String serviceMap = "";
+    String staffMap = "";
+    String timeMap = "";
 
 
     public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
@@ -64,6 +67,8 @@ public class Appointment extends AppCompatActivity{
     public static final String COLUMN_ACTIVE_CUSTOMER = "ACTIVE_CUSTOMER";
     public static final String COLUMN_LOGIN_PASSWORD = "LOGIN_PASSWORD";
     public static final String COLUMN_CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
+
+
 
 
     DBHelper dbCustomer = new DBHelper(Appointment.this);
@@ -102,7 +107,18 @@ public class Appointment extends AppCompatActivity{
         //getting the date from the date calender activity
         date = dataIntent.getExtras().getString("dateCal");
 
+        //date from the map
+        dateMap = dataIntent.getExtras().getString("dateM");
+        serviceMap = dataIntent.getExtras().getString("serviceM");
+        staffMap = dataIntent.getExtras().getString("staffM");
+        timeMap = dataIntent.getExtras().getString("timeM");
 
+        if (date == null || date.equals("")){
+            date = dateMap;
+//            service = serviceMap;
+//            staff = staffMap;
+            time = timeMap;
+        }
 
         try {
             location = dataIntent.getExtras().getString("location");
@@ -151,7 +167,7 @@ public class Appointment extends AppCompatActivity{
             txtDateAppoint.setText(date);
 
         }catch (Exception e){
-            txtDateAppoint.setText("Date");
+            txtDateAppoint.setText("");
         }
 
 
@@ -162,7 +178,7 @@ public class Appointment extends AppCompatActivity{
         txtUserNameAppointment.setText(userName);
 
         //same filed for the client
-        edTxt_location = (EditText) findViewById(R.id.editTxt_location);
+        edTxt_location = (EditText) findViewById(R.id.edTxt_location);
         edTxt_location.setText(location);
 
 
@@ -212,7 +228,12 @@ public class Appointment extends AppCompatActivity{
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(AdapterView<?> parent) { //TODO try it
+//                if (staff == null || staff.equals("")){
+//                    if (mToast != null) mToast.cancel();
+//                    mToast = Toast.makeText(Appointment.this, "Please Select Time", Toast.LENGTH_LONG);
+//                    mToast.show();
+//                }
                 edTxt_staff = (EditText) findViewById(R.id.edTxt_staff);
                 edTxt_staff.setText("");  //TODO may need to be removed
             }
@@ -266,35 +287,58 @@ public class Appointment extends AppCompatActivity{
 
     //******************* method submit appointment *****************
     public void btnSubmitAppointmentClicked(View view) { //Todo prevent submitting if one of the fields is missing
-        try {
-            //Declare an object of the DB class
-            DBBookings appointment = new DBBookings(id,
-                    userName,
-                    userEmail,
-                    spnService.getSelectedItem().toString(),
-                    spnStaff.getSelectedItem().toString(),
-                    txtDateAppoint.getText().toString(),
-                    spnTime.getSelectedItem().toString());
-
-            //Add the user
-            dbBookingsHandler.addAppointment(appointment);
-
-            //display confirmation message
+        if(location == null || location.equals("")){ //todo location might be null
             if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(Appointment.this, "Appointment Added", Toast.LENGTH_LONG);
+            mToast = Toast.makeText(Appointment.this, "Please Select Location", Toast.LENGTH_LONG);
             mToast.show();
-
-
-            //send the user to the main screen
-            Intent bookings = new Intent(this, Bookings.class);
-            startActivity(bookings);
-        } catch (Exception e) {
+        }
+        else if (date == null || date.equals("")){
             if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(Appointment.this, "Could not add appointment", Toast.LENGTH_LONG);
+            mToast = Toast.makeText(Appointment.this, "Please Select Date", Toast.LENGTH_LONG);
             mToast.show();
+        }
+        else if (time == null || time.equals("")){
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(Appointment.this, "Please Select Time", Toast.LENGTH_LONG);
+            mToast.show();
+        }
+        else if (!dbBookingsHandler.dbAvailableDay(date,location)) {
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(Appointment.this, "This location is full for "+date, Toast.LENGTH_LONG);
+            mToast.show();
+        }
+        else {
+            try {
+                //Declare an object of the DB class
+                DBBookings appointment = new DBBookings(id,
+                        userName,
+                        userEmail,
+                        spnService.getSelectedItem().toString(),
+                        spnStaff.getSelectedItem().toString(),
+                        txtDateAppoint.getText().toString(),
+                        spnTime.getSelectedItem().toString(),
+                        location);
 
-            e.printStackTrace();
-            e.getMessage();
+                //Add the user
+                dbBookingsHandler.addAppointment(appointment);
+
+                //display confirmation message
+                if (mToast != null) mToast.cancel();
+                mToast = Toast.makeText(Appointment.this, "Appointment Added", Toast.LENGTH_LONG);
+                mToast.show();
+
+
+                //send the user to the main screen
+                Intent bookings = new Intent(this, Bookings.class);
+                startActivity(bookings);
+            } catch (Exception e) {
+                if (mToast != null) mToast.cancel();
+                mToast = Toast.makeText(Appointment.this, "Could not add appointment", Toast.LENGTH_LONG);
+                mToast.show();
+
+                e.printStackTrace();
+                e.getMessage();
+            }
         }
 
     }//ends submit appointment
@@ -326,8 +370,9 @@ public class Appointment extends AppCompatActivity{
                 .setCancelable(true)
                 .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String date = String.valueOf(datePicker.getMonth() + 1) + "/" +  String.valueOf(datePicker.getDayOfMonth())  + "/" + String.valueOf(datePicker.getYear());
-                        txtDateAppoint.setText(date);
+                        String date3 = String.valueOf(datePicker.getMonth() + 1) + "/" +  String.valueOf(datePicker.getDayOfMonth())  + "/" + String.valueOf(datePicker.getYear());
+                        txtDateAppoint.setText(date3);
+                        date = date3;
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

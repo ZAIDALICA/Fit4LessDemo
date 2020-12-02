@@ -8,13 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,10 +20,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.List;
 
 
-public class MyBookings extends AppCompatActivity {
+public class DBAllBookings extends AppCompatActivity {
     private Toast mToast = null;
 
-
+    EditText bookingCount1;
     //DB handler
     DBBookingsHandler dbBookingsHandler;
     DBBookings oneBooking;
@@ -62,13 +59,13 @@ public class MyBookings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_bookings);
+        setContentView(R.layout.activity_d_b_all_bookings);
 
         lViewMyBookings = findViewById(R.id.lViewMyBookings);
-        dbBookingsHandler = new DBBookingsHandler(MyBookings.this);
-        userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MyBookings.this);
+        dbBookingsHandler = new DBBookingsHandler(DBAllBookings.this);
+        //userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",DBAllBookings.this);
 
-        showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
+        showCustomersOnListView(dbBookingsHandler.getEveryoneAllBookings());
 
         bNav = findViewById(R.id.nav_view);
         bNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -76,7 +73,7 @@ public class MyBookings extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.navigation_home:
-                        startActivity(new Intent(MyBookings.this, NewsPage.class));
+                        startActivity(new Intent(DBAllBookings.this, NewsPage.class));
                         return true;
                     case R.id.navigation_logout:
                         logMeOutVoid();
@@ -85,8 +82,18 @@ public class MyBookings extends AppCompatActivity {
             }
         });
 
+        //setting up the count for all bookings
+        bookingCount1 = (EditText) findViewById(R.id.bookingCount);
+        String countALLBookings = dbBookingsHandler.dbAllBookingCount();
+        Log.d("COUNTBOOKINGS", countALLBookings);
+        try {
+            bookingCount1.setText(countALLBookings);
+        }catch(Exception e){
+            bookingCount1.setText("0");
+        }
 
-   // try {
+
+        // try {
 //        dbBookingsHandler = new DBBookingsHandler(MyBookings.this);
 //        userEmail = SaveUserLoginPreferences.getUserLoginSharedPreferences("PREF_EMAIL",MyBookings.this);
         //DBHelper dbCustomer = new DBHelper(MyBookings.this);
@@ -99,7 +106,7 @@ public class MyBookings extends AppCompatActivity {
         //userName = dbCustomer.dbGet(COLUMN_CUSTOMER_NAME, COLUMN_CUSTOMER_EMAIL, userEmail);
 
         //Log.d("George",userEmail);
-       // List <DBBookings> allBookings = dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail);
+        // List <DBBookings> allBookings = dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail);
 
         //create an array of strings of the size of how many rows have returned
 //        String myCurrentBookings[] = new String[myBookings.length];
@@ -112,7 +119,7 @@ public class MyBookings extends AppCompatActivity {
 //        }
 
         //create the adapter to convert Array of strings into list items
-      //  ListAdapter wilsAdapter = new BookingsMyListViewAdapter(this, myBookings);
+        //  ListAdapter wilsAdapter = new BookingsMyListViewAdapter(this, myBookings);
 
 
         //declare your list view
@@ -143,11 +150,11 @@ public class MyBookings extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 oneBooking = (DBBookings)parent.getItemAtPosition(position); //we have to cast to a customer model
                 if (mToast != null) mToast.cancel();
-                mToast =  Toast.makeText(MyBookings.this, "Selected: "+oneBooking.toString(), Toast.LENGTH_LONG);
+                mToast =  Toast.makeText(DBAllBookings.this, "Selected: "+oneBooking.toString(), Toast.LENGTH_LONG);
                 mToast.show();
 
                 //dbBookingsHandler.deleteOne( oneBooking);
-                showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
+                showCustomersOnListView(dbBookingsHandler.getEveryoneAllBookings()); //todo
                 //Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT).show();
             }
         });
@@ -180,21 +187,21 @@ public class MyBookings extends AppCompatActivity {
     }
 
     private void showCustomersOnListView(List<DBBookings> everyone) {
-        customerArrayAdapter = new ArrayAdapter<DBBookings>(MyBookings.this, android.R.layout.simple_list_item_1, everyone);
+        customerArrayAdapter = new ArrayAdapter<DBBookings>(DBAllBookings.this, android.R.layout.simple_list_item_1, everyone);
         lViewMyBookings.setAdapter(customerArrayAdapter);
     }
 
     public void cancelBooking(View v){
         try {
             dbBookingsHandler.deleteOne(oneBooking);
-            showCustomersOnListView(dbBookingsHandler.getEveryone(COLUMN_EMAIL ,userEmail));
+            showCustomersOnListView(dbBookingsHandler.getEveryoneAllBookings()); //todo
             if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(MyBookings.this, "Deleted", Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(DBAllBookings.this, "Deleted", Toast.LENGTH_SHORT);
             mToast.show();
 
         }catch (Exception e){
             if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(MyBookings.this, "Select a Booking", Toast.LENGTH_LONG);
+            mToast = Toast.makeText(DBAllBookings.this, "Select a Booking", Toast.LENGTH_LONG);
             mToast.show();
 
         }
@@ -202,14 +209,14 @@ public class MyBookings extends AppCompatActivity {
     }
     public void logMeOutVoid() {
         //go to the login page again
-        Intent i = new Intent(MyBookings.this, SignIn.class);
+        Intent i = new Intent(DBAllBookings.this, SignIn.class);
         String byUsername = MainActivity.getSavedName();
         if (mToast != null) mToast.cancel();
         mToast = Toast.makeText(getApplicationContext(), "Bye "+byUsername, Toast.LENGTH_SHORT);
         mToast.show();
 
         //clearing the user preferences
-        SaveUserLoginPreferences.clearUserLoginSharedPreferences(MyBookings.this);
+        SaveUserLoginPreferences.clearUserLoginSharedPreferences(DBAllBookings.this);
         startActivity(i);
     }
 

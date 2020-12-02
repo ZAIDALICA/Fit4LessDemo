@@ -63,8 +63,8 @@ public class DeveloperPage extends AppCompatActivity {
 
     public void btnMyAppointmentsClicked(View view){
         //Intent aboutIntent = new Intent(this, ProductListActivity.class);
-        Intent myBookings = new Intent(this, MyBookings.class);
-        startActivity(myBookings);
+        Intent dbAllBookings = new Intent(this, DBAllBookings.class);
+        startActivity(dbAllBookings);
     }
 
 
