@@ -41,7 +41,7 @@ public class SignIn extends AppCompatActivity {
     }//we will need to make this return in all lowercase, ensuring the user can enter it in either or. but we will also make the Database save in all lower case as well
 
     private void testLogin() { //Here will run a method for the database, probably making it a separate class all together, opposed to my custom Strings for testing purposes
-        if (isValidEmail(getEmail())) {
+//        if (isValidEmail(getEmail())) {
             //String testPass = helper.passwordCheck(getEmail());
             if (helper.dbCheck(COLUMN_CUSTOMER_EMAIL,getEmail())){ //this function now takes one field and the entered data
                 String bdPass = helper.dbGet(COLUMN_LOGIN_PASSWORD, COLUMN_CUSTOMER_EMAIL ,getEmail());
@@ -60,9 +60,9 @@ public class SignIn extends AppCompatActivity {
             else {
                 Toast.makeText(getApplicationContext(), "Email is incorrect",Toast.LENGTH_LONG).show();
             }
-        }else {
-            Toast.makeText(getApplicationContext(),"Invalid Email",Toast.LENGTH_LONG).show();
-        }
+//        }else {
+//            Toast.makeText(getApplicationContext(),"Invalid Email",Toast.LENGTH_LONG).show();
+//        }
     }
     private static boolean isValidEmail(CharSequence target) {//Simple line of code to ensure emails are correctly typed
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();

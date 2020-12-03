@@ -16,11 +16,12 @@ import android.widget.Toast;
 import java.util.List;
 
 public class dbTest extends AppCompatActivity {
-
+    private Toast mToast = null;
+    CustomerModel oneCustomer;
 
     //refrence to buttons and other controls on the layout
-    Button btn_add, btn_viewAll;
-    EditText et_name, et_age;
+    Button btn_add, btn_viewAll, btn_deleteCustomer;
+    EditText et_name, et_age, et_email, et_password;
     Switch sw_activeCustomer;
     ListView lv_customerList;
     ArrayAdapter customerArrayAdapter;
@@ -36,8 +37,12 @@ public class dbTest extends AppCompatActivity {
         //giving value to the variables the we referenced on top
         btn_add = findViewById(R.id.btn_add);
         btn_viewAll = findViewById(R.id.btn_viewAll); //R is the resources folder
+        btn_deleteCustomer = findViewById(R.id.btn_deleteCustomer); //R is the resources folder
+
         et_age = findViewById(R.id.et_age);
         et_name = findViewById(R.id.et_name);
+        et_email = findViewById(R.id.et_email);
+        et_password = findViewById(R.id.et_password);
         lv_customerList = findViewById(R.id.lv_customerList);
         sw_activeCustomer = findViewById(R.id.sw_activeCustomer);
 
@@ -62,7 +67,7 @@ public class dbTest extends AppCompatActivity {
                 CustomerModel customerModel;
 
                try {
-                   customerModel = new CustomerModel(-1, et_name.getText().toString(), et_age.getText().toString(), sw_activeCustomer.isChecked(),"","");
+                   customerModel = new CustomerModel(-1, et_name.getText().toString(), et_age.getText().toString(), sw_activeCustomer.isChecked(),et_email.getText().toString(),et_password.getText().toString());
                    Toast.makeText(dbTest.this, customerModel.toString(), Toast.LENGTH_SHORT).show(); //put the name of the current class (dbTest) not the mai
 
                }
@@ -115,17 +120,38 @@ public class dbTest extends AppCompatActivity {
             }
         });
 
+        btn_deleteCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    dbHelper.deleteOne(oneCustomer);
+                    showCustomersOnListView(dbHelper.getEveryone());
+                    if (mToast != null) mToast.cancel();
+                    mToast = Toast.makeText(dbTest.this, "Deleted", Toast.LENGTH_SHORT);
+                    mToast.show();
+
+                }catch (Exception e){
+                    if (mToast != null) mToast.cancel();
+                    mToast = Toast.makeText(dbTest.this, "Select a Customer", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                }
+            }
+        });
+
 
         //we a new way of calling a method is called item click listener //this is to call a method by clicking on an item and it will give you a number of which item was clicked
         lv_customerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CustomerModel clickedCustomer = (CustomerModel)parent.getItemAtPosition(position); //we have to cast to a customer model
-                dbHelper.deleteOne(clickedCustomer);
+                oneCustomer = (CustomerModel)parent.getItemAtPosition(position); //we have to cast to a customer model
                 showCustomersOnListView(dbHelper.getEveryone());
-                Toast.makeText(dbTest.this, "Deleted", Toast.LENGTH_SHORT).show();
+                if (mToast != null) mToast.cancel();
+                mToast =  Toast.makeText(dbTest.this, "Selected: "+oneCustomer.toString(), Toast.LENGTH_LONG);
+                mToast.show();
             }
         });
+
 
     }
 
@@ -133,6 +159,24 @@ public class dbTest extends AppCompatActivity {
         customerArrayAdapter = new ArrayAdapter<CustomerModel>(dbTest.this, android.R.layout.simple_list_item_1, everyone);
         lv_customerList.setAdapter(customerArrayAdapter);
     }
+
+
+//    public void deleteCustomer(View v){
+//        try {
+//            dbHelper.deleteOne(oneCustomer);
+//            showCustomersOnListView(dbHelper.getEveryone());
+//            if (mToast != null) mToast.cancel();
+//            mToast = Toast.makeText(dbTest.this, "Deleted", Toast.LENGTH_SHORT);
+//            mToast.show();
+//
+//        }catch (Exception e){
+//            if (mToast != null) mToast.cancel();
+//            mToast = Toast.makeText(dbTest.this, "Select a Customer", Toast.LENGTH_LONG);
+//            mToast.show();
+//
+//        }
+//
+//    }
 
 
 }

@@ -181,10 +181,11 @@ public class Bookings extends AppCompatActivity {
             }
             case R.id.action_refresh_bookings: {
                 //refresh the bookings
-                fillListView();
-                if (mToast != null) mToast.cancel();
-                mToast = Toast.makeText(this, "Bookings updated", Toast.LENGTH_LONG);
-                mToast.show();;
+                startActivity(new Intent(Bookings.this, MyBookings.class));
+//                fillListView();
+//                if (mToast != null) mToast.cancel();
+//                mToast = Toast.makeText(this, "Bookings updated", Toast.LENGTH_LONG);
+//                mToast.show();;
                 return true;
             }
             default: {
