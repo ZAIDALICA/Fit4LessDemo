@@ -41,6 +41,12 @@ public class Map extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
+                    case R.id.navigation_notifications:
+                        startActivity(new Intent(Map.this, Notification.class));
+                        return true;
+                    case R.id.navigation_bookings:
+                        startActivity(new Intent(Map.this, DeveloperPage.class));
+                        return true;
                     case R.id.navigation_home:
                         startActivity(new Intent(Map.this, NewsPage.class));
                         return true;

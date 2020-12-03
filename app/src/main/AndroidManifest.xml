@@ -18,10 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fit4LessDemo">
-        <activity android:name=".DBAllBookings"></activity>
+        <activity android:name=".Notification"></activity>
+        <activity android:name=".DBAllBookings" />
         <activity android:name=".Workouts_Activity" />
         <activity android:name=".Bookings" />
         <activity android:name=".Appointment" />
+
         <activity
             android:name=".ui.BNav"
             android:label="@string/title_activity_b_nav" />

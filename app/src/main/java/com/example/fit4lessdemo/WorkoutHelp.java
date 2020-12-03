@@ -101,6 +101,12 @@ public class WorkoutHelp extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
+                    case R.id.navigation_notifications:
+                        startActivity(new Intent(WorkoutHelp.this, Notification.class));
+                        return true;
+                    case R.id.navigation_bookings:
+                        startActivity(new Intent(WorkoutHelp.this, DeveloperPage.class));
+                        return true;
                     case R.id.navigation_home:
                         startActivity(new Intent(WorkoutHelp.this, NewsPage.class));
                         return true;

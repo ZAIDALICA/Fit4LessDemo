@@ -75,6 +75,12 @@ public class MyBookings extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
+                    case R.id.navigation_notifications:
+                        startActivity(new Intent(MyBookings.this, Notification.class));
+                        return true;
+                    case R.id.navigation_bookings:
+                        startActivity(new Intent(MyBookings.this, DeveloperPage.class));
+                        return true;
                     case R.id.navigation_home:
                         startActivity(new Intent(MyBookings.this, NewsPage.class));
                         return true;

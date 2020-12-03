@@ -83,6 +83,12 @@ public class Bookings extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
+                    case R.id.navigation_notifications:
+                        startActivity(new Intent(Bookings.this, Notification.class));
+                        return true;
+                    case R.id.navigation_bookings:
+                        startActivity(new Intent(Bookings.this, DeveloperPage.class));
+                        return true;
                     case R.id.navigation_home:
                         //Log.d("Cliiiiicked", "home");
                         startActivity(new Intent(Bookings.this, NewsPage.class));
@@ -162,9 +168,9 @@ public class Bookings extends AppCompatActivity {
 
         //manage action bar icons
         switch (id) {
-            case R.id.action_settings: { //TODO the notification system
-                return true;
-            }
+//            case R.id.action_settings: { //TODO the notification system
+//                return true;
+//            }
             case R.id.action_add_appointment: {
                 //call the appointment activity
                 Intent appointmentIntent = new Intent(this, Appointment.class);

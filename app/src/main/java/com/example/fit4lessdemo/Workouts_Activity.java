@@ -104,6 +104,12 @@ public class Workouts_Activity extends AppCompatActivity implements BottomNaviga
     }
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
+            case R.id.navigation_notifications:
+                startActivity(new Intent(Workouts_Activity.this, Notification.class));
+                return true;
+            case R.id.navigation_bookings:
+                startActivity(new Intent(Workouts_Activity.this, DeveloperPage.class));
+                return true;
             case R.id.navigation_home:
                 Intent home = new Intent( Workouts_Activity.this, NewsPage.class);
                 startActivity(home);

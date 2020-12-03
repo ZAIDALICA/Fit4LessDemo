@@ -63,6 +63,10 @@ public class NewsPage extends AppCompatActivity implements NavigationView.OnNavi
     //code for drawer
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
+            case R.id.notifications:
+                Intent notification = new Intent( NewsPage.this, Notification.class);
+                startActivity(notification);
+                break;
             case R.id.home:
                 Intent home = new Intent( NewsPage.this, NewsPage.class);
                 startActivity(home);
