@@ -122,6 +122,8 @@ public class Map extends AppCompatActivity {
             if (mToast != null) mToast.cancel();
             mToast = Toast.makeText(getApplicationContext(), "You have selected: " + getLoc()+ "  | Availability for "+ date1 +" is "+ reservationToday+"/10" ,Toast.LENGTH_LONG);
             mToast.show();
+            mToast.show();
+
 
             startActivity(i);
         }
