@@ -27,6 +27,7 @@ public class Map extends AppCompatActivity {
     }
 
     private String loc;
+    String date = "";
 
     DBBookingsHandler dbBookingsHandler;
     BottomNavigationView bNav; //todo
@@ -63,7 +64,7 @@ public class Map extends AppCompatActivity {
 
         //String service = "";
         //String staff = "";
-        String date = "";
+
         //String time = "";
         try {
             //service = appointmentIntent.getExtras().getString("service");
@@ -97,16 +98,23 @@ public class Map extends AppCompatActivity {
             //For now we will say:
             //Toast.makeText(getApplicationContext(), "You have succesfully chosen: " + loc, Toast.LENGTH_LONG).show();
             dbBookingsHandler = new DBBookingsHandler(Map.this);
-            Calendar x = Calendar.getInstance();
-            int day = x.get(Calendar.DAY_OF_MONTH);
-            int month = x.get(Calendar.MONTH);
-            int year = x.get(Calendar.YEAR);
-            String date1 = String.valueOf(month + 1) + "/" + String.valueOf(day)  + "/" + String.valueOf(year);
+            String date1= "";
+            if (date == null || date.equals("") ){
+                Calendar x = Calendar.getInstance();
+                int day = x.get(Calendar.DAY_OF_MONTH);
+                int month = x.get(Calendar.MONTH);
+                int year = x.get(Calendar.YEAR);
+                date1 = String.valueOf(month + 1) + "/" + String.valueOf(day)  + "/" + String.valueOf(year);
+            }
+            else {
+                date1 = date;
+            }
+
             Log.d("date", date1 + " location"+getLoc());
             String reservationToday = dbBookingsHandler.dbCount(getLoc(),date1,false);
-
+            Log.d("reservationToday   ", reservationToday);
             if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(getApplicationContext(), "You have selected: " + getLoc()+ "  | Availability today "+reservationToday+"/10" ,Toast.LENGTH_LONG);
+            mToast = Toast.makeText(getApplicationContext(), "You have selected: " + getLoc()+ "  | Availability for "+ date1 +" is "+ reservationToday+"/10" ,Toast.LENGTH_LONG);
             mToast.show();
 
             startActivity(i);

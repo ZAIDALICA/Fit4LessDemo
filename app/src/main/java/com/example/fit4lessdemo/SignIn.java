@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 
 public class SignIn extends AppCompatActivity {
     public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
@@ -82,6 +83,11 @@ public class SignIn extends AppCompatActivity {
     public void sendRegister(View view){//runs when register button is pushed
         Intent i = new Intent(SignIn.this, Register.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //only to stop the user from going back to his page
     }
 
 }

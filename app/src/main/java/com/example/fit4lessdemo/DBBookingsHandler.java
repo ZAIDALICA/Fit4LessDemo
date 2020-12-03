@@ -50,7 +50,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                         COLUMN_SERVICE + " TEXT," +
                         COLUMN_DATE + " TEXT," +
                         COLUMN_TIMEIN + " TEXT," +
-                        COLUMN_LOCATION + " TEXT " +
+                        COLUMN_LOCATION + " TEXT" +
                  ");");
     }
 
@@ -73,7 +73,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         values.put(COLUMN_SERVICE, bookings.get_service());
         values.put(COLUMN_DATE, bookings.get_date());
         values.put(COLUMN_TIMEIN, bookings.get_timeIn());
-        values.put(COLUMN_LOCATION, bookings.get_timeIn()); //TODO
+        values.put(COLUMN_LOCATION, bookings.get_location());
 
         //add the rest here
 
@@ -222,6 +222,7 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
             return result;
         }catch(Exception e){
             e.printStackTrace();
+            e.getMessage();
         }
 
         return result;
@@ -231,16 +232,19 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
     //if the date contains more than 10 client then the day is not available
     public boolean dbAvailableDay(String date ,String location){
         List<CustomerModel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date+ "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\"" ;
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\"" ;
+        Log.d("avDate", queryString);
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(queryString, null);
-            if (cursor.getCount() > 10 ) { //if the db has more than 10 bookings for this day then you can not book a reservation
+            if (cursor.getCount() > 6 ) { //if the db has more than 10 bookings for this day then you can not book a reservation
                 cursor.close();
                 db.close();
                 return false;
             }
         } catch (Exception e){
+            e.getMessage();
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -250,16 +254,20 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
 
     public boolean dbAvailableTime(String time, String date, String location){ //searching for the number of bookings in one hour of one day in a certain location
         List<CustomerModel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_TIMEIN+ " =\"" + time+ "\"" + " AND " + COLUMN_DATE + " =\"" + date+ "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\""  ;
+        String queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date+ "\"" + " AND " + COLUMN_TIMEIN + " =\"" + time + "\"" + " AND " + COLUMN_LOCATION + " =\"" + location + "\""  ;
+        Log.d("avTIme", queryString);
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(queryString, null);
-            if (cursor.getCount() > 5 ) {
+            if (cursor.getCount() > 2) {
                 cursor.close();
                 db.close();
+                cursor.close();
                 return false;
             }
         } catch (Exception e){
+            e.getMessage();
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -273,12 +281,12 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
         if (dbGetAllBookings) {
             queryString = "SELECT * FROM " + TABLE_BOOKINGS;
         }else {
-            queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_LOCATION + "=\"" + location + "=\"" + " AND "+ COLUMN_DATE + "=\"" + date + "=\"";
+            queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\"" ;
         }
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(queryString, null);
-            Log.d("CCCCCCCOUBT", String.valueOf(cursor.getCount()));
+            Log.d("CCCCCCCOUBT", String.valueOf(cursor.getCount()) + " >>>>>>>>>>>>> "+queryString);
             return String.valueOf(cursor.getCount());
         } catch (Exception e){
             return "0";

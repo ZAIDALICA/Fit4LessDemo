@@ -47,7 +47,7 @@ public class Appointment extends AppCompatActivity{
     EditText editTxt_time;
     EditText edTxt_service;
     EditText edTxt_staff;
-    EditText edTxt_location;
+    EditText edTxt_location1;
 
     //Database handler
     DBBookingsHandler dbBookingsHandler;
@@ -110,9 +110,9 @@ public class Appointment extends AppCompatActivity{
 
         //date from the map
         dateMap = dataIntent.getExtras().getString("dateM");
-        serviceMap = dataIntent.getExtras().getString("serviceM");
-        staffMap = dataIntent.getExtras().getString("staffM");
-        timeMap = dataIntent.getExtras().getString("timeM");
+//        serviceMap = dataIntent.getExtras().getString("serviceM");
+//        staffMap = dataIntent.getExtras().getString("staffM");
+//        timeMap = dataIntent.getExtras().getString("timeM");
 
         if (date == null || date.equals("")){
             date = dateMap;
@@ -179,8 +179,8 @@ public class Appointment extends AppCompatActivity{
         txtUserNameAppointment.setText(userName);
 
         //same filed for the client
-        edTxt_location = (EditText) findViewById(R.id.edTxt_location);
-        edTxt_location.setText(location);
+        edTxt_location1 = (EditText) findViewById(R.id.edTxt_location);
+        edTxt_location1.setText(location);
 
 
 
@@ -303,6 +303,12 @@ public class Appointment extends AppCompatActivity{
             mToast = Toast.makeText(Appointment.this, "This location is full for "+date, Toast.LENGTH_LONG);
             mToast.show();
         }
+        else if (!dbBookingsHandler.dbAvailableTime(spnTime.getSelectedItem().toString(),date,location)) {
+            Log.d("CHEKING FOR TIME ", spnTime.getSelectedItem().toString());
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(Appointment.this, "This location is full for this time "+spnTime.getSelectedItem().toString() +" at this day "+date,  Toast.LENGTH_LONG);
+            mToast.show();
+        }//don't use time here it will be "" rather use the value in the text view of time
         else {
             try {
                 //Declare an object of the DB class
@@ -313,7 +319,7 @@ public class Appointment extends AppCompatActivity{
                         spnStaff.getSelectedItem().toString(),
                         txtDateAppoint.getText().toString(),
                         spnTime.getSelectedItem().toString(),
-                        edTxt_location.getText().toString());
+                        edTxt_location1.getText().toString());
 
                 //Add the user
                 dbBookingsHandler.addAppointment(appointment);
