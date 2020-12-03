@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -21,9 +24,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MapsFragment extends Fragment {
     private Toast mToast = null;
     public static String location = "";
+    String date = "";
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
 
@@ -61,7 +69,7 @@ public class MapsFragment extends Fragment {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     if (mToast != null) mToast.cancel();
-                    mToast = Toast.makeText(getContext(), "You have selected: " + marker.getTitle(),Toast.LENGTH_LONG);
+                    mToast = Toast.makeText(getContext(), "You have selected: "+ marker.getTitle() ,Toast.LENGTH_LONG);
                     mToast.show();
 
                     location = marker.getTitle();

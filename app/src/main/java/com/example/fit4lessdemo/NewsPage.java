@@ -97,8 +97,8 @@ public class NewsPage extends AppCompatActivity implements NavigationView.OnNavi
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
         }
-        else
-        { super.onBackPressed(); }
+//        else
+//        { super.onBackPressed(); }  you can't go back in the main page
     }
 
 }
