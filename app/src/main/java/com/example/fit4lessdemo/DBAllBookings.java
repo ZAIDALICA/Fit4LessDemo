@@ -72,6 +72,9 @@ public class DBAllBookings extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
+                    case R.id.navigation_bookings:
+                        startActivity(new Intent(DBAllBookings.this, DeveloperPage.class));
+                        return true;
                     case R.id.navigation_home:
                         startActivity(new Intent(DBAllBookings.this, NewsPage.class));
                         return true;
