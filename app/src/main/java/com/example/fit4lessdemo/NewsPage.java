@@ -68,7 +68,7 @@ public class NewsPage extends AppCompatActivity implements NavigationView.OnNavi
                 startActivity(notification);
                 break;
             case R.id.home:
-                Intent home = new Intent( NewsPage.this, NewsPage.class);
+                Intent home = new Intent( NewsPage.this, DeveloperPage.class);
                 startActivity(home);
                 break;
             case R.id.listReservation:

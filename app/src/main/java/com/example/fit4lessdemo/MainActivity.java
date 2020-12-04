@@ -1,7 +1,9 @@
 package com.example.fit4lessdemo;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,9 +34,19 @@ public class MainActivity extends AppCompatActivity {
 
     public static String name = "";
 
+
+    MyReceiver1 myReceiver1 = new MyReceiver1();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //BroadcastReceiver broadcastReceiver = new BroadcastReceiver();
+//        IntentFilter s_intentFilter = new IntentFilter();
+//        s_intentFilter.addAction(Intent.ACTION_TIME_TICK);
+//        s_intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+//        s_intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
+//        registerReceiver(m_timeChangedReceiver, s_intentFilter);
 
         DBHelper helper = new DBHelper(this);
 
@@ -121,5 +133,59 @@ public class MainActivity extends AppCompatActivity {
         SaveUserLoginPreferences.clearUserLoginSharedPreferences(MainActivity.this);
         startActivity(i);
     }
+
+//    private final BroadcastReceiver m_timeChangedReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            final String action = intent.getAction();
+//            Toast.makeText(context,"DATE OR TIME CHANGED",Toast.LENGTH_LONG).show();
+//            if (action.equals(Intent.ACTION_TIME_CHANGED) ||
+//                    action.equals(Intent.ACTION_TIMEZONE_CHANGED) ||
+//                action.equals(Intent.ACTION_TIME_TICK) ||
+//                    action.equals(Intent.ACTION_DATE_CHANGED)  ) {
+//                Toast.makeText(context,"DATE OR TIME CHANGED",Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    };
+
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        //will be triggered when the app is in the foreground
+//        IntentFilter s_intentFilter = new IntentFilter();
+//        s_intentFilter.addAction(Intent.ACTION_TIME_TICK);
+//        s_intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+//        s_intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
+//        s_intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
+//        registerReceiver(broadcastReceiver, s_intentFilter);
+//    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Toast.makeText(this, "actionString", Toast.LENGTH_LONG).show();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        this.registerReceiver(myReceiver1, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.unregisterReceiver(myReceiver1);
+    }
+
+
+    //    @Override
+//    protected void onStop() {
+//        super.onStop();
+//
+//        //will be triggered when the app is in the background
+//        unregisterReceiver(m_timeChangedReceiver);
+//    }
+
+
 
 }

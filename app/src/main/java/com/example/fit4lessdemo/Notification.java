@@ -139,7 +139,7 @@ public class Notification extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Hi "+userName+"!")
                 .setContentText("Your session today is in one hour")
-                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                .setSound(uri);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setSmallIcon(R.mipmap.f4l);

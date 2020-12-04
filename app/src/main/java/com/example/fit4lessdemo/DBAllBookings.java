@@ -87,7 +87,7 @@ public class DBAllBookings extends AppCompatActivity {
 
         //setting up the count for all bookings
         bookingCount1 = (EditText) findViewById(R.id.bookingCount);
-        String countALLBookings = dbBookingsHandler.dbCount("","",true);
+        String countALLBookings = dbBookingsHandler.dbCount("","","",false,true);
         Log.d("COUNTBOOKINGS", countALLBookings);
         try {
             bookingCount1.setText(countALLBookings);
@@ -201,7 +201,7 @@ public class DBAllBookings extends AppCompatActivity {
 
             //setting up the count for all bookings
             bookingCount1 = (EditText) findViewById(R.id.bookingCount);
-            String countALLBookings = dbBookingsHandler.dbCount("","",true);
+            String countALLBookings = dbBookingsHandler.dbCount("","","",false,true);
             Log.d("COUNTBOOKINGS", countALLBookings);
             try {
                 bookingCount1.setText(countALLBookings);

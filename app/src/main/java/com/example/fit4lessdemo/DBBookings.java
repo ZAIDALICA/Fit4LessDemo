@@ -1,5 +1,7 @@
 package com.example.fit4lessdemo;
 
+import android.util.Log;
+
 import org.jetbrains.annotations.NotNull;
 
 public class DBBookings {
@@ -26,12 +28,22 @@ public class DBBookings {
 
 
 
-    public DBBookings(int _id,String _userName, String _email, String _service, String _staff , String _date, String _timeIn, String _location) {
+    public DBBookings(int _id,String _userName, String _email, String _staff , String _service , String _date, String _timeIn, String _location) {
+        Log.d(">>>>>>", "Reservation{" +
+                "id=" + _id +
+                ", name='" + _userName + '\'' +
+                ", email=" + _email +
+                ", staff=" + _staff +
+                ", service=" + _service +
+                ", date= " + _date +
+                ", timeIn= " + _timeIn +
+                ", location= " + _location +
+                '}');
         this._id = _id;
         this._userName = _userName;
         this._email = _email;
-        this._service = _service;
         this._staff = _staff;
+        this._service = _service;
         this._date = _date;
         this._timeIn = _timeIn;
         this._location = _location;
@@ -41,16 +53,25 @@ public class DBBookings {
     @NotNull
     @Override
     public String toString() {
-        return "Reservation{" +
-                "id=" + _id +
-                ", name='" + _userName + '\'' +
-                ", email=" + _email +
-                ", service=" + _service +
-                ", staff=" + _staff +
-                ", date= " + _date +
-                ", timeIn= " + _timeIn +
-                ", location= " + _location +
-                '}';
+//        return "Reservation{" +
+//                "id=" + _id +
+//                ", name='" + _userName + '\'' +
+//                ", email=" + _email +
+//                ", staff=" + _staff +
+//                ", service=" + _service +
+//                ", date= " + _date +
+//                ", timeIn= " + _timeIn +
+//                ", location= " + _location +
+//                '}';
+
+        return
+                "Client: " + _userName +
+                "\nEmail: " + _email +
+                "\nService: " + _service +
+                "\nStaff: " + _staff +
+                "\nDate: " + _date +
+                "\nTime: " + _timeIn +
+                "\nLocation: " + _location;
     }
 
 
