@@ -30,14 +30,21 @@ public class CustomerModel {
     @NotNull
     @Override
     public String toString() {
-        return "CustomerModel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", isActive=" + isActive +
-                ", email= " + email +
-                ", password= " + pass +
-                '}';
+//        return "CustomerModel{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", age=" + age +
+//                ", isActive=" + isActive +
+//                ", email= " + email +
+//                ", password= " + pass +
+//                '}';
+        return
+                "Id:" + id +
+                "\nName: " + name + '\'' +
+                "\nAge: " + age +
+                "\nIsActive: " + isActive +
+                "\nEmail: " + email +
+                "\nPassword:  " + pass ;
     }
 
     //++++++++++++++++++++++++++++++++ setters and getters for out private data to ensure encapsulation

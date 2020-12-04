@@ -45,7 +45,7 @@ public class Register extends AppCompatActivity {
         return p.getText().toString();
     }
     private String getRegEmail() {
-        return e.getText().toString();
+        return e.getText().toString().toLowerCase();
     }
     private String getName() {
         return n.getText().toString();

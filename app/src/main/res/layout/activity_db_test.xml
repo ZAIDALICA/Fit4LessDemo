@@ -131,8 +131,8 @@
 
     <ListView
         android:id="@+id/lv_customerList"
-        android:layout_width="354dp"
-        android:layout_height="362dp"
+        android:layout_width="371dp"
+        android:layout_height="298dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="44dp"

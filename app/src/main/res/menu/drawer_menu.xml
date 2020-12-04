@@ -5,8 +5,8 @@
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
         <item android:id="@+id/home"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Home page" />
+            android:icon="@drawable/googleg_standard_color_18"
+            android:title="Developer" />
         <item android:id="@+id/listReservation"
             android:icon="@drawable/ic_list_bookings"
             android:title="My Bookings" />

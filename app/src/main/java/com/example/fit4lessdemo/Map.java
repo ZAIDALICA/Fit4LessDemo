@@ -117,10 +117,10 @@ public class Map extends AppCompatActivity {
             }
 
             Log.d("date", date1 + " location"+getLoc());
-            String reservationToday = dbBookingsHandler.dbCount(getLoc(),date1,false);
+            String reservationToday = dbBookingsHandler.dbCount(getLoc(),date1, "", true,false);
             Log.d("reservationToday   ", reservationToday);
             if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(getApplicationContext(), "You have selected: " + getLoc()+ "  | Availability for "+ date1 +" is "+ reservationToday+"/10" ,Toast.LENGTH_LONG);
+            mToast = Toast.makeText(getApplicationContext(), "You have selected: " + getLoc()+ "  | Availability for "+ date1 +" is "+ reservationToday+"/7" ,Toast.LENGTH_LONG);
             mToast.show();
             mToast.show();
 

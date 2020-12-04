@@ -206,6 +206,15 @@ public class Appointment extends AppCompatActivity{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 editTxt_time = (EditText) findViewById(R.id.editTxt_time);
                 editTxt_time.setText(spnTime.getSelectedItem().toString());
+
+                if (!edTxt_location1.getText().toString().equals("")){
+                    String reservationToday = dbBookingsHandler.dbCount(edTxt_location1.getText().toString() ,txtDateAppoint.getText().toString(), editTxt_time.getText().toString(), false,false);
+                    Log.d("reservationToday   ", reservationToday);
+                    if (mToast != null) mToast.cancel();
+                    mToast = Toast.makeText(getApplicationContext(), "You have selected: " + edTxt_location1.getText().toString()+ "| Availability for "+ date +" at "+editTxt_time.getText().toString()+ " is "+ reservationToday+"/3" ,Toast.LENGTH_LONG);
+                    mToast.show();
+                    mToast.show();
+                }
             }
 
             @Override
@@ -315,8 +324,8 @@ public class Appointment extends AppCompatActivity{
                 DBBookings appointment = new DBBookings(id,
                         userName,
                         userEmail,
-                        spnService.getSelectedItem().toString(),
                         spnStaff.getSelectedItem().toString(),
+                        spnService.getSelectedItem().toString(),
                         txtDateAppoint.getText().toString(),
                         spnTime.getSelectedItem().toString(),
                         edTxt_location1.getText().toString());
@@ -375,6 +384,13 @@ public class Appointment extends AppCompatActivity{
                         String date3 = String.valueOf(datePicker.getMonth() + 1) + "/" +  String.valueOf(datePicker.getDayOfMonth())  + "/" + String.valueOf(datePicker.getYear());
                         txtDateAppoint.setText(date3);
                         date = date3;
+
+                        String reservationToday = dbBookingsHandler.dbCount(edTxt_location1.getText().toString() ,date,"",true,false);
+                        Log.d("reservationToday   ", reservationToday);
+                        if (mToast != null) mToast.cancel();
+                        mToast = Toast.makeText(getApplicationContext(), "You have selected: " + edTxt_location1.getText().toString()+ "| Availability for "+ date +" is "+ reservationToday+"/7" ,Toast.LENGTH_LONG);
+                        mToast.show();
+                        mToast.show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

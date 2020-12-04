@@ -116,8 +116,8 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 dbString[i] = "ID: " + cursor.getString(cursor.getColumnIndex(COLUMN_ID));
                 dbString[i] = "Client: " + cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
                 dbString[i] += " Email: " + cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
-                dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
                 dbString[i] += " Staff: " + cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                dbString[i] += " Service: " + cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
                 dbString[i] += " Date: " + cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 dbString[i] += " TimeIn: " + cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
                 dbString[i] += " Location: " + cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION));
@@ -275,13 +275,15 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
 
 
 
-    public String dbCount(String location,String date, boolean dbGetAllBookings){
+    public String dbCount(String location,String date, String time, boolean boolDate, boolean dbGetAllBookings){
         List<CustomerModel> returnList = new ArrayList<>();
         String queryString;
         if (dbGetAllBookings) {
             queryString = "SELECT * FROM " + TABLE_BOOKINGS;
-        }else {
+        }else if (boolDate) {
             queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\"" ;
+        }else{
+            queryString = "SELECT * FROM " + TABLE_BOOKINGS + " WHERE " + COLUMN_DATE + " =\"" + date + "\"" + " AND " + COLUMN_LOCATION + " =\"" + location+ "\"" + " AND " + COLUMN_TIMEIN + " =\"" + time+ "\"" ;
         }
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -323,16 +325,16 @@ public class DBBookingsHandler extends SQLiteOpenHelper {
                 int customerId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));  //column can be also called like that
                 String Client = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
                 String Email = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL));
-                String Service = cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
                 String Staff = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
-                String Date = cursor.getString(cursor.getColumnIndex(COLUMN_STAFF));
+                String Service = cursor.getString(cursor.getColumnIndex(COLUMN_SERVICE));
+                String Date = cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
                 String TimeIn = cursor.getString(cursor.getColumnIndex(COLUMN_TIMEIN));
                 String Location = cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION));
                 //the problem now is that in sqlite there is no such thing as boolean the value is either 0 or one
                 //so we take that int and convert to boolean
 
                 //now making the customer from the data that we got from the cursor
-                DBBookings dbBookings = new DBBookings(customerId, Client, Email, Service, Staff, Date, TimeIn, Location);
+                DBBookings dbBookings = new DBBookings(customerId, Client, Email, Staff, Service, Date, TimeIn, Location);
 
                 //now adding the customer to the list
                 returnList.add(dbBookings);
